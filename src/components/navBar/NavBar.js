@@ -45,10 +45,8 @@ class NavBar extends Component {
     });
   };
 
-  render() {
-    const { classes } = this.props;
-
-    const sideList = (
+  getSideBarItem(classes) {
+    return (
       <div className={classes.list}>
         <List>
           <ListItem button key="Contact us">
@@ -58,6 +56,10 @@ class NavBar extends Component {
         </List>
       </div>
     );
+  }
+
+  render() {
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -83,7 +85,7 @@ class NavBar extends Component {
             onClick={this.toggleDrawer('left', false)}
             onKeyDown={this.toggleDrawer('left', false)}
           >
-            {sideList}
+            {this.getSideBarItem(classes)}
           </div>
         </SwipeableDrawer>
 

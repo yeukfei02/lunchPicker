@@ -30,11 +30,8 @@ class App extends Component {
         <NavBar />
 
         <Switch>
-          <Route path="/test">
-            <div>test</div>
-          </Route>
-          <Route path="/test2">
-            <div>test2</div>
+          <Route path="/contact">
+            <div>contact us</div>
           </Route>
         </Switch>
       </Router>
