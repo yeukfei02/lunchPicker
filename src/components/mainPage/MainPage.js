@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Select from 'react-select';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 import _ from 'lodash';
+
+const styles = theme => ({
+  button: {
+    marginTop: '1.2em',
+    width: '100%'
+  },
+  input: {
+    display: 'none',
+  },
+});
 
 class MainPage extends Component {
   constructor() {
@@ -160,7 +172,38 @@ class MainPage extends Component {
     return latitudeAndLongitudeInput;
   }
 
+  renderSubmitButton(classes) {
+    let submitButton = null;
+
+    if (!_.isEmpty(this.state.selectedTerm)) {
+      if (this.state.useLocation === true) {
+        if (!_.isEmpty(this.state.location)) {
+          submitButton = (
+            <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
+              Submit
+            </Button>
+          );
+        }
+      }
+      if (this.state.useLatLong === true) {
+        submitButton = (
+          <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
+            Submit
+          </Button>
+        );
+      }
+    }
+
+    return submitButton;
+  }
+
+  handleSubmit() {
+    console.log(123123);
+  }
+
   render() {
+    const { classes } = this.props;
+
     const options = [
       { value: 'chocolate', label: 'Chocolate' },
       { value: 'strawberry', label: 'Strawberry' },
@@ -180,10 +223,11 @@ class MainPage extends Component {
           {this.renderCheckbox()}
           {this.renderLocationInput()}
           {this.renderLatitudeAndLongitudeInput()}
+          {this.renderSubmitButton(classes)}
         </div>
       </div>
     );
   }
 }
 
-export default MainPage;
+export default withStyles(styles)(MainPage);
