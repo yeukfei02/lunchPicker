@@ -70,6 +70,32 @@ class MainPage extends Component {
     this.setState({ [name]: event.target.checked });
   };
 
+  renderSelectDropdown() {
+    let selectDropdown = null;
+
+    if (_.isEqual(window.location.pathname, '/')) {
+      const options = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' },
+      ];
+
+      selectDropdown = (
+        <div>
+          <Select
+            value={this.state.selectedTerm}
+            onChange={this.handleChange}
+            options={options}
+            isClearable={true}
+          />
+          <div className="my-3"></div>
+        </div>
+      );
+    }
+
+    return selectDropdown;
+  }
+
   renderCheckbox() {
     let checkboxDiv = null;
 
@@ -204,22 +230,10 @@ class MainPage extends Component {
   render() {
     const { classes } = this.props;
 
-    const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' },
-    ];
-
     return (
       <div className="mt-5 d-flex justify-content-center">
         <div className="w-75">
-          <Select
-            value={this.state.selectedTerm}
-            onChange={this.handleChange}
-            options={options}
-            isClearable={true}
-          />
-          <div className="my-3"></div>
+          {this.renderSelectDropdown()}
           {this.renderCheckbox()}
           {this.renderLocationInput()}
           {this.renderLatitudeAndLongitudeInput()}
