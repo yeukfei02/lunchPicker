@@ -11,7 +11,12 @@ Lunch picker is the tool you’ll turn to to answer this question.
 ### Testing and run:
 ```
 $ yarn
-$ yarn start
+
+// development
+$ yarn run dev
+
+// production
+$ yarn run build
 ```
 
 open localhost:5000
