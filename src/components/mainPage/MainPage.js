@@ -205,7 +205,7 @@ class MainPage extends Component {
       if (this.state.useLocation === true) {
         if (!_.isEmpty(this.state.location)) {
           submitButton = (
-            <Button variant="outlined" color="secondary" className={classes.button} onClick={() => this.handleSubmit()}>
+            <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
               Submit
             </Button>
           );
@@ -213,7 +213,7 @@ class MainPage extends Component {
       }
       if (this.state.useLatLong === true) {
         submitButton = (
-          <Button variant="outlined" color="secondary" className={classes.button} onClick={() => this.handleSubmit()}>
+          <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
             Submit
           </Button>
         );
