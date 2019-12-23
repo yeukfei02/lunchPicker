@@ -19,12 +19,7 @@ function MainPage() {
 
   useEffect(() => {
     getSelectedTermList();
-    navigator.geolocation.getCurrentPosition((location) => {
-      const latitude = location.coords.latitude;
-      const longitude = location.coords.longitude;
-      setLatitude(latitude);
-      setLongitude(longitude);
-    });
+    getUserCurrentLatLong();
   }, []);
 
   const getSelectedTermList = () => {
@@ -64,6 +59,15 @@ function MainPage() {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  const getUserCurrentLatLong = () => {
+    navigator.geolocation.getCurrentPosition((location) => {
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      setLatitude(latitude);
+      setLongitude(longitude);
+    });
   }
 
   const handleChange = (selectedTerm) => {
