@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,8 +13,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/Mail';
-
-import MainPage from '../mainPage/MainPage';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +29,7 @@ const useStyles = makeStyles(theme => ({
 function NavBar() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const toggleDrawer = (status) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -43,6 +43,14 @@ function NavBar() {
     setOpen(true);
   }
 
+  const handleHomeClick = () => {
+    history.push('/');
+  }
+
+  const handleContactUsClick = () => {
+    history.push('/contact');
+  }
+
   const getSideList = () => (
     <div
       className={classes.list}
@@ -51,11 +59,11 @@ function NavBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem button key="Home">
+        <ListItem button key="Home" onClick={handleHomeClick}>
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem button key="Contact us">
+        <ListItem button key="Contact us" onClick={handleContactUsClick}>
           <ListItemIcon><MailIcon /></ListItemIcon>
           <ListItemText primary="Contact us" />
         </ListItem>
@@ -83,8 +91,6 @@ function NavBar() {
       >
         {getSideList()}
       </SwipeableDrawer>
-
-      <MainPage />
     </div>
   )
 }

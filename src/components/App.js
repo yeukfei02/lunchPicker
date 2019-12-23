@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 
 import NavBar from './navBar/NavBar';
+import MainPage from './mainPage/MainPage';
+import Contact from './contact/Contact';
 
 function App() {
   return (
@@ -18,8 +20,11 @@ function App() {
       <NavBar />
 
       <Switch>
-        <Route path="/contact">
-          <div>contact us</div>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
         </Route>
       </Switch>
     </Router>
