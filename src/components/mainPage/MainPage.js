@@ -17,48 +17,47 @@ function MainPage() {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
+  const [resultList, setResultList] = useState([]);
+
   useEffect(() => {
     getSelectedTermList();
     getUserCurrentLatLong();
   }, []);
 
-  const getSelectedTermList = () => {
-    axios.get(`https://lunch-picker-api.herokuapp.com/api/category/get-categories`,
+  const getSelectedTermList = async () => {
+    const response = await axios.get(
+      `https://lunch-picker-api.herokuapp.com/api/category/get-categories`,
       {
         headers: {
           'Content-Type': 'application/json'
         }
       }
-    )
-      .then((response) => {
-        if (!_.isEmpty(response)) {
-          if (!_.isEmpty(response.data.categories.categories)) {
-            let selectedTermList = [];
-            response.data.categories.categories.forEach((item, i) => {
-              if (!_.isEmpty(item.parent_aliases)) {
-                const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
-                  selectedTermList.push(item);
-                }
-              }
-            });
-
-            if (!_.isEmpty(selectedTermList)) {
-              const formattedSelectedTermList = selectedTermList.map((item, i) => {
-                const obj = {
-                  value: item.alias,
-                  label: item.title
-                }
-                return obj
-              });
-              setSelectedTermList(formattedSelectedTermList);
+    );
+    if (!_.isEmpty(response)) {
+      console.log("response = ", response);
+      if (!_.isEmpty(response.data.categories.categories)) {
+        let selectedTermList = [];
+        response.data.categories.categories.forEach((item, i) => {
+          if (!_.isEmpty(item.parent_aliases)) {
+            const parentAliases = item.parent_aliases[0];
+            if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+              selectedTermList.push(item);
             }
           }
+        });
+
+        if (!_.isEmpty(selectedTermList)) {
+          const formattedSelectedTermList = selectedTermList.map((item, i) => {
+            const obj = {
+              value: item.alias,
+              label: item.title
+            }
+            return obj
+          });
+          setSelectedTermList(formattedSelectedTermList);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+    }
   }
 
   const getUserCurrentLatLong = () => {
@@ -68,6 +67,49 @@ function MainPage() {
       setLatitude(latitude);
       setLongitude(longitude);
     });
+  }
+
+  const findRestaurantsByLocation = async (selectedTerm, location) => {
+    const response = await axios.get(
+      `https://lunch-picker-api.herokuapp.com/api/restaurant/find-restaurants-by-location`,
+      {
+        params: {
+          term: selectedTerm.label,
+          location: location
+        }
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    if (!_.isEmpty(response)) {
+      console.log("response = ", response);
+      setResultList(response.data.restaurants.businesses);
+    }
+  }
+
+  const findRestaurantsByLatLong = async (selectedTerm, latitude, longitude) => {
+    const response = await axios.get(
+      `https://lunch-picker-api.herokuapp.com/api/restaurant/find-restaurants-by-lat-long`,
+      {
+        params: {
+          term: selectedTerm.label,
+          latitude: latitude,
+          longitude: longitude
+        }
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    if (!_.isEmpty(response)) {
+      console.log("response = ", response);
+      setResultList(response.data.restaurants.businesses);
+    }
   }
 
   const handleChange = (selectedTerm) => {
@@ -247,7 +289,19 @@ function MainPage() {
   }
 
   const handleSubmit = () => {
-    console.log(123123);
+    if (!_.isEmpty(selectedTerm)) {
+      if (useLocation === true) {
+        if (!_.isEmpty(location)) {
+          findRestaurantsByLocation(selectedTerm, location);
+        }
+      }
+
+      if (useLatLong === true) {
+        if (!_.isEmpty(latitude) && !_.isEmpty(longitude)) {
+          findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+        }
+      }
+    }
   }
 
   return (
