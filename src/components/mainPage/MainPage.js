@@ -11,8 +11,28 @@ import Snackbar from '../snackBar/SnackBar';
 
 const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
 
+const groupStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+
+const groupBadgeStyles = {
+  backgroundColor: '#EBECF0',
+  borderRadius: '2em',
+  color: '#172B4D',
+  display: 'inline-block',
+  fontSize: 12,
+  fontWeight: 'normal',
+  lineHeight: '1',
+  minWidth: 1,
+  padding: '0.16666666666667em 0.5em',
+  textAlign: 'center',
+};
+
 function MainPage() {
   const [selectedTermList, setSelectedTermList] = useState([]);
+
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [useLocation, setUseLocation] = useState(false);
   const [useLatLong, setUseLatLong] = useState(false);
@@ -44,26 +64,98 @@ function MainPage() {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
           if (!_.isEmpty(response.data.categories.categories)) {
-            let selectedTermList = [];
+            let foodList = [];
+            let restaurantsList = [];
+            let barsList = [];
+            let breakfastBrunchList = [];
             response.data.categories.categories.forEach((item, i) => {
               if (!_.isEmpty(item.parent_aliases)) {
                 const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
-                  selectedTermList.push(item);
+                if (_.isEqual(parentAliases, "food")) {
+                  foodList.push(item);
+                }
+                if (_.isEqual(parentAliases, "restaurants")) {
+                  restaurantsList.push(item);
+                }
+                if (_.isEqual(parentAliases, "bars")) {
+                  barsList.push(item);
+                }
+                if (_.isEqual(parentAliases, "breakfast_brunch")) {
+                  breakfastBrunchList.push(item);
                 }
               }
             });
 
-            if (!_.isEmpty(selectedTermList)) {
-              const formattedSelectedTermList = selectedTermList.map((item, i) => {
-                const obj = {
+            let foodObj = {};
+            let restaurantsObj = {};
+            let barsObj = {};
+            let breakfastBrunchObj = {};
+            if (!_.isEmpty(foodList)) {
+              let options = [];
+              foodList.forEach((item, i) => {
+                const optionsObj = {
                   value: item.alias,
                   label: item.title
                 }
-                return obj
+                options.push(optionsObj);
               });
-              setSelectedTermList(formattedSelectedTermList);
+
+              foodObj = {
+                label: 'Food',
+                options: options
+              };
             }
+            if (!_.isEmpty(restaurantsList)) {
+              let options = [];
+              restaurantsList.forEach((item, i) => {
+                const optionsObj = {
+                  value: item.alias,
+                  label: item.title
+                }
+                options.push(optionsObj);
+              });
+
+              restaurantsObj = {
+                label: 'Restaurants',
+                options: options
+              };
+            }
+            if (!_.isEmpty(barsList)) {
+              let options = [];
+              barsList.forEach((item, i) => {
+                const optionsObj = {
+                  value: item.alias,
+                  label: item.title
+                }
+                options.push(optionsObj);
+              });
+
+              barsObj = {
+                label: 'Bars',
+                options: options
+              };
+            }
+            if (!_.isEmpty(breakfastBrunchList)) {
+              let options = [];
+              breakfastBrunchList.forEach((item, i) => {
+                const optionsObj = {
+                  value: item.alias,
+                  label: item.title
+                }
+                options.push(optionsObj);
+              });
+
+              breakfastBrunchObj = {
+                label: 'Breakfast and Brunch',
+                options: options
+              }
+            }
+            let formattedSelectedTermList = [];
+            formattedSelectedTermList.push(foodObj);
+            formattedSelectedTermList.push(restaurantsObj);
+            formattedSelectedTermList.push(barsObj);
+            formattedSelectedTermList.push(breakfastBrunchObj);
+            setSelectedTermList(formattedSelectedTermList);
           }
         }
       })
@@ -169,6 +261,13 @@ function MainPage() {
     setLongitude(e.target.value);
   }
 
+  const formatGroupLabel = (data) => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
+
   const renderSelectDropdown = () => {
     let selectDropdown = null;
 
@@ -180,6 +279,7 @@ function MainPage() {
             onChange={handleChange}
             options={selectedTermList}
             isClearable={true}
+            formatGroupLabel={formatGroupLabel}
           />
           <div className="my-3"></div>
         </div>
