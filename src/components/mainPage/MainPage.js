@@ -1,76 +1,54 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 
-const styles = theme => ({
-  button: {
-    marginTop: '1.2em',
-    width: '100%'
-  },
-  input: {
-    display: 'none',
-  },
-});
+function MainPage() {
+  const [selectedTerm, setSelectedTerm] = useState(null);
+  const [useLocation, setUseLocation] = useState(false);
+  const [useLatLong, setUseLatLong] = useState(false);
 
-class MainPage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedTerm: null,
-      useLocation: false,
-      useLatLong: false,
+  const [location, setLocation] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
 
-      location: '',
-      latitude: '',
-      longitude: ''
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition((location) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
-      this.setState({
-        latitude: latitude,
-        longitude: longitude
-      });
+      setLatitude(latitude);
+      setLongitude(longitude);
     });
-  }
+  }, []);
 
-  handleChange = (selectedTerm) => {
-    this.setState({
-      selectedTerm: selectedTerm
-    });
+  const handleChange = (selectedTerm) => {
+    setSelectedTerm(selectedTerm);
   };
 
-  handleLocationChange(e) {
-    this.setState({
-      location: e.target.value
-    });
-  }
-
-  handleLatitudeChange(e) {
-    this.setState({
-      latitude: e.target.value
-    });
-  }
-
-  handleLongitudeChange(e) {
-    this.setState({
-      longitude: e.target.value
-    });
-  }
-
-  handleCheckboxChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+  const handleCheckboxChange = type => e => {
+    if (_.isEqual(type, 'useLocation')) {
+      setUseLocation(e.target.checked);
+    } else if (_.isEqual(type, 'useLatLong')) {
+      setUseLatLong(e.target.checked);
+    }
   };
 
-  renderSelectDropdown() {
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+  }
+
+  const handleLatitudeChange = (e) => {
+    setLatitude(e.target.value);
+  }
+
+  const handleLongitudeChange = (e) => {
+    setLongitude(e.target.value);
+  }
+
+  const renderSelectDropdown = () => {
     let selectDropdown = null;
 
     if (_.isEqual(window.location.pathname, '/')) {
@@ -83,8 +61,8 @@ class MainPage extends Component {
       selectDropdown = (
         <div>
           <Select
-            value={this.state.selectedTerm}
-            onChange={this.handleChange}
+            value={selectedTerm}
+            onChange={handleChange}
             options={options}
             isClearable={true}
           />
@@ -96,19 +74,19 @@ class MainPage extends Component {
     return selectDropdown;
   }
 
-  renderCheckbox() {
+  const renderCheckbox = () => {
     let checkboxDiv = null;
 
-    if (!_.isEmpty(this.state.selectedTerm)) {
+    if (!_.isEmpty(selectedTerm)) {
       checkboxDiv = (
         <div>
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.useLocation}
-                onChange={this.handleCheckboxChange('useLocation')}
+                checked={useLocation}
+                onChange={handleCheckboxChange('useLocation')}
                 value="Use Location"
-                disabled={this.state.useLatLong ? true : false}
+                disabled={useLatLong ? true : false}
               />
             }
             label="Use Location"
@@ -116,10 +94,10 @@ class MainPage extends Component {
           <FormControlLabel
             control={
               <Checkbox
-                checked={this.state.useLatLong}
-                onChange={this.handleCheckboxChange('useLatLong')}
+                checked={useLatLong}
+                onChange={handleCheckboxChange('useLatLong')}
                 value="Use Latitude and Longitude"
-                disabled={this.state.useLocation ? true : false}
+                disabled={useLocation ? true : false}
               />
             }
             label="Use Latitude and Longitude"
@@ -131,34 +109,37 @@ class MainPage extends Component {
     return checkboxDiv;
   }
 
-  renderLocationInput() {
+  const renderLocationInput = () => {
     let locationInput = null;
 
-    if (!_.isEmpty(this.state.selectedTerm) && this.state.useLocation === true) {
+    if (!_.isEmpty(selectedTerm) && useLocation === true) {
       locationInput = (
-        <TextField
-          id="outlined-full-width"
-          label="Location"
-          placeholder="Enter location..."
-          helperText="address, city, place, street name, zip code, country, state, building name, etc..."
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(e) => this.handleLocationChange(e)}
-        />
+        <div>
+          <TextField
+            id="outlined-full-width"
+            label="Location"
+            placeholder="Enter location..."
+            helperText="address, city, place, street name, zip code, country, state, building name, etc..."
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleLocationChange}
+          />
+          <div className="my-3"></div>
+        </div>
       );
     }
 
     return locationInput;
   }
 
-  renderLatitudeAndLongitudeInput() {
+  const renderLatitudeAndLongitudeInput = () => {
     let latitudeAndLongitudeInput = null;
 
-    if (!_.isEmpty(this.state.selectedTerm) && this.state.useLatLong === true) {
+    if (!_.isEmpty(selectedTerm) && useLatLong === true) {
       latitudeAndLongitudeInput = (
         <div>
           <TextField
@@ -173,8 +154,8 @@ class MainPage extends Component {
             InputLabelProps={{
               shrink: true,
             }}
-            value={this.state.latitude}
-            onChange={(e) => this.handleLatitudeChange(e)}
+            value={latitude}
+            onChange={handleLatitudeChange}
           />
           <TextField
             id="outlined-full-width"
@@ -188,9 +169,10 @@ class MainPage extends Component {
             InputLabelProps={{
               shrink: true,
             }}
-            value={this.state.longitude}
-            onChange={(e) => this.handleLongitudeChange(e)}
+            value={longitude}
+            onChange={handleLongitudeChange}
           />
+          <div className="my-3"></div>
         </div>
       );
     }
@@ -198,22 +180,23 @@ class MainPage extends Component {
     return latitudeAndLongitudeInput;
   }
 
-  renderSubmitButton(classes) {
+  const renderSubmitButton = () => {
     let submitButton = null;
 
-    if (!_.isEmpty(this.state.selectedTerm)) {
-      if (this.state.useLocation === true) {
-        if (!_.isEmpty(this.state.location)) {
+    if (!_.isEmpty(selectedTerm)) {
+      if (useLocation === true) {
+        if (!_.isEmpty(location)) {
           submitButton = (
-            <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
+            <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
               Submit
             </Button>
           );
         }
       }
-      if (this.state.useLatLong === true) {
+
+      if (useLatLong === true) {
         submitButton = (
-          <Button variant="outlined" color="secondary" className={classes.button} onClick={this.handleSubmit}>
+          <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
             Submit
           </Button>
         );
@@ -223,25 +206,21 @@ class MainPage extends Component {
     return submitButton;
   }
 
-  handleSubmit() {
+  const handleSubmit = () => {
     console.log(123123);
   }
 
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className="mt-5 d-flex justify-content-center">
-        <div className="w-75">
-          {this.renderSelectDropdown()}
-          {this.renderCheckbox()}
-          {this.renderLocationInput()}
-          {this.renderLatitudeAndLongitudeInput()}
-          {this.renderSubmitButton(classes)}
-        </div>
+  return (
+    <div className="mt-5 d-flex justify-content-center">
+      <div className="w-75">
+        {renderSelectDropdown()}
+        {renderCheckbox()}
+        {renderLocationInput()}
+        {renderLatitudeAndLongitudeInput()}
+        {renderSubmitButton()}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default withStyles(styles)(MainPage);
+export default MainPage;
