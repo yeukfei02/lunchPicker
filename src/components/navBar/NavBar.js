@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,89 +10,83 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import HomeIcon from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/Mail';
 
 import MainPage from '../mainPage/MainPage';
 
-const styles = {
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  grow: {
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+}));
 
-class NavBar extends Component {
-  constructor() {
-    super();
-    this.state = {
-      left: false
-    };
-  }
+function NavBar() {
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
-  componentDidMount() {
+  const toggleDrawer = (status) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
 
-  }
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
+    setOpen(status);
   };
 
-  getSideBarItem(classes) {
-    return (
-      <div className={classes.list}>
-        <List>
-          <ListItem button key="Contact us">
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="Contact us" />
-          </ListItem>
-        </List>
-      </div>
-    );
+  const handleDrawerIconClick = () => {
+    setOpen(true);
   }
 
-  render() {
-    const { classes } = this.props;
+  const getSideList = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem button key="Home">
+          <ListItemIcon><HomeIcon /></ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button key="Contact us">
+          <ListItemIcon><MailIcon /></ListItemIcon>
+          <ListItemText primary="Contact us" />
+        </ListItem>
+      </List>
+    </div>
+  );
 
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer('left', true)}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              LunchPicker
-            </Typography>
-          </Toolbar>
-        </AppBar>
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleDrawerIconClick}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            LunchPicker
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
-        <SwipeableDrawer
-          open={this.state.left}
-          onClose={this.toggleDrawer('left', false)}
-          onOpen={this.toggleDrawer('left', true)}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
-            {this.getSideBarItem(classes)}
-          </div>
-        </SwipeableDrawer>
+      <SwipeableDrawer
+        open={open}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
+      >
+        {getSideList()}
+      </SwipeableDrawer>
 
-        <MainPage />
-      </div>
-    );
-  }
+      <MainPage />
+    </div>
+  )
 }
 
-export default withStyles(styles)(NavBar);
+export default NavBar;
