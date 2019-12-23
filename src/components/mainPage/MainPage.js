@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import axios from 'axios';
 
+import Snackbar from '../snackBar/SnackBar';
+
+const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
+
 function MainPage() {
   const [selectedTermList, setSelectedTermList] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
@@ -17,6 +21,8 @@ function MainPage() {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
+
   const [resultList, setResultList] = useState([]);
 
   useEffect(() => {
@@ -24,40 +30,48 @@ function MainPage() {
     getUserCurrentLatLong();
   }, []);
 
-  const getSelectedTermList = async () => {
-    const response = await axios.get(
-      `https://lunch-picker-api.herokuapp.com/api/category/get-categories`,
+  const getSelectedTermList = () => {
+    axios.get(
+      `${ROOT_URL}/api/category/get-categories`,
       {
         headers: {
           'Content-Type': 'application/json'
         }
       }
-    );
-    if (!_.isEmpty(response)) {
-      console.log("response = ", response);
-      if (!_.isEmpty(response.data.categories.categories)) {
-        let selectedTermList = [];
-        response.data.categories.categories.forEach((item, i) => {
-          if (!_.isEmpty(item.parent_aliases)) {
-            const parentAliases = item.parent_aliases[0];
-            if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
-              selectedTermList.push(item);
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          console.log("response = ", response);
+          if (!_.isEmpty(response.data.categories.categories)) {
+            let selectedTermList = [];
+            response.data.categories.categories.forEach((item, i) => {
+              if (!_.isEmpty(item.parent_aliases)) {
+                const parentAliases = item.parent_aliases[0];
+                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                  selectedTermList.push(item);
+                }
+              }
+            });
+
+            if (!_.isEmpty(selectedTermList)) {
+              const formattedSelectedTermList = selectedTermList.map((item, i) => {
+                const obj = {
+                  value: item.alias,
+                  label: item.title
+                }
+                return obj
+              });
+              setSelectedTermList(formattedSelectedTermList);
             }
           }
-        });
-
-        if (!_.isEmpty(selectedTermList)) {
-          const formattedSelectedTermList = selectedTermList.map((item, i) => {
-            const obj = {
-              value: item.alias,
-              label: item.title
-            }
-            return obj
-          });
-          setSelectedTermList(formattedSelectedTermList);
         }
-      }
-    }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          console.log("error = ", error);
+          setOpenErrorAlert(true);
+        }
+      });
   }
 
   const getUserCurrentLatLong = () => {
@@ -69,9 +83,9 @@ function MainPage() {
     });
   }
 
-  const findRestaurantsByLocation = async (selectedTerm, location) => {
-    const response = await axios.get(
-      `https://lunch-picker-api.herokuapp.com/api/restaurant/find-restaurants-by-location`,
+  const findRestaurantsByLocation = (selectedTerm, location) => {
+    axios.get(
+      `${ROOT_URL}/api/restaurant/find-restaurants-by-location`,
       {
         params: {
           term: selectedTerm.label,
@@ -83,16 +97,24 @@ function MainPage() {
           'Content-Type': 'application/json'
         }
       }
-    );
-    if (!_.isEmpty(response)) {
-      console.log("response = ", response);
-      setResultList(response.data.restaurants.businesses);
-    }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          console.log("response = ", response);
+          setResultList(response.data.restaurants.businesses);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          console.log("error = ", error);
+          setOpenErrorAlert(true);
+        }
+      });
   }
 
-  const findRestaurantsByLatLong = async (selectedTerm, latitude, longitude) => {
-    const response = await axios.get(
-      `https://lunch-picker-api.herokuapp.com/api/restaurant/find-restaurants-by-lat-long`,
+  const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
+    axios.get(
+      `${ROOT_URL}/api/restaurant/find-restaurants-by-lat-long`,
       {
         params: {
           term: selectedTerm.label,
@@ -105,11 +127,19 @@ function MainPage() {
           'Content-Type': 'application/json'
         }
       }
-    );
-    if (!_.isEmpty(response)) {
-      console.log("response = ", response);
-      setResultList(response.data.restaurants.businesses);
-    }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          console.log("response = ", response);
+          setResultList(response.data.restaurants.businesses);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          console.log("error = ", error);
+          setOpenErrorAlert(true);
+        }
+      });
   }
 
   const handleChange = (selectedTerm) => {
@@ -293,12 +323,14 @@ function MainPage() {
       if (useLocation === true) {
         if (!_.isEmpty(location)) {
           findRestaurantsByLocation(selectedTerm, location);
+          setOpenErrorAlert(false);
         }
       }
 
       if (useLatLong === true) {
         if (!_.isEmpty(latitude) && !_.isEmpty(longitude)) {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+          setOpenErrorAlert(false);
         }
       }
     }
@@ -312,6 +344,7 @@ function MainPage() {
         {renderLocationInput()}
         {renderLatitudeAndLongitudeInput()}
         {renderSubmitButton()}
+        <Snackbar openErrorAlert={openErrorAlert} />
       </div>
     </div>
   );
