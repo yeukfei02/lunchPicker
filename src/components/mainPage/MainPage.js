@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import axios from 'axios';
 
+import Snackbar from '../snackBar/SnackBar';
+
 const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
 
 function MainPage() {
@@ -18,6 +20,8 @@ function MainPage() {
   const [location, setLocation] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
+
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
   const [resultList, setResultList] = useState([]);
 
@@ -65,6 +69,7 @@ function MainPage() {
       .catch((error) => {
         if (!_.isEmpty(error)) {
           console.log("error = ", error);
+          setOpenErrorAlert(true);
         }
       });
   }
@@ -102,6 +107,7 @@ function MainPage() {
       .catch((error) => {
         if (!_.isEmpty(error)) {
           console.log("error = ", error);
+          setOpenErrorAlert(true);
         }
       });
   }
@@ -131,6 +137,7 @@ function MainPage() {
       .catch((error) => {
         if (!_.isEmpty(error)) {
           console.log("error = ", error);
+          setOpenErrorAlert(true);
         }
       });
   }
@@ -316,12 +323,14 @@ function MainPage() {
       if (useLocation === true) {
         if (!_.isEmpty(location)) {
           findRestaurantsByLocation(selectedTerm, location);
+          setOpenErrorAlert(false);
         }
       }
 
       if (useLatLong === true) {
         if (!_.isEmpty(latitude) && !_.isEmpty(longitude)) {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+          setOpenErrorAlert(false);
         }
       }
     }
@@ -335,6 +344,7 @@ function MainPage() {
         {renderLocationInput()}
         {renderLatitudeAndLongitudeInput()}
         {renderSubmitButton()}
+        <Snackbar openErrorAlert={openErrorAlert} />
       </div>
     </div>
   );
