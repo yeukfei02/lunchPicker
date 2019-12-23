@@ -70,10 +70,19 @@ function MySnackbarContentWrapper(props) {
 }
 
 function SnackBar(props) {
-  const [open, setOpen] = useState(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
   useEffect(() => {
-    setOpen(props.openErrorAlert);
+    if (props.openSuccessAlert === true) {
+      setOpenSuccessAlert(true);
+    }
+  }, [props.openSuccessAlert]);
+
+  useEffect(() => {
+    if (props.openErrorAlert === true) {
+      setOpenErrorAlert(true);
+    }
   }, [props.openErrorAlert]);
 
   const handleClose = (event, reason) => {
@@ -81,26 +90,58 @@ function SnackBar(props) {
       return;
     }
 
-    setOpen(false);
+    setOpenSuccessAlert(false);
+    setOpenErrorAlert(false);
   };
+
+  const renderSnackBar = () => {
+    let snackBar = null;
+
+    if (openSuccessAlert === true) {
+      snackBar = (
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={openSuccessAlert}
+          autoHideDuration={2000}
+          onClose={handleClose}
+        >
+          <MySnackbarContentWrapper
+            onClose={handleClose}
+            variant="success"
+            message="Retrieve data success!"
+          />
+        </Snackbar>
+      );
+    }
+    if (openErrorAlert === true) {
+      snackBar = (
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={openErrorAlert}
+          autoHideDuration={2000}
+          onClose={handleClose}
+        >
+          <MySnackbarContentWrapper
+            onClose={handleClose}
+            variant="error"
+            message="Location / Latitude Longitude is not valid!"
+          />
+        </Snackbar>
+      );
+    }
+
+    return snackBar;
+  }
 
   return (
     <div>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-      >
-        <MySnackbarContentWrapper
-          onClose={handleClose}
-          variant="error"
-          message="Location / Latitude Longitude is not valid!"
-        />
-      </Snackbar>
+      {renderSnackBar()}
     </div>
   )
 }
