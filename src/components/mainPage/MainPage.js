@@ -5,8 +5,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import _ from 'lodash';
+import axios from 'axios';
 
 function MainPage() {
+  const [selectedTermList, setSelectedTermList] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [useLocation, setUseLocation] = useState(false);
   const [useLatLong, setUseLatLong] = useState(false);
@@ -16,6 +18,7 @@ function MainPage() {
   const [longitude, setLongitude] = useState('');
 
   useEffect(() => {
+    getSelectedTermList();
     navigator.geolocation.getCurrentPosition((location) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
@@ -23,6 +26,45 @@ function MainPage() {
       setLongitude(longitude);
     });
   }, []);
+
+  const getSelectedTermList = () => {
+    axios.get(`https://lunch-picker-api.herokuapp.com/api/category/get-categories`,
+      {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          if (!_.isEmpty(response.data.categories.categories)) {
+            let selectedTermList = [];
+            response.data.categories.categories.forEach((item, i) => {
+              if (!_.isEmpty(item.parent_aliases)) {
+                const parentAliases = item.parent_aliases[0];
+                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                  selectedTermList.push(item);
+                }
+              }
+            });
+
+            if (!_.isEmpty(selectedTermList)) {
+              const formattedSelectedTermList = selectedTermList.map((item, i) => {
+                const obj = {
+                  value: item.alias,
+                  label: item.title
+                }
+                return obj
+              });
+              setSelectedTermList(formattedSelectedTermList);
+            }
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const handleChange = (selectedTerm) => {
     setSelectedTerm(selectedTerm);
@@ -52,18 +94,12 @@ function MainPage() {
     let selectDropdown = null;
 
     if (_.isEqual(window.location.pathname, '/')) {
-      const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-      ];
-
       selectDropdown = (
         <div>
           <Select
             value={selectedTerm}
             onChange={handleChange}
-            options={options}
+            options={selectedTermList}
             isClearable={true}
           />
           <div className="my-3"></div>
