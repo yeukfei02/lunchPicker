@@ -21,6 +21,7 @@ function MainPage() {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
   const [resultList, setResultList] = useState([]);
@@ -101,6 +102,7 @@ function MainPage() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
+          setOpenSuccessAlert(true);
           setResultList(response.data.restaurants.businesses);
         }
       })
@@ -131,6 +133,7 @@ function MainPage() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
+          setOpenSuccessAlert(true);
           setResultList(response.data.restaurants.businesses);
         }
       })
@@ -323,6 +326,7 @@ function MainPage() {
       if (useLocation === true) {
         if (!_.isEmpty(location)) {
           findRestaurantsByLocation(selectedTerm, location);
+          setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
         }
       }
@@ -330,6 +334,7 @@ function MainPage() {
       if (useLatLong === true) {
         if (!_.isEmpty(latitude) && !_.isEmpty(longitude)) {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+          setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
         }
       }
@@ -344,7 +349,7 @@ function MainPage() {
         {renderLocationInput()}
         {renderLatitudeAndLongitudeInput()}
         {renderSubmitButton()}
-        <Snackbar openErrorAlert={openErrorAlert} />
+        <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} />
       </div>
     </div>
   );
