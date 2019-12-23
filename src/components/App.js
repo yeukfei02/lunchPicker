@@ -1,7 +1,7 @@
 import React from 'react';
 import Normalize from 'react-normalize';
 import Favicon from 'react-favicon';
-import favicon from '../images/favicon.png';
+import favicon from '../images/favicon.ico';
 import {
   BrowserRouter as Router,
   Switch,

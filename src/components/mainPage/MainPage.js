@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import axios from 'axios';
 
+import logo from '../../images/logo.png';
 import Snackbar from '../snackBar/SnackBar';
 
 const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
@@ -444,6 +445,9 @@ function MainPage() {
   return (
     <div className="mt-5 d-flex justify-content-center">
       <div className="w-75">
+        <div className="mt-2 mb-5 d-flex justify-content-center">
+          <img src={logo} className="img-fluid" alt="logo" width="50%" />
+        </div>
         {renderSelectDropdown()}
         {renderCheckbox()}
         {renderLocationInput()}
