@@ -26,7 +26,7 @@ function MainPage() {
     axios.get(`https://lunch-picker-api.herokuapp.com/api/category/get-categories`,
       {
         headers: {
-          'Content-type': 'application/json'
+          'Content-Type': 'application/json'
         }
       }
     )
