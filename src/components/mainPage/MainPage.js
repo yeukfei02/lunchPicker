@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,8 +11,9 @@ import axios from 'axios';
 
 import logo from '../../images/logo.png';
 import Snackbar from '../snackBar/SnackBar';
+import DisplayResult from '../displayResult/DisplayResult';
 
-const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
+const ROOT_URL = "https://lunch-picker-api.herokuapp.com/api";
 
 const groupStyles = {
   display: 'flex',
@@ -31,7 +34,15 @@ const groupBadgeStyles = {
   textAlign: 'center',
 };
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+  },
+}));
+
 function MainPage() {
+  const classes = useStyles();
+
   const [selectedTermList, setSelectedTermList] = useState([]);
 
   const [selectedTerm, setSelectedTerm] = useState(null);
@@ -54,7 +65,7 @@ function MainPage() {
 
   const getSelectedTermList = () => {
     axios.get(
-      `${ROOT_URL}/api/category/get-categories`,
+      `${ROOT_URL}/category/get-categories`,
       {
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +190,7 @@ function MainPage() {
 
   const findRestaurantsByLocation = (selectedTerm, location) => {
     axios.get(
-      `${ROOT_URL}/api/restaurant/find-restaurants-by-location`,
+      `${ROOT_URL}/restaurant/find-restaurants-by-location`,
       {
         params: {
           term: selectedTerm.label,
@@ -209,7 +220,7 @@ function MainPage() {
 
   const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
     axios.get(
-      `${ROOT_URL}/api/restaurant/find-restaurants-by-lat-long`,
+      `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
       {
         params: {
           term: selectedTerm.label,
@@ -276,6 +287,7 @@ function MainPage() {
       selectDropdown = (
         <div>
           <Select
+            placeholder="Select the food you want..."
             value={selectedTerm}
             onChange={handleChange}
             options={selectedTermList}
@@ -422,6 +434,16 @@ function MainPage() {
     return submitButton;
   }
 
+  const renderClearButton = () => {
+    const clearButton = (
+      <Button className="w-100" variant="outlined" color="primary" onClick={handleClear}>
+        Clear
+      </Button>
+    );
+
+    return clearButton;
+  }
+
   const handleSubmit = () => {
     if (!_.isEmpty(selectedTerm)) {
       if (useLocation === true) {
@@ -442,19 +464,49 @@ function MainPage() {
     }
   }
 
-  return (
-    <div className="mt-5 d-flex justify-content-center">
-      <div className="w-75">
-        <div className="mt-2 mb-5 d-flex justify-content-center">
-          <img src={logo} className="img-fluid" alt="logo" width="50%" />
+  const handleClear = () => {
+    setSelectedTerm(null);
+    setUseLocation(false);
+    setUseLatLong(false);
+
+    setOpenSuccessAlert(false);
+    setOpenErrorAlert(false);
+
+    setResultList([]);
+  }
+
+  const renderDisplayResult = () => {
+    let displayResult = null;
+
+    if (!_.isEmpty(resultList)) {
+      displayResult = (
+        <div>
+          <DisplayResult resultList={resultList} />
         </div>
-        {renderSelectDropdown()}
-        {renderCheckbox()}
-        {renderLocationInput()}
-        {renderLatitudeAndLongitudeInput()}
-        {renderSubmitButton()}
-        <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} />
+      );
+    }
+
+    return displayResult;
+  }
+
+  return (
+    <div>
+      <div className="mt-5 d-flex justify-content-center">
+        <Paper className={`${classes.root} mx-4`}>
+          <div className="mt-2 mb-5 d-flex justify-content-center">
+            <img src={logo} className="img-fluid" alt="logo" width="50%" />
+          </div>
+          {renderSelectDropdown()}
+          {renderCheckbox()}
+          {renderLocationInput()}
+          {renderLatitudeAndLongitudeInput()}
+          {renderSubmitButton()}
+          <div className="my-3"></div>
+          {renderClearButton()}
+          <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} />
+        </Paper>
       </div>
+      {renderDisplayResult()}
     </div>
   );
 }
