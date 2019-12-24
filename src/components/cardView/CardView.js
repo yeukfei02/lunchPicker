@@ -149,6 +149,19 @@ function CardView(props) {
     );
   }
 
+  const handleLocationClick = (e) => {
+    const text = e.target.innerHTML;
+    window.open(`https://www.google.com/maps/search/?api=1&query=${text}`);
+  }
+
+  const handleLocationOnMouseEnter = (e) => {
+    e.target.setAttribute('style', 'cursor: pointer; text-decoration: underline; color: #ed1f30');
+  }
+
+  const handleLocationOnMouseLeave = (e) => {
+    e.target.removeAttribute('style');
+  }
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -171,8 +184,16 @@ function CardView(props) {
         title={name}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Location: {location}
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p">
+          Location: <span
+            onClick={(e) => handleLocationClick(e)}
+            onMouseEnter={(e) => handleLocationOnMouseEnter(e)}
+            onMouseLeave={(e) => handleLocationOnMouseLeave(e)}>
+            {location}
+          </span>
         </Typography>
         <div className="my-2"></div>
         <Typography variant="body2" color="textSecondary" component="p">
