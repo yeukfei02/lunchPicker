@@ -107,7 +107,7 @@ function CardView(props) {
 
     for (let i = 0; i < rating; i++) {
       starIconList.push(
-        <StarIcon key={i} style={{ color: yellow[500] }} fontSize="small" />
+        <StarIcon key={i} style={{ color: yellow[600] }} fontSize="small" />
       );
     }
 
