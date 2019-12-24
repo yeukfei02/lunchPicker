@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -47,6 +48,8 @@ const useStyles = makeStyles(theme => ({
 
 function CardView(props) {
   const classes = useStyles();
+  const history = useHistory();
+
   const [expanded, setExpanded] = useState(false);
   const [reviewsList, setReviewsList] = useState([]);
 
@@ -101,7 +104,7 @@ function CardView(props) {
       });
   };
 
-  const handleLinkIconClick = () => {
+  const handleOpenUrl = () => {
     window.open(url);
   }
 
@@ -149,11 +152,32 @@ function CardView(props) {
     );
   }
 
+  const handleLocationClick = (e) => {
+    const text = e.target.innerHTML;
+    window.open(`https://www.google.com/maps/search/?api=1&query=${text}`);
+  }
+
+  const handleOnMouseEnterTextStyle = (e) => {
+    e.target.setAttribute('style', 'cursor: pointer; text-decoration: underline; color: #ed1f30');
+  }
+
+  const handleOnMouseLeaveTextStyle = (e) => {
+    e.target.removeAttribute('style');
+  }
+
+  const handleOpenRestaurantDetailsById = (id) => {
+    history.push(`/restaurant-details/${id}`);
+  }
+
   return (
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar
+            style={{ cursor: 'pointer' }}
+            aria-label="recipe"
+            className={classes.avatar}
+            onClick={() => handleOpenRestaurantDetailsById(id)}>
             {avatarStr}
           </Avatar>
         }
@@ -162,21 +186,38 @@ function CardView(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={name}
+        title={
+          <div
+            onClick={() => handleOpenRestaurantDetailsById(id)}
+            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+            {name}
+          </div>
+        }
         subheader={subHeader}
       />
       <CardMedia
+        style={{ cursor: 'pointer' }}
         className={classes.media}
         image={imageUrl}
         title={name}
+        onClick={handleOpenUrl}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Location: {location}
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p">
+          Location: <span
+            onClick={(e) => handleLocationClick(e)}
+            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+            {location}
+          </span>
         </Typography>
         <div className="my-2"></div>
         <Typography variant="body2" color="textSecondary" component="p">
-          Phone: {displayPhone}
+          {!_.isEmpty(displayPhone) ? `Phone: ${displayPhone}` : ''}
         </Typography>
         <div className="my-2"></div>
         {renderStarIcon()}
@@ -185,7 +226,7 @@ function CardView(props) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon style={{ color: red[500] }} />
         </IconButton>
-        <IconButton aria-label="link" onClick={handleLinkIconClick}>
+        <IconButton aria-label="link" onClick={handleOpenUrl}>
           <LinkIcon />
         </IconButton>
         <IconButton
