@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -31,7 +33,15 @@ const groupBadgeStyles = {
   textAlign: 'center',
 };
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+  },
+}));
+
 function MainPage() {
+  const classes = useStyles();
+
   const [selectedTermList, setSelectedTermList] = useState([]);
 
   const [selectedTerm, setSelectedTerm] = useState(null);
@@ -444,7 +454,7 @@ function MainPage() {
 
   return (
     <div className="mt-5 d-flex justify-content-center">
-      <div className="w-75">
+      <Paper className={`${classes.root} mx-4`}>
         <div className="mt-2 mb-5 d-flex justify-content-center">
           <img src={logo} className="img-fluid" alt="logo" width="50%" />
         </div>
@@ -454,7 +464,7 @@ function MainPage() {
         {renderLatitudeAndLongitudeInput()}
         {renderSubmitButton()}
         <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} />
-      </div>
+      </Paper>
     </div>
   );
 }
