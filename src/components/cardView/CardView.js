@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
 
 function CardView(props) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [reviewsList, setReviewsList] = useState([]);
 
   const item = props.resultListItem;
   const id = item.id;
@@ -73,7 +74,8 @@ function CardView(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    getRestaurantsDetailsReviewById(id);
+    if (_.isEmpty(reviewsList))
+      getRestaurantsDetailsReviewById(id);
   };
 
   const getRestaurantsDetailsReviewById = () => {
@@ -88,7 +90,8 @@ function CardView(props) {
       .then((response) => {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
-
+          const reviewsList = response.data.restaurantDetailsReview.reviews;
+          setReviewsList(reviewsList);
         }
       })
       .catch((error) => {
@@ -112,6 +115,38 @@ function CardView(props) {
     }
 
     return starIconList;
+  }
+
+  const handleOpenUserProfileUrl = (userProfileUrl) => {
+    window.open(userProfileUrl);
+  }
+
+  const renderReviewsList = () => {
+    let formattedReviewsList = null;
+
+    if (!_.isEmpty(reviewsList)) {
+      formattedReviewsList = reviewsList.map((item, i) => {
+        const text = item.text;
+        const userName = item.user.name;
+        const userProfileUrl = item.user.profile_url;
+        const userImageUrl = item.user.image_url;
+        return (
+          <div key={i} className="my-3">
+            <Avatar style={{ cursor: 'pointer' }} alt="user" src={userImageUrl} onClick={() => handleOpenUserProfileUrl(userProfileUrl)} />
+            <Typography className="mt-2">
+              <b>{userName}</b>: {text}
+            </Typography>
+          </div>
+        )
+      });
+    }
+
+    return (
+      <div>
+        <Typography paragraph>Review:</Typography>
+        {formattedReviewsList}
+      </div>
+    );
   }
 
   return (
@@ -166,14 +201,7 @@ function CardView(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-            </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
+          {renderReviewsList()}
         </CardContent>
       </Collapse>
     </Card>
