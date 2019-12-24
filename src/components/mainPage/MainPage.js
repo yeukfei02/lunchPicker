@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Select from 'react-select';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import _ from 'lodash';
@@ -45,9 +46,8 @@ function MainPage() {
 
   const [selectedTermList, setSelectedTermList] = useState([]);
 
-  const [selectedTerm, setSelectedTerm] = useState(null);
-  const [useLocation, setUseLocation] = useState(false);
-  const [useLatLong, setUseLatLong] = useState(false);
+  const [selectedTerm, setSelectedTerm] = useState('');
+  const [radioButtonValue, setRadioButtonValue] = useState('');
 
   const [location, setLocation] = useState('');
   const [latitude, setLatitude] = useState('');
@@ -253,12 +253,8 @@ function MainPage() {
     setSelectedTerm(selectedTerm);
   };
 
-  const handleCheckboxChange = type => e => {
-    if (_.isEqual(type, 'useLocation')) {
-      setUseLocation(e.target.checked);
-    } else if (_.isEqual(type, 'useLatLong')) {
-      setUseLatLong(e.target.checked);
-    }
+  const handleRadioButtonChange = e => {
+    setRadioButtonValue(e.target.value);
   };
 
   const handleLocationChange = (e) => {
@@ -302,45 +298,37 @@ function MainPage() {
     return selectDropdown;
   }
 
-  const renderCheckbox = () => {
-    let checkboxDiv = null;
+  const renderRadioButton = () => {
+    let radioButtonDiv = null;
 
     if (!_.isEmpty(selectedTerm)) {
-      checkboxDiv = (
+      radioButtonDiv = (
         <div>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={useLocation}
-                onChange={handleCheckboxChange('useLocation')}
-                value="Use Location"
-                disabled={useLatLong ? true : false}
-              />
-            }
-            label="Use Location"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={useLatLong}
-                onChange={handleCheckboxChange('useLatLong')}
-                value="Use Latitude and Longitude"
-                disabled={useLocation ? true : false}
-              />
-            }
-            label="Use Latitude and Longitude"
-          />
+          <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
+            <FormControlLabel
+              value="useLocation"
+              control={<Radio color="primary" />}
+              label="Use Location"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="useLatLong"
+              control={<Radio color="primary" />}
+              label="Use Latitude and Longitude"
+              labelPlacement="end"
+            />
+          </RadioGroup>
         </div>
       );
     }
 
-    return checkboxDiv;
+    return radioButtonDiv;
   }
 
   const renderLocationInput = () => {
     let locationInput = null;
 
-    if (!_.isEmpty(selectedTerm) && useLocation === true) {
+    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useLocation')) {
       locationInput = (
         <div>
           <TextField
@@ -367,7 +355,7 @@ function MainPage() {
   const renderLatitudeAndLongitudeInput = () => {
     let latitudeAndLongitudeInput = null;
 
-    if (!_.isEmpty(selectedTerm) && useLatLong === true) {
+    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useLatLong')) {
       latitudeAndLongitudeInput = (
         <div>
           <TextField
@@ -412,7 +400,7 @@ function MainPage() {
     let submitButton = null;
 
     if (!_.isEmpty(selectedTerm)) {
-      if (useLocation === true) {
+      if (_.isEqual(radioButtonValue, 'useLocation')) {
         if (!_.isEmpty(location)) {
           submitButton = (
             <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
@@ -422,7 +410,7 @@ function MainPage() {
         }
       }
 
-      if (useLatLong === true) {
+      if (_.isEqual(radioButtonValue, 'useLatLong')) {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
             Submit
@@ -446,7 +434,7 @@ function MainPage() {
 
   const handleSubmit = () => {
     if (!_.isEmpty(selectedTerm)) {
-      if (useLocation === true) {
+      if (_.isEqual(radioButtonValue, 'useLocation')) {
         if (!_.isEmpty(location)) {
           findRestaurantsByLocation(selectedTerm, location);
           setOpenSuccessAlert(false);
@@ -454,8 +442,8 @@ function MainPage() {
         }
       }
 
-      if (useLatLong === true) {
-        if (!_.isEmpty(latitude) && !_.isEmpty(longitude)) {
+      if (_.isEqual(radioButtonValue, 'useLatLong')) {
+        if (latitude !== 0 && longitude !== 0) {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
           setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
@@ -465,9 +453,8 @@ function MainPage() {
   }
 
   const handleClear = () => {
-    setSelectedTerm(null);
-    setUseLocation(false);
-    setUseLatLong(false);
+    setSelectedTerm('');
+    setRadioButtonValue('');
 
     setOpenSuccessAlert(false);
     setOpenErrorAlert(false);
@@ -497,7 +484,7 @@ function MainPage() {
             <img src={logo} className="img-fluid" alt="logo" width="50%" />
           </div>
           {renderSelectDropdown()}
-          {renderCheckbox()}
+          {renderRadioButton()}
           {renderLocationInput()}
           {renderLatitudeAndLongitudeInput()}
           {renderSubmitButton()}
