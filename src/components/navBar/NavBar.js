@@ -13,7 +13,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import MailIcon from '@material-ui/icons/Mail';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,6 +54,10 @@ function NavBar() {
     history.push('/random-food');
   }
 
+  const handleFavouritesClick = () => {
+    history.push('/favourites');
+  }
+
   const handleContactUsClick = () => {
     history.push('/contact');
   }
@@ -65,15 +71,19 @@ function NavBar() {
     >
       <List>
         <ListItem button key="Home" onClick={handleHomeClick}>
-          <ListItemIcon><HomeIcon /></ListItemIcon>
+          <ListItemIcon><HomeIcon style={{ color: red[500] }} /></ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
         <ListItem button key="Random food" onClick={handleRandomFoodClick}>
-          <ListItemIcon><FastfoodIcon /></ListItemIcon>
+          <ListItemIcon><FastfoodIcon style={{ color: red[500] }} /></ListItemIcon>
           <ListItemText primary="Random food" />
         </ListItem>
+        <ListItem button key="Favourites" onClick={handleFavouritesClick}>
+          <ListItemIcon><FavoriteIcon style={{ color: red[500] }} /></ListItemIcon>
+          <ListItemText primary="Favourites" />
+        </ListItem>
         <ListItem button key="Contact us" onClick={handleContactUsClick}>
-          <ListItemIcon><MailIcon /></ListItemIcon>
+          <ListItemIcon><MailIcon style={{ color: red[500] }} /></ListItemIcon>
           <ListItemText primary="Contact us" />
         </ListItem>
       </List>

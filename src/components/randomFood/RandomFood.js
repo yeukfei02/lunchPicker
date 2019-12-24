@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { red } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -14,6 +16,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     flexGrow: 1,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: red[500],
+  },
 }));
 
 function RandomFood() {
@@ -22,12 +28,22 @@ function RandomFood() {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
 
+  const [open, setOpen] = useState(true);
+
   const [resultList, setResultList] = useState([]);
 
   useEffect(() => {
     getRandomFoodList();
     getUserCurrentLatLong();
   }, []);
+
+  useEffect(() => {
+    if (!_.isEmpty(randomFoodList)) {
+      setTimeout(() => {
+        setOpen(false)
+      }, 1500);
+    }
+  }, [randomFoodList]);
 
   useEffect(() => {
     const selectedTerm = _.sample(randomFoodList);
@@ -139,11 +155,12 @@ function RandomFood() {
       );
     } else {
       renderDiv = (
-        <div className="mt-5 d-flex justify-content-center">
-          <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-            <h4>There are no result.</h4>
-          </Paper>
-        </div>
+        <Backdrop
+          className={classes.backdrop}
+          open={open}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       );
     }
 
