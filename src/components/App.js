@@ -12,6 +12,7 @@ import {
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
+import RandomFood from './randomFood/RandomFood';
 import Contact from './contact/Contact';
 
 // use default theme
@@ -45,6 +46,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <MainPage />
+          </Route>
+          <Route exact path="/random-food">
+            <RandomFood />
           </Route>
           <Route exact path="/contact">
             <Contact />

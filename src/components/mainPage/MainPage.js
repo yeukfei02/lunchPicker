@@ -12,7 +12,7 @@ import axios from 'axios';
 import logo from '../../images/logo.png';
 import Snackbar from '../snackBar/SnackBar';
 
-const ROOT_URL = "https://lunch-picker-api.herokuapp.com";
+const ROOT_URL = "https://lunch-picker-api.herokuapp.com/api";
 
 const groupStyles = {
   display: 'flex',
@@ -64,7 +64,7 @@ function MainPage() {
 
   const getSelectedTermList = () => {
     axios.get(
-      `${ROOT_URL}/api/category/get-categories`,
+      `${ROOT_URL}/category/get-categories`,
       {
         headers: {
           'Content-Type': 'application/json'
@@ -189,7 +189,7 @@ function MainPage() {
 
   const findRestaurantsByLocation = (selectedTerm, location) => {
     axios.get(
-      `${ROOT_URL}/api/restaurant/find-restaurants-by-location`,
+      `${ROOT_URL}/restaurant/find-restaurants-by-location`,
       {
         params: {
           term: selectedTerm.label,
@@ -219,7 +219,7 @@ function MainPage() {
 
   const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
     axios.get(
-      `${ROOT_URL}/api/restaurant/find-restaurants-by-lat-long`,
+      `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
       {
         params: {
           term: selectedTerm.label,
