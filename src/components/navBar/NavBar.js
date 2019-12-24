@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 import MailIcon from '@material-ui/icons/Mail';
 
 const useStyles = makeStyles(theme => ({
@@ -47,6 +48,10 @@ function NavBar() {
     history.push('/');
   }
 
+  const handleRandomFoodClick = () => {
+    history.push('/random-food');
+  }
+
   const handleContactUsClick = () => {
     history.push('/contact');
   }
@@ -62,6 +67,10 @@ function NavBar() {
         <ListItem button key="Home" onClick={handleHomeClick}>
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button key="Random food" onClick={handleRandomFoodClick}>
+          <ListItemIcon><FastfoodIcon /></ListItemIcon>
+          <ListItemText primary="Random food" />
         </ListItem>
         <ListItem button key="Contact us" onClick={handleContactUsClick}>
           <ListItemIcon><MailIcon /></ListItemIcon>

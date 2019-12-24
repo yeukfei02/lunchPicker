@@ -286,6 +286,7 @@ function MainPage() {
       selectDropdown = (
         <div>
           <Select
+            placeholder="Select the food you want..."
             value={selectedTerm}
             onChange={handleChange}
             options={selectedTermList}

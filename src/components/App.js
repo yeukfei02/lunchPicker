@@ -2,12 +2,13 @@ import React from 'react';
 import Normalize from 'react-normalize';
 import Favicon from 'react-favicon';
 import favicon from '../images/favicon.ico';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from "@material-ui/core/CssBaseline";
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -25,6 +26,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#2b76f0'
     },
+    background: {
+      default: "#FAFAD2"
+    }
   }
 },
 )
@@ -32,6 +36,7 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
         <Normalize />
         <Favicon url={favicon} />
