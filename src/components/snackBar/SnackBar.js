@@ -10,6 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
+import _ from 'lodash';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -72,6 +73,7 @@ function MySnackbarContentWrapper(props) {
 function SnackBar(props) {
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (props.openSuccessAlert === true) {
@@ -84,6 +86,12 @@ function SnackBar(props) {
       setOpenErrorAlert(true);
     }
   }, [props.openErrorAlert]);
+
+  useEffect(() => {
+    if (!_.isEmpty(props.message)) {
+      setMessage(props.message);
+    }
+  }, [props.message]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -111,7 +119,7 @@ function SnackBar(props) {
           <MySnackbarContentWrapper
             onClose={handleClose}
             variant="success"
-            message="Retrieve data success!"
+            message={message}
           />
         </Snackbar>
       );
@@ -130,7 +138,7 @@ function SnackBar(props) {
           <MySnackbarContentWrapper
             onClose={handleClose}
             variant="error"
-            message="Location / Latitude Longitude is not valid!"
+            message={message}
           />
         </Snackbar>
       );
