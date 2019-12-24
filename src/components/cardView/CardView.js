@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -47,6 +48,8 @@ const useStyles = makeStyles(theme => ({
 
 function CardView(props) {
   const classes = useStyles();
+  const history = useHistory();
+
   const [expanded, setExpanded] = useState(false);
   const [reviewsList, setReviewsList] = useState([]);
 
@@ -154,19 +157,27 @@ function CardView(props) {
     window.open(`https://www.google.com/maps/search/?api=1&query=${text}`);
   }
 
-  const handleLocationOnMouseEnter = (e) => {
+  const handleOnMouseEnterTextStyle = (e) => {
     e.target.setAttribute('style', 'cursor: pointer; text-decoration: underline; color: #ed1f30');
   }
 
-  const handleLocationOnMouseLeave = (e) => {
+  const handleOnMouseLeaveTextStyle = (e) => {
     e.target.removeAttribute('style');
+  }
+
+  const handleOpenRestaurantDetailsById = (id) => {
+    history.push(`/restaurant-details/${id}`);
   }
 
   return (
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar
+            style={{ cursor: 'pointer' }}
+            aria-label="recipe"
+            className={classes.avatar}
+            onClick={() => handleOpenRestaurantDetailsById(id)}>
             {avatarStr}
           </Avatar>
         }
@@ -175,7 +186,14 @@ function CardView(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={name}
+        title={
+          <div
+            onClick={() => handleOpenRestaurantDetailsById(id)}
+            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+            {name}
+          </div>
+        }
         subheader={subHeader}
       />
       <CardMedia
@@ -192,8 +210,8 @@ function CardView(props) {
           component="p">
           Location: <span
             onClick={(e) => handleLocationClick(e)}
-            onMouseEnter={(e) => handleLocationOnMouseEnter(e)}
-            onMouseLeave={(e) => handleLocationOnMouseLeave(e)}>
+            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
             {location}
           </span>
         </Typography>
