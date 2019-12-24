@@ -306,15 +306,15 @@ function MainPage() {
         <div>
           <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
             <FormControlLabel
-              value="useLocation"
+              value="places"
               control={<Radio color="primary" />}
-              label="Use Location"
+              label="Places"
               labelPlacement="end"
             />
             <FormControlLabel
-              value="useLatLong"
+              value="useCurrentLocation"
               control={<Radio color="primary" />}
-              label="Use Latitude and Longitude"
+              label="Current Location"
               labelPlacement="end"
             />
           </RadioGroup>
@@ -328,7 +328,7 @@ function MainPage() {
   const renderLocationInput = () => {
     let locationInput = null;
 
-    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useLocation')) {
+    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'places')) {
       locationInput = (
         <div>
           <TextField
@@ -355,7 +355,7 @@ function MainPage() {
   const renderLatitudeAndLongitudeInput = () => {
     let latitudeAndLongitudeInput = null;
 
-    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useLatLong')) {
+    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useCurrentLocation')) {
       latitudeAndLongitudeInput = (
         <div>
           <TextField
@@ -400,7 +400,7 @@ function MainPage() {
     let submitButton = null;
 
     if (!_.isEmpty(selectedTerm)) {
-      if (_.isEqual(radioButtonValue, 'useLocation')) {
+      if (_.isEqual(radioButtonValue, 'places')) {
         if (!_.isEmpty(location)) {
           submitButton = (
             <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
@@ -410,7 +410,7 @@ function MainPage() {
         }
       }
 
-      if (_.isEqual(radioButtonValue, 'useLatLong')) {
+      if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
             Submit
@@ -434,7 +434,7 @@ function MainPage() {
 
   const handleSubmit = () => {
     if (!_.isEmpty(selectedTerm)) {
-      if (_.isEqual(radioButtonValue, 'useLocation')) {
+      if (_.isEqual(radioButtonValue, 'places')) {
         if (!_.isEmpty(location)) {
           findRestaurantsByLocation(selectedTerm, location);
           setOpenSuccessAlert(false);
@@ -442,7 +442,7 @@ function MainPage() {
         }
       }
 
-      if (_.isEqual(radioButtonValue, 'useLatLong')) {
+      if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
         if (latitude !== 0 && longitude !== 0) {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
           setOpenSuccessAlert(false);
