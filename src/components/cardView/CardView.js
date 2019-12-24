@@ -101,7 +101,7 @@ function CardView(props) {
       });
   };
 
-  const handleLinkIconClick = () => {
+  const handleOpenUrl = () => {
     window.open(url);
   }
 
@@ -179,9 +179,11 @@ function CardView(props) {
         subheader={subHeader}
       />
       <CardMedia
+        style={{ cursor: 'pointer' }}
         className={classes.media}
         image={imageUrl}
         title={name}
+        onClick={handleOpenUrl}
       />
       <CardContent>
         <Typography
@@ -197,7 +199,7 @@ function CardView(props) {
         </Typography>
         <div className="my-2"></div>
         <Typography variant="body2" color="textSecondary" component="p">
-          Phone: {displayPhone}
+          {!_.isEmpty(displayPhone) ? `Phone: ${displayPhone}` : ''}
         </Typography>
         <div className="my-2"></div>
         {renderStarIcon()}
@@ -206,7 +208,7 @@ function CardView(props) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon style={{ color: red[500] }} />
         </IconButton>
-        <IconButton aria-label="link" onClick={handleLinkIconClick}>
+        <IconButton aria-label="link" onClick={handleOpenUrl}>
           <LinkIcon />
         </IconButton>
         <IconButton
