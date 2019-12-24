@@ -55,6 +55,7 @@ function MainPage() {
 
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [message, setMessage] = useState('');
 
   const [resultList, setResultList] = useState([]);
 
@@ -206,14 +207,16 @@ function MainPage() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
-          setOpenSuccessAlert(true);
           setResultList(response.data.restaurants.businesses);
+          setOpenSuccessAlert(true);
+          setMessage('Retrieved data success!');
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
           console.log("error = ", error);
           setOpenErrorAlert(true);
+          setMessage('Location / Latitude Longitude is not valid!');
         }
       });
   }
@@ -237,14 +240,16 @@ function MainPage() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           console.log("response = ", response);
-          setOpenSuccessAlert(true);
           setResultList(response.data.restaurants.businesses);
+          setOpenSuccessAlert(true);
+          setMessage('Retrieved data success!');
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
           console.log("error = ", error);
           setOpenErrorAlert(true);
+          setMessage('Location / Latitude Longitude is not valid!');
         }
       });
   }
@@ -439,6 +444,7 @@ function MainPage() {
           findRestaurantsByLocation(selectedTerm, location);
           setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
+          setMessage('');
         }
       }
 
@@ -447,6 +453,7 @@ function MainPage() {
           findRestaurantsByLatLong(selectedTerm, latitude, longitude);
           setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
+          setMessage('');
         }
       }
     }
@@ -458,6 +465,7 @@ function MainPage() {
 
     setOpenSuccessAlert(false);
     setOpenErrorAlert(false);
+    setMessage('');
 
     setResultList([]);
   }
@@ -490,7 +498,7 @@ function MainPage() {
           {renderSubmitButton()}
           <div className="my-3"></div>
           {renderClearButton()}
-          <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} />
+          <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} message={message} />
         </Paper>
       </div>
       {renderDisplayResult()}

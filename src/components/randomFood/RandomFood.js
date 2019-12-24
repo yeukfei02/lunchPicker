@@ -3,11 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
 import CardView from '../cardView/CardView';
+import Snackbar from '../snackBar/SnackBar';
 
 const ROOT_URL = "https://lunch-picker-api.herokuapp.com/api";
 
@@ -24,9 +28,15 @@ const useStyles = makeStyles(theme => ({
 
 function RandomFood() {
   const classes = useStyles();
+
+  const [selectedTerm, setSelectedTerm] = useState('');
+
   const [randomFoodList, setRandomFoodList] = useState([]);
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
+
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [message, setMessage] = useState('');
 
   const [open, setOpen] = useState(true);
 
@@ -47,8 +57,18 @@ function RandomFood() {
 
   useEffect(() => {
     const selectedTerm = _.sample(randomFoodList);
+    setSelectedTerm(selectedTerm);
     findRestaurantsByLatLong(selectedTerm, latitude, longitude);
   }, [randomFoodList, latitude, longitude]);
+
+  useEffect(() => {
+    if (openSuccessAlert === true) {
+      setOpenSuccessAlert(false);
+    }
+    if (!_.isEmpty(message)) {
+      setMessage('');
+    }
+  }, [openSuccessAlert, message]);
 
   const getRandomFoodList = () => {
     axios.get(
@@ -155,20 +175,48 @@ function RandomFood() {
       );
     } else {
       renderDiv = (
-        <Backdrop
-          className={classes.backdrop}
-          open={open}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <div>
+          <Backdrop
+            className={classes.backdrop}
+            open={open}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          <div className="mt-4 d-flex justify-content-center">
+            <Paper className={`${classes.root} mx-4 w-75 text-center`}>
+              <h4>There are no result.</h4>
+            </Paper>
+          </div>
+        </div>
       );
     }
 
     return renderDiv;
   }
 
+  const handleRefresh = () => {
+    const selectedTerm = _.sample(randomFoodList);
+    setSelectedTerm(selectedTerm);
+    findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+    setOpenSuccessAlert(true);
+    setMessage('Refresh success!');
+  }
+
   return (
-    renderDiv()
+    <div>
+      <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+        <div className="mr-3 d-flex align-items-center">
+          <Typography>
+            <div><b>Current food category:</b> {selectedTerm}</div>
+          </Typography>
+        </div>
+        <Button variant="contained" color="primary" onClick={handleRefresh}>
+          Refresh
+        </Button>
+      </div>
+      {renderDiv()}
+      <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
+    </div>
   )
 }
 
