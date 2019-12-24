@@ -24,7 +24,7 @@ function Contact() {
   return (
     <div className="mt-5 d-flex justify-content-center">
       <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-        <h4>Please contact us in email or visit our github repo</h4>
+        <h4>contact us via email or visit our github repo</h4>
         <EmailIcon style={{ cursor: 'pointer' }} className="mr-3" fontSize="large" onClick={handleEmailIconClick} />
         <GitHubIcon style={{ cursor: 'pointer' }} fontSize="large" onClick={handleGithubIconClick} />
       </Paper>
