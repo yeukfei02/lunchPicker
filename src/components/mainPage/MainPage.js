@@ -307,28 +307,24 @@ function MainPage() {
   }
 
   const renderRadioButton = () => {
-    let radioButtonDiv = null;
-
-    if (!_.isEmpty(selectedTerm)) {
-      radioButtonDiv = (
-        <div>
-          <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
-            <FormControlLabel
-              value="places"
-              control={<Radio color="primary" />}
-              label="Places"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="useCurrentLocation"
-              control={<Radio color="primary" />}
-              label="Current Location"
-              labelPlacement="end"
-            />
-          </RadioGroup>
-        </div>
-      );
-    }
+    const radioButtonDiv = (
+      <div>
+        <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
+          <FormControlLabel
+            value="places"
+            control={<Radio color="primary" />}
+            label="Places"
+            labelPlacement="end"
+          />
+          <FormControlLabel
+            value="useCurrentLocation"
+            control={<Radio color="primary" />}
+            label="Current Location"
+            labelPlacement="end"
+          />
+        </RadioGroup>
+      </div>
+    );
 
     return radioButtonDiv;
   }
@@ -336,7 +332,7 @@ function MainPage() {
   const renderLocationInput = () => {
     let locationInput = null;
 
-    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'places')) {
+    if (_.isEqual(radioButtonValue, 'places')) {
       locationInput = (
         <div>
           <TextField
@@ -350,6 +346,7 @@ function MainPage() {
             InputLabelProps={{
               shrink: true,
             }}
+            value={location}
             onChange={handleLocationChange}
           />
           <div className="my-3"></div>
@@ -363,7 +360,7 @@ function MainPage() {
   const renderLatitudeAndLongitudeInput = () => {
     let latitudeAndLongitudeInput = null;
 
-    if (!_.isEmpty(selectedTerm) && _.isEqual(radioButtonValue, 'useCurrentLocation')) {
+    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
       latitudeAndLongitudeInput = (
         <div>
           <TextField
@@ -407,24 +404,22 @@ function MainPage() {
   const renderSubmitButton = () => {
     let submitButton = null;
 
-    if (!_.isEmpty(selectedTerm)) {
-      if (_.isEqual(radioButtonValue, 'places')) {
-        if (!_.isEmpty(location)) {
-          submitButton = (
-            <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
-              Submit
-            </Button>
-          );
-        }
-      }
-
-      if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
+    if (_.isEqual(radioButtonValue, 'places')) {
+      if (!_.isEmpty(location)) {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
             Submit
           </Button>
         );
       }
+    }
+
+    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
+      submitButton = (
+        <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
+          Submit
+        </Button>
+      );
     }
 
     return submitButton;
@@ -465,23 +460,21 @@ function MainPage() {
   }
 
   const handleSubmit = () => {
-    if (!_.isEmpty(selectedTerm)) {
-      if (_.isEqual(radioButtonValue, 'places')) {
-        if (!_.isEmpty(location)) {
-          findRestaurantsByLocation(selectedTerm.label, location);
-          setOpenSuccessAlert(false);
-          setOpenErrorAlert(false);
-          setMessage('');
-        }
+    if (_.isEqual(radioButtonValue, 'places')) {
+      if (!_.isEmpty(location)) {
+        findRestaurantsByLocation(selectedTerm.label, location);
+        setOpenSuccessAlert(false);
+        setOpenErrorAlert(false);
+        setMessage('');
       }
+    }
 
-      if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
-        if (latitude !== 0 && longitude !== 0) {
-          findRestaurantsByLatLong(selectedTerm.label, latitude, longitude);
-          setOpenSuccessAlert(false);
-          setOpenErrorAlert(false);
-          setMessage('');
-        }
+    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
+      if (latitude !== 0 && longitude !== 0) {
+        findRestaurantsByLatLong(selectedTerm.label, latitude, longitude);
+        setOpenSuccessAlert(false);
+        setOpenErrorAlert(false);
+        setMessage('');
       }
     }
   }
@@ -526,13 +519,7 @@ function MainPage() {
               });
               setFormattedRandomFoodList(formattedRandomFoodList);
 
-              const selectedTerm = _.sample(formattedRandomFoodList);
-              setRandomFoodTerm(selectedTerm);
-              if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
-                findRestaurantsByLatLong(selectedTerm, latitude, longitude);
-                setOpenSuccessAlert(false);
-                setMessage('');
-              }
+              getRandomResult(formattedRandomFoodList);
             }
           }
         })
@@ -543,13 +530,17 @@ function MainPage() {
           }
         });
     } else {
-      const selectedTerm = _.sample(formattedRandomFoodList);
-      setRandomFoodTerm(selectedTerm);
-      if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
-        findRestaurantsByLatLong(selectedTerm, latitude, longitude);
-        setOpenSuccessAlert(false);
-        setMessage('');
-      }
+      getRandomResult(formattedRandomFoodList);
+    }
+  }
+
+  const getRandomResult = (formattedRandomFoodList) => {
+    const selectedTerm = _.sample(formattedRandomFoodList);
+    setRandomFoodTerm(selectedTerm);
+    if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
+      findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+      setOpenSuccessAlert(false);
+      setMessage('');
     }
   }
 
