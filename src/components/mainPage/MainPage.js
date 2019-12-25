@@ -13,8 +13,9 @@ import axios from 'axios';
 import logo from '../../images/logo.png';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
+import { getRootUrl } from '../../common/Common';
 
-const ROOT_URL = "https://lunch-picker-api.herokuapp.com/api";
+const ROOT_URL = getRootUrl();
 
 const groupStyles = {
   display: 'flex',

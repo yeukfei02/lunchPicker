@@ -21,7 +21,9 @@ import { yellow } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
-const ROOT_URL = "https://lunch-picker-api.herokuapp.com/api";
+import { getRootUrl } from '../../common/Common';
+
+const ROOT_URL = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   card: {
