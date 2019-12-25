@@ -45,9 +45,11 @@ function MainPage() {
   const classes = useStyles();
 
   const [selectedTermList, setSelectedTermList] = useState([]);
-
   const [selectedTerm, setSelectedTerm] = useState('');
   const [radioButtonValue, setRadioButtonValue] = useState('');
+
+  const [formattedRandomFoodList, setFormattedRandomFoodList] = useState([]);
+  const [randomFoodTerm, setRandomFoodTerm] = useState([]);
 
   const [location, setLocation] = useState('');
   const [latitude, setLatitude] = useState('');
@@ -194,7 +196,7 @@ function MainPage() {
       `${ROOT_URL}/restaurant/find-restaurants-by-location`,
       {
         params: {
-          term: selectedTerm.label,
+          term: selectedTerm,
           location: location
         }
       },
@@ -226,7 +228,7 @@ function MainPage() {
       `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
       {
         params: {
-          term: selectedTerm.label,
+          term: selectedTerm,
           latitude: latitude,
           longitude: longitude
         }
@@ -437,11 +439,35 @@ function MainPage() {
     return clearButton;
   }
 
+  const renderRandomButton = () => {
+    const randomButton = (
+      <Button className="w-100" variant="outlined" color="secondary" onClick={handleRandom}>
+        Random
+      </Button>
+    );
+
+    return randomButton;
+  }
+
+  const renderRandomFoodCategory = () => {
+    let randomFoodCategory = null;
+
+    if (!_.isEmpty(randomFoodTerm)) {
+      randomFoodCategory = (
+        <div className="mt-3 d-flex justify-content-center">
+          <h6>Random food category: {randomFoodTerm}</h6>
+        </div>
+      );
+    }
+
+    return randomFoodCategory;
+  }
+
   const handleSubmit = () => {
     if (!_.isEmpty(selectedTerm)) {
       if (_.isEqual(radioButtonValue, 'places')) {
         if (!_.isEmpty(location)) {
-          findRestaurantsByLocation(selectedTerm, location);
+          findRestaurantsByLocation(selectedTerm.label, location);
           setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
           setMessage('');
@@ -450,7 +476,7 @@ function MainPage() {
 
       if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
         if (latitude !== 0 && longitude !== 0) {
-          findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+          findRestaurantsByLatLong(selectedTerm.label, latitude, longitude);
           setOpenSuccessAlert(false);
           setOpenErrorAlert(false);
           setMessage('');
@@ -467,7 +493,63 @@ function MainPage() {
     setOpenErrorAlert(false);
     setMessage('');
 
+    setRandomFoodTerm('');
     setResultList([]);
+  }
+
+  const handleRandom = () => {
+    if (_.isEmpty(formattedRandomFoodList)) {
+      axios.get(
+        `${ROOT_URL}/category/get-categories`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+        .then((response) => {
+          if (!_.isEmpty(response)) {
+            console.log("response = ", response);
+            if (!_.isEmpty(response.data.categories.categories)) {
+              let randomFoodList = [];
+              response.data.categories.categories.forEach((item, i) => {
+                if (!_.isEmpty(item.parent_aliases)) {
+                  const parentAliases = item.parent_aliases[0];
+                  if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                    randomFoodList.push(item);
+                  }
+                }
+              });
+              const formattedRandomFoodList = randomFoodList.map((item, i) => {
+                return item.title;
+              });
+              setFormattedRandomFoodList(formattedRandomFoodList);
+
+              const selectedTerm = _.sample(formattedRandomFoodList);
+              setRandomFoodTerm(selectedTerm);
+              if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
+                findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+                setOpenSuccessAlert(false);
+                setMessage('');
+              }
+            }
+          }
+        })
+        .catch((error) => {
+          if (!_.isEmpty(error)) {
+            console.log("error = ", error);
+            setOpenErrorAlert(true);
+          }
+        });
+    } else {
+      const selectedTerm = _.sample(formattedRandomFoodList);
+      setRandomFoodTerm(selectedTerm);
+      if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
+        findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+        setOpenSuccessAlert(false);
+        setMessage('');
+      }
+    }
   }
 
   const renderDisplayResult = () => {
@@ -498,6 +580,9 @@ function MainPage() {
           {renderSubmitButton()}
           <div className="my-3"></div>
           {renderClearButton()}
+          <div className="my-3"></div>
+          {renderRandomButton()}
+          {renderRandomFoodCategory()}
           <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} message={message} />
         </Paper>
       </div>
