@@ -203,6 +203,16 @@ function RandomFood() {
     setMessage('Refresh success!');
   }
 
+  const handleSortedByRating = () => {
+    const sortedByRatingResultList = _.orderBy(resultList, ['rating'], ['desc']);
+    setResultList(sortedByRatingResultList);
+  }
+
+  const handleSortedByDistance = () => {
+    const sortedByDistanceResultList = _.orderBy(resultList, ['distance'], ['asc']);
+    setResultList(sortedByDistanceResultList);
+  }
+
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
@@ -214,6 +224,16 @@ function RandomFood() {
         </div>
         <Button variant="contained" color="primary" onClick={handleRefresh}>
           Refresh
+        </Button>
+      </div>
+      <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+        <Button variant="outlined" color="primary" onClick={handleSortedByRating}>
+          Sorted by rating
+        </Button>
+      </div>
+      <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+        <Button variant="outlined" color="primary" onClick={handleSortedByDistance}>
+          Sorted by distance
         </Button>
       </div>
       {renderDiv()}
