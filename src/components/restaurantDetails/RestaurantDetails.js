@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import _ from 'lodash';
 import axios from 'axios';
 
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -27,13 +27,13 @@ function RestaurantDetails(props) {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           setRestaurantDetails(response.data.restaurantDetails);
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
         }
       });
   }

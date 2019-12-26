@@ -12,7 +12,7 @@ import axios from 'axios';
 
 import CardView from '../cardView/CardView';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -82,7 +82,7 @@ function RandomFood() {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           if (!_.isEmpty(response.data.categories.categories)) {
             let randomFoodList = [];
             response.data.categories.categories.forEach((item, i) => {
@@ -102,7 +102,7 @@ function RandomFood() {
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
         }
       });
   }
@@ -132,13 +132,13 @@ function RandomFood() {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           setResultList(response.data.restaurants.businesses);
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
         }
       });
   }

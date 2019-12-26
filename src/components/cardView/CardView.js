@@ -21,7 +21,7 @@ import { yellow } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -94,14 +94,14 @@ function CardView(props) {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           const reviewsList = response.data.restaurantDetailsReview.reviews;
           setReviewsList(reviewsList);
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
         }
       });
   };

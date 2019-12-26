@@ -13,7 +13,7 @@ import axios from 'axios';
 import logo from '../../images/logo.png';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -78,7 +78,7 @@ function MainPage() {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           if (!_.isEmpty(response.data.categories.categories)) {
             let foodList = [];
             let restaurantsList = [];
@@ -177,7 +177,7 @@ function MainPage() {
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
           setOpenErrorAlert(true);
         }
       });
@@ -207,7 +207,7 @@ function MainPage() {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success!');
@@ -215,7 +215,7 @@ function MainPage() {
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
         }
@@ -238,7 +238,7 @@ function MainPage() {
     )
       .then((response) => {
         if (!_.isEmpty(response)) {
-          console.log("response = ", response);
+          log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success!');
@@ -246,7 +246,7 @@ function MainPage() {
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
-          console.log("error = ", error);
+          log("error = ", error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
         }
@@ -499,7 +499,7 @@ function MainPage() {
       )
         .then((response) => {
           if (!_.isEmpty(response)) {
-            console.log("response = ", response);
+            log("response = ", response);
             if (!_.isEmpty(response.data.categories.categories)) {
               let randomFoodList = [];
               response.data.categories.categories.forEach((item, i) => {
@@ -521,7 +521,7 @@ function MainPage() {
         })
         .catch((error) => {
           if (!_.isEmpty(error)) {
-            console.log("error = ", error);
+            log("error = ", error);
             setOpenErrorAlert(true);
           }
         });
