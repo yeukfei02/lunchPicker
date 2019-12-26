@@ -28,5 +28,9 @@ export const log = (message, item) => {
 
   // timber
   const timber = new Timber(getTimberApiKey(), getTimberSouceId());
-  timber.log(`${JSON.stringify(item)}`);
+  if (typeof item === 'object') {
+    timber.log(`${message} ${JSON.stringify(item)}`);
+  } else if (typeof item === 'string') {
+    timber.log(`${message} ${item}`);
+  }
 }
