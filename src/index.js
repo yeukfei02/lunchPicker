@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import * as Sentry from '@sentry/browser';
+
+import { getSentryDsn } from './common/Common';
+
+Sentry.init({ dsn: getSentryDsn() });
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
