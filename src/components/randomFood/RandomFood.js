@@ -216,12 +216,18 @@ function RandomFood() {
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
-        <div className="mr-3 d-flex align-items-center">
-          <Typography>
-            <div className="d-flex justify-content-end"><b>Current food category:</b></div>
-            <div className="d-flex justify-content-end">{selectedTerm}</div>
-          </Typography>
-        </div>
+        <Typography>
+          {
+            !_.isEmpty(selectedTerm) ?
+            <div>
+              <b>Current food category:</b> {selectedTerm}
+            </div>
+            :
+            null
+          }
+        </Typography>
+      </div>
+      <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Button variant="contained" color="primary" onClick={handleRefresh}>
           Refresh
         </Button>
