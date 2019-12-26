@@ -199,9 +199,7 @@ function MainPage() {
         params: {
           term: selectedTerm,
           location: location
-        }
-      },
-      {
+        },
         headers: {
           'Content-Type': 'application/json'
         }
@@ -232,9 +230,7 @@ function MainPage() {
           term: selectedTerm,
           latitude: latitude,
           longitude: longitude
-        }
-      },
-      {
+        },
         headers: {
           'Content-Type': 'application/json'
         }

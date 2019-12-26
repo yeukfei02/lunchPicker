@@ -124,9 +124,7 @@ function RandomFood() {
           term: selectedTerm,
           latitude: latitude,
           longitude: longitude
-        }
-      },
-      {
+        },
         headers: {
           'Content-Type': 'application/json'
         }
@@ -219,11 +217,11 @@ function RandomFood() {
         <Typography>
           {
             !_.isEmpty(selectedTerm) ?
-            <div>
-              <b>Current food category:</b> {selectedTerm}
-            </div>
-            :
-            null
+              <div>
+                <b>Current food category:</b> {selectedTerm}
+              </div>
+              :
+              null
           }
         </Typography>
       </div>
