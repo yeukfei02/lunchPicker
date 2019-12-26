@@ -16,7 +16,7 @@ Sentry.init({ dsn: getSentryDsn() });
 
 // timber
 const timber = new Timber(getTimberApiKey(), getTimberSouceId());
-timber.pipe(process.stdout);
+timber.log("timber log start");
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
