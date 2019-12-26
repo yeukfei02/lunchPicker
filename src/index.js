@@ -3,20 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import * as Sentry from '@sentry/browser';
-import { Timber } from "@timberio/browser";
 
-import {
-  getSentryDsn,
-  getTimberApiKey,
-  getTimberSouceId
-} from './common/Common';
+import { getSentryDsn } from './common/Common';
 
 // sentry
 Sentry.init({ dsn: getSentryDsn() });
-
-// timber
-const timber = new Timber(getTimberApiKey(), getTimberSouceId());
-timber.log("timber log start");
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
