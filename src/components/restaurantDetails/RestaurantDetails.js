@@ -209,7 +209,7 @@ function RestaurantDetails(props) {
               obj.start = value.start;
               obj.end = value.end;
               obj.is_overnight = value.is_overnight;
-              openList.push(obj);
+              rows.push(obj);
             })
           }
 
