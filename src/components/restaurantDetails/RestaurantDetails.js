@@ -3,6 +3,12 @@ import { withRouter } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -15,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  table: {
+    minWidth: 650,
   },
 }));
 
@@ -163,7 +172,7 @@ function RestaurantDetails(props) {
     if (!_.isEmpty(restaurantDetails)) {
       const hours = restaurantDetails.hours;
 
-      let openList = [];
+      let rows = [];
       let hoursType = '';
       let isOpenNow = '';
       if (!_.isEmpty(hours)) {
@@ -172,10 +181,34 @@ function RestaurantDetails(props) {
           if (!_.isEmpty(open)) {
             open.forEach((value, i) => {
               let obj = {};
-              obj.is_overnight = value.is_overnight;
+              switch (value.day) {
+                case 1:
+                  obj.day = "Mon";
+                  break;
+                case 2:
+                  obj.day = "Tue";
+                  break;
+                case 3:
+                  obj.day = "Wed";
+                  break;
+                case 4:
+                  obj.day = "Thu";
+                  break;
+                case 5:
+                  obj.day = "Fri";
+                  break;
+                case 6:
+                  obj.day = "Sat";
+                  break;
+                case 7:
+                  obj.day = "Sun";
+                  break;
+                default:
+
+              }
               obj.start = value.start;
               obj.end = value.end;
-              obj.day = value.day;
+              obj.is_overnight = value.is_overnight;
               openList.push(obj);
             })
           }
@@ -185,35 +218,32 @@ function RestaurantDetails(props) {
         });
       }
 
-      let openListDiv = null;
-      if (!_.isEmpty(openList)) {
-        openListDiv = openList.map((item, i) => {
-          return (
-            <div key={i}>
-              Day: {item.day}
-              Start: {item.start}
-              End: {item.end}
-              Is overnight: {item.is_overnight}
-            </div>
-          );
-        });
-      }
-
       resultDiv = (
         <div>
-          <TextField
-            label="Open"
-            placeholder="Open"
-            value={openListDiv}
-            fullWidth
-            multiline
-            rows="10"
-            margin="normal"
-            InputLabelProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
-          />
+          <TableContainer component={Paper} className="mb-3">
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Open</TableCell>
+                  <TableCell align="right">Start</TableCell>
+                  <TableCell align="right">End</TableCell>
+                  <TableCell align="right">Is overnight</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row, i) => (
+                  <TableRow key={i}>
+                    <TableCell component="th" scope="row">
+                      {row.day}
+                    </TableCell>
+                    <TableCell align="right">{row.start}</TableCell>
+                    <TableCell align="right">{row.end}</TableCell>
+                    <TableCell align="right">{row.is_overnight.toString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <TextField
             label="Hours type"
             placeholder="Hours type"
