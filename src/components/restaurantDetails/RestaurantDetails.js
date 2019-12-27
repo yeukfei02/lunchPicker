@@ -72,7 +72,7 @@ function RestaurantDetails(props) {
       const displayPhone = restaurantDetails.display_phone;
       const categories = restaurantDetails.categories;
       const location = restaurantDetails.location;
-      const coordinates = restaurantDetails.coordinates;
+      // const coordinates = restaurantDetails.coordinates;
       const photos = restaurantDetails.photos;
 
       let locationStr = '';
@@ -185,25 +185,25 @@ function RestaurantDetails(props) {
             open.forEach((value, i) => {
               let obj = {};
               switch (value.day) {
-                case 1:
+                case 0:
                   obj.day = "Mon";
                   break;
-                case 2:
+                case 1:
                   obj.day = "Tue";
                   break;
-                case 3:
+                case 2:
                   obj.day = "Wed";
                   break;
-                case 4:
+                case 3:
                   obj.day = "Thu";
                   break;
-                case 5:
+                case 4:
                   obj.day = "Fri";
                   break;
-                case 6:
+                case 5:
                   obj.day = "Sat";
                   break;
-                case 7:
+                case 6:
                   obj.day = "Sun";
                   break;
                 default:
