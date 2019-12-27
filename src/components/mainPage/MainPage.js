@@ -458,7 +458,8 @@ function MainPage() {
   const handleSubmit = () => {
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
-        findRestaurantsByLocation(selectedTerm.label, location);
+        const term = !_.isEmpty(selectedTerm) ? selectedTerm.label : '';
+        findRestaurantsByLocation(term, location);
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
         setMessage('');
@@ -467,7 +468,8 @@ function MainPage() {
 
     if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
       if (latitude !== 0 && longitude !== 0) {
-        findRestaurantsByLatLong(selectedTerm.label, latitude, longitude);
+        const term = !_.isEmpty(selectedTerm) ? selectedTerm.label : '';
+        findRestaurantsByLatLong(term, latitude, longitude);
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
         setMessage('');
