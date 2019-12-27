@@ -79,12 +79,12 @@ function MainPage() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           log("response = ", response);
-          if (!_.isEmpty(response.data.categories.categories)) {
+          if (!_.isEmpty(response.data.categories)) {
             let foodList = [];
             let restaurantsList = [];
             let barsList = [];
             let breakfastBrunchList = [];
-            response.data.categories.categories.forEach((item, i) => {
+            response.data.categories.forEach((item, i) => {
               if (!_.isEmpty(item.parent_aliases)) {
                 const parentAliases = item.parent_aliases[0];
                 if (_.isEqual(parentAliases, "food")) {
@@ -502,9 +502,9 @@ function MainPage() {
         .then((response) => {
           if (!_.isEmpty(response)) {
             log("response = ", response);
-            if (!_.isEmpty(response.data.categories.categories)) {
+            if (!_.isEmpty(response.data.categories)) {
               let randomFoodList = [];
-              response.data.categories.categories.forEach((item, i) => {
+              response.data.categories.forEach((item, i) => {
                 if (!_.isEmpty(item.parent_aliases)) {
                   const parentAliases = item.parent_aliases[0];
                   if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
