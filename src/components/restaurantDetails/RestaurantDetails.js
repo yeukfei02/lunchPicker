@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router";
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -7,7 +10,16 @@ import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+}));
+
 function RestaurantDetails(props) {
+  const classes = useStyles();
   const [restaurantDetails, setRestaurantDetails] = useState();
 
   useEffect(() => {
@@ -42,17 +54,142 @@ function RestaurantDetails(props) {
     let resultDiv = null;
 
     if (!_.isEmpty(restaurantDetails)) {
-      // const name = restaurantDetails.name;
-      // const imageUrl = restaurantDetails.image_url;
-      // const displayPhone = restaurantDetails.display_phone;
-      // const location = restaurantDetails.location;
-      // const coordinates = restaurantDetails.coordinates;
-      // const photos = restaurantDetails.photos;
-      // const hours = restaurantDetails.hours;
+      const name = restaurantDetails.name;
+      const imageUrl = restaurantDetails.image_url;
+      const url = restaurantDetails.url;
+      const displayPhone = restaurantDetails.display_phone;
+      const categories = restaurantDetails.categories;
+      const location = restaurantDetails.location;
+      const coordinates = restaurantDetails.coordinates;
+      const photos = restaurantDetails.photos;
+
+      let locationStr = '';
+      if (!_.isEmpty(location)) {
+        if (!_.isEmpty(location.display_address)) {
+          locationStr = location.display_address.join(', ');
+        }
+      }
 
       resultDiv = (
         <div>
-          restaurantDetails
+          <h5>Restaurant details</h5>
+          <TextField
+            label="Name"
+            placeholder="Name"
+            value={name}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            label="Phone"
+            placeholder="Phone"
+            value={displayPhone}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            label="Url"
+            placeholder="Url"
+            value={url}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          {
+            categories.forEach((item, i) => {
+              return (
+                <div key={i}>
+                  <TextField
+                    label="Category"
+                    placeholder="Category"
+                    value={item.title}
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                  />
+                </div>
+              );
+            })
+          }
+          <TextField
+            label="Location"
+            placeholder="Location"
+            value={locationStr}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </div>
+      );
+    }
+
+    return resultDiv;
+  }
+
+  const renderOpenHours = () => {
+    let resultDiv = null;
+
+    if (!_.isEmpty(restaurantDetails)) {
+      const hours = restaurantDetails.hours;
+
+      let openList = [];
+      let hoursType = '';
+      let isOpenNow = '';
+      if (!_.isEmpty(hours)) {
+        hours.forEach((item, i) => {
+          const open = item.open;
+          if (!_.isEmpty(open)) {
+            open.forEach((value, i) => {
+              let obj = {};
+              obj.is_overnight = value.is_overnight;
+              obj.start = value.start;
+              obj.end = value.end;
+              obj.day = value.day;
+              openList.push(obj);
+            })
+          }
+
+          hoursType = item.hours_type;
+          isOpenNow = item.is_open_now;
+        });
+      }
+
+      let openListDiv = null;
+      if (!_.isEmpty(openList)) {
+        openListDiv = openList.map((item, i) => {
+          return (
+            <div key={i}>
+              <div>Day: {item.day}</div>
+              <div>Start: {item.start}</div>
+              <div>End: {item.end}</div>
+              <div>Is overnight: {item.is_overnight}</div>
+            </div>
+          );
+        });
+      }
+
+      resultDiv = (
+        <div>
+          <h5>Open: {openListDiv}</h5>
+          <h5>Hours type: {hoursType.toLowerCase()}</h5>
+          <h5>Is open now: {isOpenNow.toString()}</h5>
         </div>
       );
     }
@@ -61,9 +198,18 @@ function RestaurantDetails(props) {
   }
 
   return (
-    <div className="mt-5 d-flex justify-content-center">
-      {renderRestaurantDetails()}
-    </div >
+    <div>
+      <div className="mt-5 d-flex justify-content-center">
+        <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
+          {renderRestaurantDetails()}
+        </Paper>
+      </div>
+      <div className="mt-5 d-flex justify-content-center">
+        <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
+          {renderOpenHours()}
+        </Paper>
+      </div>
+    </div>
   )
 }
 
