@@ -28,7 +28,7 @@ function Contact() {
         <EmailIcon style={{ cursor: 'pointer' }} className="mr-3" fontSize="large" onClick={handleEmailIconClick} />
         <GitHubIcon style={{ cursor: 'pointer' }} fontSize="large" onClick={handleGithubIconClick} />
       </Paper>
-    </div >
+    </div>
   )
 }
 
