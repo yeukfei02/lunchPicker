@@ -70,9 +70,23 @@ function RestaurantDetails(props) {
         }
       }
 
+      let carouselDiv = [];
+      if (!_.isEmpty(photos)) {
+        photos.forEach((item, i) => {
+          carouselDiv.push(
+            <div>
+              {item}
+            </div>
+          )
+        });
+      }
+
       resultDiv = (
         <div>
           <h5>Restaurant details</h5>
+          <div className="text-center">
+            <img src={imageUrl} className="rounded" alt="imageUrl" width="200" height="200" />
+          </div>
           <TextField
             label="Name"
             placeholder="Name"
@@ -176,10 +190,10 @@ function RestaurantDetails(props) {
         openListDiv = openList.map((item, i) => {
           return (
             <div key={i}>
-              <div>Day: {item.day}</div>
-              <div>Start: {item.start}</div>
-              <div>End: {item.end}</div>
-              <div>Is overnight: {item.is_overnight}</div>
+              Day: {item.day}
+              Start: {item.start}
+              End: {item.end}
+              Is overnight: {item.is_overnight}
             </div>
           );
         });
@@ -187,9 +201,41 @@ function RestaurantDetails(props) {
 
       resultDiv = (
         <div>
-          <h5>Open: {openListDiv}</h5>
-          <h5>Hours type: {hoursType.toLowerCase()}</h5>
-          <h5>Is open now: {isOpenNow.toString()}</h5>
+          <TextField
+            label="Open"
+            placeholder="Open"
+            value={openListDiv}
+            fullWidth
+            multiline
+            rows="10"
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            label="Hours type"
+            placeholder="Hours type"
+            value={hoursType.toLowerCase()}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+          <TextField
+            label="Is open now"
+            placeholder="Is open now"
+            value={isOpenNow.toString()}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
         </div>
       );
     }
