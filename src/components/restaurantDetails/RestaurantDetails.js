@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -206,8 +209,8 @@ function RestaurantDetails(props) {
                 default:
 
               }
-              obj.start = value.start;
-              obj.end = value.end;
+              obj.start = `${value.start.substring(0, 2)}:${value.start.substring(2)}`;
+              obj.end = `${value.end.substring(0, 2)}:${value.end.substring(2)}`;
               obj.is_overnight = value.is_overnight;
               rows.push(obj);
             })
@@ -224,7 +227,7 @@ function RestaurantDetails(props) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Open</TableCell>
+                  <TableCell>Opening time</TableCell>
                   <TableCell align="right">Start</TableCell>
                   <TableCell align="right">End</TableCell>
                   <TableCell align="right">Is overnight</TableCell>
@@ -238,7 +241,12 @@ function RestaurantDetails(props) {
                     </TableCell>
                     <TableCell align="right">{row.start}</TableCell>
                     <TableCell align="right">{row.end}</TableCell>
-                    <TableCell align="right">{row.is_overnight.toString()}</TableCell>
+                    <TableCell align="right">
+                      <Checkbox
+                        checked={row.is_overnight ? true : false}
+                        disabled={true}
+                      />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -255,17 +263,17 @@ function RestaurantDetails(props) {
             }}
             variant="outlined"
           />
-          <TextField
-            label="Is open now"
-            placeholder="Is open now"
-            value={isOpenNow.toString()}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              readOnly: true,
-            }}
-            variant="outlined"
-          />
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isOpenNow ? true : false}
+                  disabled={true}
+                />
+              }
+              label="Is open now"
+            />
+          </FormGroup>
         </div>
       );
     }
