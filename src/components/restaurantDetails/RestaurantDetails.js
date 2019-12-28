@@ -12,6 +12,7 @@ import axios from 'axios';
 import ReactTable from '../reactTable/ReactTable';
 import ImageSlider from '../imageSlider/ImageSlider';
 import CustomMap from '../customMap/CustomMap';
+import Snackbar from '../snackBar/SnackBar';
 
 import { getRootUrl, log } from '../../common/Common';
 
@@ -30,11 +31,23 @@ function RestaurantDetails(props) {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
 
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [message, setMessage] = useState('');
+
   useEffect(() => {
     const id = props.match.params.id;
     if (!_.isEmpty(id))
       getRestaurantsDetailsById(id);
   }, [props.match.params.id]);
+
+  useEffect(() => {
+    if (openSuccessAlert === true) {
+      setOpenSuccessAlert(false);
+    }
+    if (!_.isEmpty(message)) {
+      setMessage('');
+    }
+  }, [openSuccessAlert, message]);
 
   const getRestaurantsDetailsById = (id) => {
     axios.get(
@@ -58,6 +71,9 @@ function RestaurantDetails(props) {
           const longitude = coordinates.longitude;
           setLatitude(latitude);
           setLongitude(longitude);
+
+          setOpenSuccessAlert(true);
+          setMessage('Retrieve restaurant details success!');
         }
       })
       .catch((error) => {
@@ -88,7 +104,7 @@ function RestaurantDetails(props) {
         <div className="my-5 d-flex justify-content-center">
           <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
             <div>
-              <h5>Restaurant details</h5>
+              <h5 className="mb-3">Restaurant details</h5>
               <ImageSlider photosList={photosList} />
               <TextField
                 label="Name"
@@ -297,6 +313,7 @@ function RestaurantDetails(props) {
       {renderRestaurantDetails()}
       {renderCustomMap()}
       {renderOpeningTimeTable()}
+      <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
   )
 }
