@@ -79,7 +79,7 @@ function CardView(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    if (_.isEmpty(reviewsList))
+    if (expanded === false)
       getRestaurantsDetailsReviewById(id);
   };
 

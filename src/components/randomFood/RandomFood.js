@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -30,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 function RandomFood() {
   const classes = useStyles();
 
+  const [useRandomFoodCategory, setUseRandomFoodCategory] = useState(false);
   const [selectedTerm, setSelectedTerm] = useState('');
 
   const [randomFoodList, setRandomFoodList] = useState([]);
@@ -59,8 +63,8 @@ function RandomFood() {
   useEffect(() => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(selectedTerm, latitude, longitude);
-  }, [randomFoodList, latitude, longitude]);
+    findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
+  }, [useRandomFoodCategory, randomFoodList, latitude, longitude]);
 
   useEffect(() => {
     if (openSuccessAlert === true) {
@@ -116,12 +120,12 @@ function RandomFood() {
     });
   }
 
-  const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
+  const findRestaurantsByLatLong = (useRandomFoodCategory, selectedTerm, latitude, longitude) => {
     axios.get(
       `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
       {
         params: {
-          term: selectedTerm,
+          term: useRandomFoodCategory === true ? selectedTerm : '',
           latitude: latitude,
           longitude: longitude
         },
@@ -196,7 +200,7 @@ function RandomFood() {
   const handleRefresh = () => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+    findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
     setOpenSuccessAlert(true);
     setMessage('Refresh success!');
   }
@@ -211,12 +215,16 @@ function RandomFood() {
     setResultList(sortedByDistanceResultList);
   }
 
+  const handleSwitchChange = (e) => {
+    setUseRandomFoodCategory(e.target.checked);
+  }
+
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Typography component={'span'}>
           {
-            !_.isEmpty(selectedTerm) ?
+            useRandomFoodCategory === true && !_.isEmpty(selectedTerm) ?
               <div>
                 <b>Current food category:</b> {selectedTerm}
               </div>
@@ -225,7 +233,17 @@ function RandomFood() {
           }
         </Typography>
       </div>
-      <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+      <div className="mt-2 d-flex justify-content-end" style={{ marginRight: '1.5em' }}>
+        <FormGroup row>
+          <FormControlLabel
+            control={
+              <Switch checked={useRandomFoodCategory} color="primary" onChange={(e) => handleSwitchChange(e)} value="useRandomFoodCategory" />
+            }
+            label="Use random food category"
+          />
+        </FormGroup>
+      </div>
+      <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Button variant="contained" color="primary" onClick={handleRefresh}>
           Refresh
         </Button>
