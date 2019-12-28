@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Normalize from 'react-normalize';
 import Favicon from 'react-favicon';
 import favicon from '../images/favicon.ico';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -41,35 +41,38 @@ const theme = createMuiTheme({
 
 // google analytic
 ReactGA.initialize(getGoogleAnalyticsId());
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.pageview(location.pathname);
+  }, [location.pathname]);
+
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Normalize />
-        <Favicon url={favicon} />
-        <NavBar />
+      <Normalize />
+      <Favicon url={favicon} />
+      <NavBar />
 
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route exact path="/random-food">
-            <RandomFood />
-          </Route>
-          <Route exact path="/favourites">
-            <Favourites />
-          </Route>
-          <Route exact path="/restaurant-details/:id">
-            <RestaurantDetails />
-          </Route>
-          <Route exact path="/contact">
-            <Contact />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route exact path="/random-food">
+          <RandomFood />
+        </Route>
+        <Route exact path="/favourites">
+          <Favourites />
+        </Route>
+        <Route exact path="/restaurant-details/:id">
+          <RestaurantDetails />
+        </Route>
+        <Route exact path="/contact">
+          <Contact />
+        </Route>
+      </Switch>
     </MuiThemeProvider>
   )
 }
