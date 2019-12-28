@@ -11,6 +11,8 @@ import axios from 'axios';
 
 import ReactTable from '../reactTable/ReactTable';
 import ImageSlider from '../imageSlider/ImageSlider';
+import CustomMap from '../customMap/CustomMap';
+import Snackbar from '../snackBar/SnackBar';
 
 import { getRootUrl, log } from '../../common/Common';
 
@@ -26,12 +28,26 @@ function RestaurantDetails(props) {
   const classes = useStyles();
   const [restaurantDetails, setRestaurantDetails] = useState({});
   const [photosList, setPhotosList] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const id = props.match.params.id;
     if (!_.isEmpty(id))
       getRestaurantsDetailsById(id);
   }, [props.match.params.id]);
+
+  useEffect(() => {
+    if (openSuccessAlert === true) {
+      setOpenSuccessAlert(false);
+    }
+    if (!_.isEmpty(message)) {
+      setMessage('');
+    }
+  }, [openSuccessAlert, message]);
 
   const getRestaurantsDetailsById = (id) => {
     axios.get(
@@ -46,8 +62,18 @@ function RestaurantDetails(props) {
         if (!_.isEmpty(response)) {
           log("response = ", response);
           setRestaurantDetails(response.data.restaurantDetails);
+
           const photos = response.data.restaurantDetails.photos;
           setPhotosList(photos);
+
+          const coordinates = response.data.restaurantDetails.coordinates;
+          const latitude = coordinates.latitude;
+          const longitude = coordinates.longitude;
+          setLatitude(latitude);
+          setLongitude(longitude);
+
+          setOpenSuccessAlert(true);
+          setMessage('Retrieve restaurant details success!');
         }
       })
       .catch((error) => {
@@ -62,12 +88,10 @@ function RestaurantDetails(props) {
 
     if (!_.isEmpty(restaurantDetails)) {
       const name = restaurantDetails.name;
-      const imageUrl = restaurantDetails.image_url;
       const url = restaurantDetails.url;
       const displayPhone = restaurantDetails.display_phone;
       const categories = restaurantDetails.categories;
       const location = restaurantDetails.location;
-      // const coordinates = restaurantDetails.coordinates;
 
       let locationStr = '';
       if (!_.isEmpty(location)) {
@@ -80,10 +104,8 @@ function RestaurantDetails(props) {
         <div className="my-5 d-flex justify-content-center">
           <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
             <div>
-              <h5>Restaurant details</h5>
-              <div className="text-center">
-                <img src={imageUrl} className="rounded" alt="imageUrl" width="200" height="200" />
-              </div>
+              <h5 className="mb-3">Restaurant details</h5>
+              <ImageSlider photosList={photosList} />
               <TextField
                 label="Name"
                 placeholder="Name"
@@ -137,7 +159,6 @@ function RestaurantDetails(props) {
                 })
               }
               <TextField
-                className="mb-4"
                 label="Location"
                 placeholder="Location"
                 value={locationStr}
@@ -148,8 +169,23 @@ function RestaurantDetails(props) {
                 }}
                 variant="outlined"
               />
-              <ImageSlider photosList={photosList} />
             </div>
+          </Paper>
+        </div>
+      );
+    }
+
+    return resultDiv;
+  }
+
+  const renderCustomMap = () => {
+    let resultDiv = null;
+
+    if (latitude !== 0 && longitude !== 0) {
+      resultDiv = (
+        <div className="my-5 d-flex justify-content-center">
+          <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
+            <CustomMap latitude={latitude} longitude={longitude} />
           </Paper>
         </div>
       );
@@ -275,7 +311,9 @@ function RestaurantDetails(props) {
   return (
     <div>
       {renderRestaurantDetails()}
+      {renderCustomMap()}
       {renderOpeningTimeTable()}
+      <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
   )
 }
