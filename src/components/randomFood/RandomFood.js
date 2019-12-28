@@ -33,8 +33,8 @@ function RandomFood() {
   const [selectedTerm, setSelectedTerm] = useState('');
 
   const [randomFoodList, setRandomFoodList] = useState([]);
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [message, setMessage] = useState('');
