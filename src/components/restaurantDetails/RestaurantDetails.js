@@ -10,6 +10,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import ReactTable from '../reactTable/ReactTable';
+import ImageSlider from '../imageSlider/ImageSlider';
 
 import { getRootUrl, log } from '../../common/Common';
 
@@ -23,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 
 function RestaurantDetails(props) {
   const classes = useStyles();
-  const [restaurantDetails, setRestaurantDetails] = useState();
+  const [restaurantDetails, setRestaurantDetails] = useState({});
+  const [photosList, setPhotosList] = useState([]);
 
   useEffect(() => {
     const id = props.match.params.id;
@@ -44,6 +46,8 @@ function RestaurantDetails(props) {
         if (!_.isEmpty(response)) {
           log("response = ", response);
           setRestaurantDetails(response.data.restaurantDetails);
+          const photos = response.data.restaurantDetails.photos;
+          setPhotosList(photos);
         }
       })
       .catch((error) => {
@@ -64,24 +68,12 @@ function RestaurantDetails(props) {
       const categories = restaurantDetails.categories;
       const location = restaurantDetails.location;
       // const coordinates = restaurantDetails.coordinates;
-      const photos = restaurantDetails.photos;
 
       let locationStr = '';
       if (!_.isEmpty(location)) {
         if (!_.isEmpty(location.display_address)) {
           locationStr = location.display_address.join(', ');
         }
-      }
-
-      let carouselDiv = [];
-      if (!_.isEmpty(photos)) {
-        photos.forEach((item, i) => {
-          carouselDiv.push(
-            <div>
-              {item}
-            </div>
-          )
-        });
       }
 
       resultDiv = (
@@ -277,6 +269,7 @@ function RestaurantDetails(props) {
   return (
     <div>
       {renderRestaurantDetails()}
+      <ImageSlider photosList={photosList} />
       {renderOpeningTimeTable()}
     </div>
   )
