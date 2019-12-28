@@ -11,6 +11,7 @@ import axios from 'axios';
 
 import ReactTable from '../reactTable/ReactTable';
 import ImageSlider from '../imageSlider/ImageSlider';
+import Map from '../map/Map';
 
 import { getRootUrl, log } from '../../common/Common';
 
@@ -275,6 +276,7 @@ function RestaurantDetails(props) {
   return (
     <div>
       {renderRestaurantDetails()}
+      <Map />
       {renderOpeningTimeTable()}
     </div>
   )
