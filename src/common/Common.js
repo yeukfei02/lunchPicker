@@ -12,6 +12,10 @@ export const getTimberSouceId = () => {
   return "30675";
 }
 
+export const getGoogleAnalyticsId = () => {
+  return "UA-107755270-2";
+}
+
 export const getRootUrl = () => {
   let ROOT_URL = '';
   if (window.location.href.includes('localhost')) {

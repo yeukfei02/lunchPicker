@@ -9,6 +9,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import ReactGA from 'react-ga';
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -16,6 +17,8 @@ import RandomFood from './randomFood/RandomFood';
 import Favourites from './favourites/Favourites';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 import Contact from './contact/Contact';
+
+import { getGoogleAnalyticsId } from '../common/Common';
 
 // use default theme
 // const theme = createMuiTheme();
@@ -35,6 +38,10 @@ const theme = createMuiTheme({
   }
 },
 )
+
+// google analytic
+ReactGA.initialize(getGoogleAnalyticsId());
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 function App() {
   return (
