@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ImageGallery from 'react-image-gallery';
 import _ from 'lodash';
 
 function ImageSlider(props) {
@@ -7,11 +8,11 @@ function ImageSlider(props) {
   useEffect(() => {
     if (!_.isEmpty(props.photosList)) {
       const sliderList = props.photosList.map((item, i) => {
-        return (
-          <div key={i}>
-            <img src={item} alt="imageUrl" width="200" height="200" />
-          </div>
-        );
+        const obj = {
+          original: item,
+          thumbnail: item,
+        };
+        return obj;
       });
       setSliderList(sliderList);
     }
@@ -19,7 +20,7 @@ function ImageSlider(props) {
 
   return (
     <div>
-
+      <ImageGallery items={sliderList} />
     </div>
   );
 }
