@@ -28,6 +28,8 @@ function RestaurantDetails(props) {
   const classes = useStyles();
   const [restaurantDetails, setRestaurantDetails] = useState({});
   const [photosList, setPhotosList] = useState([]);
+  const [name, setName] = useState('');
+  const [locationStr, setLocationStr] = useState('');
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
 
@@ -63,8 +65,20 @@ function RestaurantDetails(props) {
           log("response = ", response);
           setRestaurantDetails(response.data.restaurantDetails);
 
+          const name = response.data.restaurantDetails.name;
+          setName(name);
+
           const photos = response.data.restaurantDetails.photos;
           setPhotosList(photos);
+
+          const location = response.data.restaurantDetails.location;
+          let locationStr = '';
+          if (!_.isEmpty(location)) {
+            if (!_.isEmpty(location.display_address)) {
+              locationStr = location.display_address.join(', ');
+            }
+          }
+          setLocationStr(locationStr);
 
           const coordinates = response.data.restaurantDetails.coordinates;
           const latitude = coordinates.latitude;
@@ -87,18 +101,9 @@ function RestaurantDetails(props) {
     let resultDiv = null;
 
     if (!_.isEmpty(restaurantDetails)) {
-      const name = restaurantDetails.name;
       const url = restaurantDetails.url;
       const displayPhone = restaurantDetails.display_phone;
       const categories = restaurantDetails.categories;
-      const location = restaurantDetails.location;
-
-      let locationStr = '';
-      if (!_.isEmpty(location)) {
-        if (!_.isEmpty(location.display_address)) {
-          locationStr = location.display_address.join(', ');
-        }
-      }
 
       resultDiv = (
         <div className="my-5 d-flex justify-content-center">
@@ -185,7 +190,7 @@ function RestaurantDetails(props) {
       resultDiv = (
         <div className="my-5 d-flex justify-content-center">
           <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
-            <CustomMap latitude={latitude} longitude={longitude} />
+            <CustomMap latitude={latitude} longitude={longitude} name={name} address={locationStr} />
           </Paper>
         </div>
       );

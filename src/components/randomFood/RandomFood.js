@@ -214,7 +214,7 @@ function RandomFood() {
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
-        <Typography>
+        <Typography component={'span'}>
           {
             !_.isEmpty(selectedTerm) ?
               <div>
