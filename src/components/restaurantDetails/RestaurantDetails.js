@@ -137,6 +137,7 @@ function RestaurantDetails(props) {
                 })
               }
               <TextField
+                className="mb-4"
                 label="Location"
                 placeholder="Location"
                 value={locationStr}
@@ -147,6 +148,7 @@ function RestaurantDetails(props) {
                 }}
                 variant="outlined"
               />
+              <ImageSlider photosList={photosList} />
             </div>
           </Paper>
         </div>
@@ -195,8 +197,12 @@ function RestaurantDetails(props) {
                 default:
 
               }
-              item.start = `${item.start.substring(0, 2)}:${item.start.substring(2)}`;
-              item.end = `${item.end.substring(0, 2)}:${item.end.substring(2)}`;
+              if (!item.start.includes(':')) {
+                item.start = `${item.start.substring(0, 2)}:${item.start.substring(2)}`;
+              }
+              if (!item.end.includes(':')) {
+                item.end = `${item.end.substring(0, 2)}:${item.end.substring(2)}`;
+              }
               return item;
             });
           }
@@ -269,7 +275,6 @@ function RestaurantDetails(props) {
   return (
     <div>
       {renderRestaurantDetails()}
-      <ImageSlider photosList={photosList} />
       {renderOpeningTimeTable()}
     </div>
   )

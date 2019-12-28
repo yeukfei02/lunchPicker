@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import * as Sentry from '@sentry/browser';
+import './index.css';
 
 import { getSentryDsn } from './common/Common';
 
