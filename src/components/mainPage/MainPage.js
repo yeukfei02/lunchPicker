@@ -67,6 +67,11 @@ function MainPage() {
     getUserCurrentLatLong();
   }, []);
 
+  useEffect(() => {
+    if (latitude !== 0 && longitude !== 0)
+      findLocationTextByLatLong(latitude, longitude);
+  }, [latitude, longitude]);
+
   const getSelectedTermList = () => {
     axios.get(
       `${ROOT_URL}/category/get-categories`,
@@ -179,6 +184,7 @@ function MainPage() {
         if (!_.isEmpty(error)) {
           log("error = ", error);
           setOpenErrorAlert(true);
+          setMessage('Get categories error!');
         }
       });
   }
@@ -190,6 +196,34 @@ function MainPage() {
       setLatitude(latitude);
       setLongitude(longitude);
     });
+  }
+
+  const findLocationTextByLatLong = (latitude, longitude) => {
+    axios.get(
+      `${ROOT_URL}/restaurant/find-location-text-by-lat-long`,
+      {
+        params: {
+          latitude: latitude,
+          longitude: longitude
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+          setLocation(response.data.location.display_name);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+          setOpenErrorAlert(true);
+          setMessage('Find location text by lat long error!');
+        }
+      });
   }
 
   const findRestaurantsByLocation = (selectedTerm, location) => {
@@ -525,6 +559,7 @@ function MainPage() {
           if (!_.isEmpty(error)) {
             log("error = ", error);
             setOpenErrorAlert(true);
+            setMessage('Get categories error!');
           }
         });
     } else {
