@@ -6,14 +6,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import _ from 'lodash';
 import axios from 'axios';
+
+import ReactTable from '../reactTable/ReactTable';
 
 import { getRootUrl, log } from '../../common/Common';
 
@@ -22,11 +18,6 @@ const ROOT_URL = getRootUrl();
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  table: {
-    minWidth: 650,
   },
 }));
 
@@ -173,91 +164,85 @@ function RestaurantDetails(props) {
     return resultDiv;
   }
 
-  const renderOpenHours = () => {
+  const renderOpeningTimeTable = () => {
     let resultDiv = null;
 
     if (!_.isEmpty(restaurantDetails)) {
       const hours = restaurantDetails.hours;
       if (!_.isEmpty(hours)) {
-        let rows = [];
+        let data = [];
         let hoursType = '';
         let isOpenNow = '';
-        if (!_.isEmpty(hours)) {
-          hours.forEach((item, i) => {
-            const open = item.open;
-            if (!_.isEmpty(open)) {
-              open.forEach((value, i) => {
-                let obj = {};
-                switch (value.day) {
-                  case 0:
-                    obj.day = "Mon";
-                    break;
-                  case 1:
-                    obj.day = "Tue";
-                    break;
-                  case 2:
-                    obj.day = "Wed";
-                    break;
-                  case 3:
-                    obj.day = "Thu";
-                    break;
-                  case 4:
-                    obj.day = "Fri";
-                    break;
-                  case 5:
-                    obj.day = "Sat";
-                    break;
-                  case 6:
-                    obj.day = "Sun";
-                    break;
-                  default:
 
-                }
-                obj.start = `${value.start.substring(0, 2)}:${value.start.substring(2)}`;
-                obj.end = `${value.end.substring(0, 2)}:${value.end.substring(2)}`;
-                obj.is_overnight = value.is_overnight;
-                rows.push(obj);
-              })
-            }
+        hours.forEach((item, i) => {
+          const open = item.open;
+          if (!_.isEmpty(open)) {
+            data = open.map((item, i) => {
+              switch (item.day) {
+                case 0:
+                  item.day = "Mon";
+                  break;
+                case 1:
+                  item.day = "Tue";
+                  break;
+                case 2:
+                  item.day = "Wed";
+                  break;
+                case 3:
+                  item.day = "Thu";
+                  break;
+                case 4:
+                  item.day = "Fri";
+                  break;
+                case 5:
+                  item.day = "Sat";
+                  break;
+                case 6:
+                  item.day = "Sun";
+                  break;
+                default:
 
-            hoursType = item.hours_type;
-            isOpenNow = item.is_open_now;
-          });
-        }
+              }
+              item.start = `${item.start.substring(0, 2)}:${item.start.substring(2)}`;
+              item.end = `${item.end.substring(0, 2)}:${item.end.substring(2)}`;
+              return item;
+            });
+          }
+
+          hoursType = item.hours_type;
+          isOpenNow = item.is_open_now;
+        });
+
+        const column = [
+          {
+            Header: "Day",
+            accessor: "day",
+          },
+          {
+            Header: "Start",
+            accessor: "start",
+          },
+          {
+            Header: "End",
+            accessor: "end",
+          },
+          {
+            Header: "Is overnight",
+            accessor: (data) => {
+              return (
+                <Checkbox
+                  checked={data.is_overnight ? true : false}
+                />
+              );
+            },
+          },
+        ];
 
         resultDiv = (
           <div className="my-5 d-flex justify-content-center">
             <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
               <div>
-                <TableContainer component={Paper} className="mb-3">
-                  <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Opening time</TableCell>
-                        <TableCell align="right">Start</TableCell>
-                        <TableCell align="right">End</TableCell>
-                        <TableCell align="right">Is overnight</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows.map((row, i) => (
-                        <TableRow key={i}>
-                          <TableCell component="th" scope="row">
-                            {row.day}
-                          </TableCell>
-                          <TableCell align="right">{row.start}</TableCell>
-                          <TableCell align="right">{row.end}</TableCell>
-                          <TableCell align="right">
-                            <Checkbox
-                              checked={row.is_overnight ? true : false}
-                              disabled={true}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                <ReactTable column={column} data={data} />
                 <TextField
                   label="Hours type"
                   placeholder="Hours type"
@@ -274,7 +259,6 @@ function RestaurantDetails(props) {
                     control={
                       <Checkbox
                         checked={isOpenNow ? true : false}
-                        disabled={true}
                       />
                     }
                     label="Is open now"
@@ -285,15 +269,15 @@ function RestaurantDetails(props) {
           </div>
         );
       }
-    }
 
-    return resultDiv;
+      return resultDiv;
+    }
   }
 
   return (
     <div>
       {renderRestaurantDetails()}
-      {renderOpenHours()}
+      {renderOpeningTimeTable()}
     </div>
   )
 }
