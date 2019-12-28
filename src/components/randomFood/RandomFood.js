@@ -217,6 +217,8 @@ function RandomFood() {
 
   const handleSwitchChange = (e) => {
     setUseRandomFoodCategory(e.target.checked);
+    setOpenSuccessAlert(true);
+    setMessage('Refresh success!');
   }
 
   return (
