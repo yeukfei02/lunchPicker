@@ -14,7 +14,6 @@ function RandomFoodMapView() {
   const [selectedTerm, setSelectedTerm] = useState('');
 
   const [randomFoodList, setRandomFoodList] = useState([]);
-  const [idList, setIdList] = useState([]);
   const [nameList, setNameList] = useState([]);
   const [locationStrList, setLocationStrList] = useState([]);
   const [coordinatesList, setCoordinatesList] = useState([]);
@@ -106,12 +105,6 @@ function RandomFoodMapView() {
       .then((response) => {
         if (!_.isEmpty(response)) {
           log("response = ", response);
-          const idList = response.data.restaurants.businesses.map((item, i) => {
-            const obj = {};
-            obj.id = item.id;
-            return obj;
-          });
-          setIdList(idList);
 
           const nameList = response.data.restaurants.businesses.map((item, i) => {
             const obj = {};
@@ -171,7 +164,6 @@ function RandomFoodMapView() {
         <CustomMapList
           latitude={latitude}
           longitude={longitude}
-          idList={idList}
           nameList={nameList}
           locationStrList={locationStrList}
           coordinatesList={coordinatesList}

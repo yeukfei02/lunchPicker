@@ -6,6 +6,7 @@ function CustomMapList(props) {
   const [markerList, setMarkerList] = useState([]);
 
   useEffect(() => {
+    setMarkerList([]);
     if (!_.isEmpty(props.nameList) && !_.isEmpty(props.locationStrList) && !_.isEmpty(props.coordinatesList)) {
       const marketList = _.merge(props.nameList, props.locationStrList, props.coordinatesList);
       setMarkerList(marketList);
