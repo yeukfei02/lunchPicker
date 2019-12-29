@@ -13,6 +13,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import MapIcon from '@material-ui/icons/Map';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MailIcon from '@material-ui/icons/Mail';
 import { red } from '@material-ui/core/colors';
@@ -54,6 +55,10 @@ function NavBar() {
     history.push('/random-food');
   }
 
+  const handleRandomFoodMapViewClick = () => {
+    history.push('/random-food-map-view');
+  }
+
   const handleFavouritesClick = () => {
     history.push('/favourites');
   }
@@ -77,6 +82,10 @@ function NavBar() {
         <ListItem button key="Random food" onClick={handleRandomFoodClick}>
           <ListItemIcon><FastfoodIcon style={{ color: red[500] }} /></ListItemIcon>
           <ListItemText primary="Random food" />
+        </ListItem>
+        <ListItem button key="Random food map view" onClick={handleRandomFoodMapViewClick}>
+          <ListItemIcon><MapIcon style={{ color: red[500] }} /></ListItemIcon>
+          <ListItemText primary="Random food map view" />
         </ListItem>
         <ListItem button key="Favourites" onClick={handleFavouritesClick}>
           <ListItemIcon><FavoriteIcon style={{ color: red[500] }} /></ListItemIcon>

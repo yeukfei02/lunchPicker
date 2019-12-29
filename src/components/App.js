@@ -14,6 +14,7 @@ import ReactGA from 'react-ga';
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
 import RandomFood from './randomFood/RandomFood';
+import RandomFoodMapView from './randomFoodMapView/RandomFoodMapView';
 import Favourites from './favourites/Favourites';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 import Contact from './contact/Contact';
@@ -63,14 +64,17 @@ function App() {
         <Route exact path="/random-food">
           <RandomFood />
         </Route>
+        <Route exact path="/random-food-map-view">
+          <RandomFoodMapView />
+        </Route>
         <Route exact path="/favourites">
           <Favourites />
         </Route>
-        <Route exact path="/restaurant-details/:id">
-          <RestaurantDetails />
-        </Route>
         <Route exact path="/contact">
           <Contact />
+        </Route>
+        <Route exact path="/restaurant-details/:id">
+          <RestaurantDetails />
         </Route>
       </Switch>
     </MuiThemeProvider>
