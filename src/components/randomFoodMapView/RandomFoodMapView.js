@@ -31,7 +31,8 @@ function RandomFoodMapView() {
   useEffect(() => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+    if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0)
+      findRestaurantsByLatLong(selectedTerm, latitude, longitude);
   }, [randomFoodList, latitude, longitude]);
 
   useEffect(() => {
@@ -136,9 +137,11 @@ function RandomFoodMapView() {
   const handleRefresh = () => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(selectedTerm, latitude, longitude);
-    setOpenSuccessAlert(true);
-    setMessage('Refresh success!');
+    if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
+      findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+      setOpenSuccessAlert(true);
+      setMessage('Refresh success!');
+    }
   }
 
   return (
