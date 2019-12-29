@@ -475,12 +475,28 @@ function MainPage() {
     return randomButton;
   }
 
+  const renderSortedByButton = () => {
+    const sortedByButton = (
+      <div>
+        <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByRating}>
+          Sorted by rating
+        </Button>
+        <div className="my-3"></div>
+        <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByDistance}>
+          Sorted by distance
+        </Button>
+      </div>
+    );
+
+    return sortedByButton;
+  }
+
   const renderRandomFoodCategory = () => {
     let randomFoodCategory = null;
 
     if (!_.isEmpty(randomFoodTerm)) {
       randomFoodCategory = (
-        <div className="mt-3 d-flex justify-content-center">
+        <div className="my-3 d-flex justify-content-center">
           <h6>Random food category: {randomFoodTerm}</h6>
         </div>
       );
@@ -567,6 +583,16 @@ function MainPage() {
     }
   }
 
+  const handleSortedByRating = () => {
+    const sortedByRatingResultList = _.orderBy(resultList, ['rating'], ['desc']);
+    setResultList(sortedByRatingResultList);
+  }
+
+  const handleSortedByDistance = () => {
+    const sortedByDistanceResultList = _.orderBy(resultList, ['distance'], ['asc']);
+    setResultList(sortedByDistanceResultList);
+  }
+
   const getRandomResult = (formattedRandomFoodList) => {
     const selectedTerm = _.sample(formattedRandomFoodList);
     setRandomFoodTerm(selectedTerm);
@@ -593,7 +619,7 @@ function MainPage() {
 
   return (
     <div>
-      <div className="mt-5 d-flex justify-content-center">
+      <div className="mt-5 mb-3 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4`}>
           <div className="mt-2 mb-5 d-flex justify-content-center">
             <img src={logo} className="img-fluid" alt="logo" width="50%" />
@@ -607,7 +633,10 @@ function MainPage() {
           {renderClearButton()}
           <div className="my-3"></div>
           {renderRandomButton()}
+          <div className="my-3"></div>
           {renderRandomFoodCategory()}
+          <div className="my-3"></div>
+          {renderSortedByButton()}
           <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} message={message} />
         </Paper>
       </div>
