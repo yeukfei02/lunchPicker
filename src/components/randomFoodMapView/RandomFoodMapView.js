@@ -160,7 +160,7 @@ function RandomFoodMapView() {
           Refresh
         </Button>
       </div>
-      <div className="mt-3">
+      <div className="mt-3" style={{ margin: '2.5em' }}>
         <CustomMapList
           latitude={latitude}
           longitude={longitude}

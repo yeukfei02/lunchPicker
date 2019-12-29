@@ -55,7 +55,7 @@ function CustomMapList(props) {
   }
 
   return (
-    <Map center={position} zoom={13} style={{ width: "100%", height: "400px" }}>
+    <Map center={position} zoom={13} style={{ width: "100%", height: "600px" }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"

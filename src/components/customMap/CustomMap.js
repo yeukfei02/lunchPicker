@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 function CustomMap(props) {
-  const position = [props.latitude, props.longitude];
+  const position = [props.latitude || 0, props.longitude || 0];
 
   const handleAddressClick = (e) => {
     const text = e.target.innerHTML;
