@@ -63,7 +63,8 @@ function RandomFood() {
   useEffect(() => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
+    if (latitude !== 0 && longitude !== 0)
+      findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
   }, [useRandomFoodCategory, randomFoodList, latitude, longitude]);
 
   useEffect(() => {
@@ -200,9 +201,11 @@ function RandomFood() {
   const handleRefresh = () => {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
-    findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
-    setOpenSuccessAlert(true);
-    setMessage('Refresh success!');
+    if (latitude !== 0 && longitude !== 0) {
+      findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
+      setOpenSuccessAlert(true);
+      setMessage('Refresh success!');
+    }
   }
 
   const handleSortedByRating = () => {
