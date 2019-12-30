@@ -34,6 +34,10 @@ export const getFirebaseWebPushCertificates = () => {
   return "BCuRNE3onpacWKysPXQDBEiqiWMdPnDbmyRUNHYICYku5U8jh1s4llhtAdt18EjEWRxi0K7tkfsP20Wm3lCji6Q";
 }
 
+export const getFirebaseProjectId = () => {
+  return "lunchpicker-2232b";
+}
+
 export const getRootUrl = () => {
   let ROOT_URL = '';
   if (window.location.href.includes('localhost')) {
