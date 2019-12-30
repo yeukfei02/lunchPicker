@@ -10,8 +10,6 @@ import {
   Route
 } from "react-router-dom";
 import ReactGA from 'react-ga';
-import * as firebase from "firebase/app";
-import "firebase/analytics";
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -22,7 +20,7 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import { getGoogleAnalyticsId, getFirebaseConfig } from '../common/Common';
+import { getGoogleAnalyticsId } from '../common/Common';
 
 // use default theme
 // const theme = createMuiTheme();
@@ -45,10 +43,6 @@ const theme = createMuiTheme({
 
 // google analytic
 ReactGA.initialize(getGoogleAnalyticsId());
-
-// firebase
-const firebaseConfig = getFirebaseConfig();
-firebase.initializeApp(firebaseConfig);
 
 function App() {
   const location = useLocation();
