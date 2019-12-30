@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Normalize from 'react-normalize';
 import Favicon from 'react-favicon';
@@ -14,6 +14,7 @@ import * as firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/messaging";
 import _ from 'lodash';
+import axios from 'axios';
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -28,8 +29,11 @@ import {
   getGoogleAnalyticsId,
   getFirebaseConfig,
   getFirebaseWebPushCertificates,
+  getRootUrl,
   log
 } from '../common/Common';
+
+const ROOT_URL = getRootUrl();
 
 // use default theme
 // const theme = createMuiTheme();
@@ -63,6 +67,9 @@ messaging.usePublicVapidKey(getFirebaseWebPushCertificates());
 function App() {
   const location = useLocation();
 
+  const [currentToken, setCurrentToken] = useState('');
+  const [refreshedToken, setRefreshedToken] = useState('');
+
   useEffect(() => {
     Notification.requestPermission().then((permission) => {
       if (_.isEqual(permission, 'granted')) {
@@ -77,6 +84,13 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!_.isEmpty(currentToken) || !_.isEmpty(refreshedToken)) {
+      addTokenToServer(currentToken, refreshedToken);
+      subscribeTopic(currentToken);
+    }
+  }, [currentToken, refreshedToken]);
+
+  useEffect(() => {
     ReactGA.pageview(location.pathname);
   }, [location.pathname]);
 
@@ -86,6 +100,7 @@ function App() {
         if (currentToken) {
           log("currentToken = ", currentToken);
           localStorage.setItem('firebaseCurrentToken', currentToken);
+          setCurrentToken(currentToken);
         } else {
           log('No Instance ID token available. Request permission to generate one.', '');
         }
@@ -101,11 +116,62 @@ function App() {
         .then((refreshedToken) => {
           log("refreshedToken = ", refreshedToken);
           localStorage.setItem('firebaseRefreshedToken', refreshedToken);
+          setRefreshedToken(refreshedToken);
         })
         .catch((err) => {
           log('Unable to retrieve refreshed token ', err);
         });
     });
+
+  const addTokenToServer = (currentToken, refreshedToken) => {
+    axios.post(
+      `${ROOT_URL}/firebase/add-token-to-server`,
+      {
+        currentToken: currentToken,
+        refreshedToken: refreshedToken
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
+  }
+
+  const subscribeTopic = (currentToken) => {
+    axios.post(
+      `${ROOT_URL}/firebase/subscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: "all"
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
+  }
 
   return (
     <MuiThemeProvider theme={theme}>
