@@ -16,6 +16,28 @@ export const getGoogleAnalyticsId = () => {
   return "UA-107755270-2";
 }
 
+export const getFirebaseConfig = () => {
+  const firebaseConfig = {
+    apiKey: "AIzaSyD55je9pcQGJ96G-V6NYjAbNkcLMlXsE9A",
+    authDomain: "lunchpicker-2232b.firebaseapp.com",
+    databaseURL: "https://lunchpicker-2232b.firebaseio.com",
+    projectId: "lunchpicker-2232b",
+    storageBucket: "lunchpicker-2232b.appspot.com",
+    messagingSenderId: "504803962297",
+    appId: "1:504803962297:web:0e92e242eb0375414ada68",
+    measurementId: "G-H20YZMFE14"
+  };
+  return firebaseConfig;
+}
+
+export const getFirebaseWebPushCertificates = () => {
+  return "BCuRNE3onpacWKysPXQDBEiqiWMdPnDbmyRUNHYICYku5U8jh1s4llhtAdt18EjEWRxi0K7tkfsP20Wm3lCji6Q";
+}
+
+export const getFirebaseProjectId = () => {
+  return "lunchpicker-2232b";
+}
+
 export const getRootUrl = () => {
   let ROOT_URL = '';
   if (window.location.href.includes('localhost')) {

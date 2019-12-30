@@ -15,6 +15,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import MapIcon from '@material-ui/icons/Map';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import SettingsIcon from '@material-ui/icons/Settings';
 import MailIcon from '@material-ui/icons/Mail';
 import { red } from '@material-ui/core/colors';
 
@@ -63,6 +64,10 @@ function NavBar() {
     history.push('/favourites');
   }
 
+  const handleSettingsClick = () => {
+    history.push('/settings');
+  }
+
   const handleContactUsClick = () => {
     history.push('/contact');
   }
@@ -90,6 +95,10 @@ function NavBar() {
         <ListItem button key="Favourites" onClick={handleFavouritesClick}>
           <ListItemIcon><FavoriteIcon style={{ color: red[500] }} /></ListItemIcon>
           <ListItemText primary="Favourites" />
+        </ListItem>
+        <ListItem button key="Settings" onClick={handleSettingsClick}>
+          <ListItemIcon><SettingsIcon style={{ color: red[500] }} /></ListItemIcon>
+          <ListItemText primary="Settings" />
         </ListItem>
         <ListItem button key="Contact us" onClick={handleContactUsClick}>
           <ListItemIcon><MailIcon style={{ color: red[500] }} /></ListItemIcon>

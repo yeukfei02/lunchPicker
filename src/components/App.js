@@ -16,8 +16,9 @@ import MainPage from './mainPage/MainPage';
 import RandomFood from './randomFood/RandomFood';
 import RandomFoodMapView from './randomFoodMapView/RandomFoodMapView';
 import Favourites from './favourites/Favourites';
-import RestaurantDetails from './restaurantDetails/RestaurantDetails';
+import Settings from './settings/Settings';
 import Contact from './contact/Contact';
+import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
 import { getGoogleAnalyticsId } from '../common/Common';
 
@@ -69,6 +70,9 @@ function App() {
         </Route>
         <Route exact path="/favourites">
           <Favourites />
+        </Route>
+        <Route exact path="/settings">
+          <Settings />
         </Route>
         <Route exact path="/contact">
           <Contact />
