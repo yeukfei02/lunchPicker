@@ -8,12 +8,18 @@ import * as firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/messaging";
 import _ from 'lodash';
+import axios from 'axios';
+
+import Snackbar from '../snackBar/SnackBar';
 
 import {
   getFirebaseConfig,
   getFirebaseWebPushCertificates,
+  getRootUrl,
   log
 } from '../../common/Common';
+
+const ROOT_URL = getRootUrl();
 
 // firebase
 const firebaseConfig = getFirebaseConfig();
@@ -33,7 +39,10 @@ function Settings() {
 
   const [currentToken, setCurrentToken] = useState('');
   const [refreshedToken, setRefreshedToken] = useState('');
-  const [subscribe, setSubscribe] = useState(true);
+  const [subscribeStatus, setSubscribeStatus] = useState(true);
+
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     Notification.requestPermission().then((permission) => {
@@ -49,25 +58,36 @@ function Settings() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!_.isEmpty(currentToken)) {
+      if (subscribeStatus === true)
+        subscribeTopic(currentToken);
+      else
+        unsubscribeTopic(currentToken);
+    }
+  }, [subscribeStatus, currentToken]);
+
+  useEffect(() => {
+    if (openSuccessAlert === true) {
+      setOpenSuccessAlert(false);
+    }
+    if (!_.isEmpty(message)) {
+      setMessage('');
+    }
+  }, [openSuccessAlert, message]);
+
   const getToken = (messaging) => {
     messaging.getToken()
       .then((currentToken) => {
         if (currentToken) {
           log("currentToken = ", currentToken);
           setCurrentToken(currentToken);
-          // sendTokenToServer(currentToken);
-          // updateUIForPushEnabled(currentToken);
         } else {
           log('No Instance ID token available. Request permission to generate one.', '');
-          // Show permission UI.
-          // updateUIForPushPermissionRequired();
-          // setTokenSentToServer(false);
         }
       })
       .catch((err) => {
         log('An error occurred while retrieving token.', err);
-        // showToken('Error retrieving Instance ID token. ', err);
-        // setTokenSentToServer(false);
       });
   }
 
@@ -77,8 +97,6 @@ function Settings() {
         .then((refreshedToken) => {
           log("refreshedToken = ", refreshedToken);
           setRefreshedToken(refreshedToken);
-          // setTokenSentToServer(false);
-          // sendTokenToServer(refreshedToken);
         })
         .catch((err) => {
           log('Unable to retrieve refreshed token ', err);
@@ -101,7 +119,64 @@ function Settings() {
   }
 
   const handleSwitchChange = (e) => {
-    setSubscribe(e.target.checked);
+    setSubscribeStatus(e.target.checked);
+
+    setOpenSuccessAlert(true);
+    if (e.target.checked === true) {
+      setMessage('Subscribe message success!');
+    } else {
+      setMessage('Unsubscribe message success!');
+    }
+  }
+
+  const subscribeTopic = (currentToken) => {
+    axios.post(
+      `${ROOT_URL}/firebase/subscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: "all"
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
+  }
+
+  const unsubscribeTopic = (currentToken) => {
+    axios.post(
+      `${ROOT_URL}/firebase/unsubscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: "all"
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
   }
 
   return (
@@ -112,13 +187,14 @@ function Settings() {
           <FormGroup row>
             <FormControlLabel
               control={
-                <Switch checked={subscribe} color="primary" onChange={(e) => handleSwitchChange(e)} value="subscribe" />
+                <Switch checked={subscribeStatus} color="primary" onChange={(e) => handleSwitchChange(e)} value="subscribeStatus" />
               }
               label="Subscribe message"
             />
           </FormGroup>
         </div>
       </Paper>
+      <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
   )
 }
