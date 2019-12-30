@@ -22,7 +22,7 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import { getGoogleAnalyticsId } from '../common/Common';
+import { getGoogleAnalyticsId, getFirebaseConfig } from '../common/Common';
 
 // use default theme
 // const theme = createMuiTheme();
@@ -47,16 +47,7 @@ const theme = createMuiTheme({
 ReactGA.initialize(getGoogleAnalyticsId());
 
 // firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyD55je9pcQGJ96G-V6NYjAbNkcLMlXsE9A",
-  authDomain: "lunchpicker-2232b.firebaseapp.com",
-  databaseURL: "https://lunchpicker-2232b.firebaseio.com",
-  projectId: "lunchpicker-2232b",
-  storageBucket: "lunchpicker-2232b.appspot.com",
-  messagingSenderId: "504803962297",
-  appId: "1:504803962297:web:0e92e242eb0375414ada68",
-  measurementId: "G-H20YZMFE14"
-};
+const firebaseConfig = getFirebaseConfig();
 firebase.initializeApp(firebaseConfig);
 
 function App() {
