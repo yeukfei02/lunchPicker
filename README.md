@@ -20,7 +20,7 @@ $ yarn run dev
 $ yarn run build
 
 // deploy to firebase
-$ firebase deploy
+$ yarn run deploy-firebase
 ```
 
 open localhost:5000
