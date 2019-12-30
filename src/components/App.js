@@ -10,6 +10,10 @@ import {
   Route
 } from "react-router-dom";
 import ReactGA from 'react-ga';
+import * as firebase from "firebase/app";
+import "firebase/analytics";
+import "firebase/messaging";
+import _ from 'lodash';
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -20,7 +24,12 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import { getGoogleAnalyticsId } from '../common/Common';
+import {
+  getGoogleAnalyticsId,
+  getFirebaseConfig,
+  getFirebaseWebPushCertificates,
+  log
+} from '../common/Common';
 
 // use default theme
 // const theme = createMuiTheme();
@@ -44,12 +53,59 @@ const theme = createMuiTheme({
 // google analytic
 ReactGA.initialize(getGoogleAnalyticsId());
 
+// firebase
+const firebaseConfig = getFirebaseConfig();
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey(getFirebaseWebPushCertificates());
+
 function App() {
   const location = useLocation();
 
   useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (_.isEqual(permission, 'granted')) {
+        log('Notification permission granted.', "");
+
+        getToken(messaging);
+        onTokenRefresh(messaging);
+      } else {
+        log('Unable to get permission to notify.', "");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     ReactGA.pageview(location.pathname);
   }, [location.pathname]);
+
+  const getToken = (messaging) => {
+    messaging.getToken()
+      .then((currentToken) => {
+        if (currentToken) {
+          log("currentToken = ", currentToken);
+          localStorage.setItem('firebaseCurrentToken', currentToken);
+        } else {
+          log('No Instance ID token available. Request permission to generate one.', '');
+        }
+      })
+      .catch((err) => {
+        log('An error occurred while retrieving token.', err);
+      });
+  }
+
+  const onTokenRefresh = (messaging) =>
+    messaging.onTokenRefresh(() => {
+      messaging.getToken()
+        .then((refreshedToken) => {
+          log("refreshedToken = ", refreshedToken);
+          localStorage.setItem('firebaseRefreshedToken', refreshedToken);
+        })
+        .catch((err) => {
+          log('Unable to retrieve refreshed token ', err);
+        });
+    });
 
   return (
     <MuiThemeProvider theme={theme}>
