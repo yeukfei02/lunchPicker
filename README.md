@@ -6,11 +6,11 @@ Lunch picker is the tool you’ll turn to to answer this question.
 
 The web hosted in 3 different places:
 
+https://lunchpicker-2232b.firebaseapp.com/
+
 https://lunch-picker-web.herokuapp.com/
 
 https://lunchpicker.netlify.com/
-
-https://lunchpicker-2232b.firebaseapp.com/
 
 ### Requirement:
  - install yarn
