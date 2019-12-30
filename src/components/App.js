@@ -10,14 +10,17 @@ import {
   Route
 } from "react-router-dom";
 import ReactGA from 'react-ga';
+import * as firebase from "firebase/app";
+import "firebase/analytics";
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
 import RandomFood from './randomFood/RandomFood';
 import RandomFoodMapView from './randomFoodMapView/RandomFoodMapView';
 import Favourites from './favourites/Favourites';
-import RestaurantDetails from './restaurantDetails/RestaurantDetails';
+import Settings from './settings/Settings';
 import Contact from './contact/Contact';
+import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
 import { getGoogleAnalyticsId } from '../common/Common';
 
@@ -42,6 +45,19 @@ const theme = createMuiTheme({
 
 // google analytic
 ReactGA.initialize(getGoogleAnalyticsId());
+
+// firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyD55je9pcQGJ96G-V6NYjAbNkcLMlXsE9A",
+  authDomain: "lunchpicker-2232b.firebaseapp.com",
+  databaseURL: "https://lunchpicker-2232b.firebaseio.com",
+  projectId: "lunchpicker-2232b",
+  storageBucket: "lunchpicker-2232b.appspot.com",
+  messagingSenderId: "504803962297",
+  appId: "1:504803962297:web:0e92e242eb0375414ada68",
+  measurementId: "G-H20YZMFE14"
+};
+firebase.initializeApp(firebaseConfig);
 
 function App() {
   const location = useLocation();
@@ -69,6 +85,9 @@ function App() {
         </Route>
         <Route exact path="/favourites">
           <Favourites />
+        </Route>
+        <Route exact path="/settings">
+          <Settings />
         </Route>
         <Route exact path="/contact">
           <Contact />
