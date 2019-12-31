@@ -23,6 +23,8 @@ function RandomFoodMapView() {
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [refreshButtonClicked, setRefreshButtonClicked] = useState(false);
+
   useEffect(() => {
     getRandomFoodList();
     getUserCurrentLatLong();
@@ -125,16 +127,24 @@ function RandomFoodMapView() {
             return item.coordinates;
           });
           setCoordinatesList(coordinatesList);
+
+          setRefreshButtonClicked(false);
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
           log("error = ", error);
+          setRefreshButtonClicked(false);
         }
       });
   }
 
   const handleRefresh = () => {
+    setNameList([]);
+    setLocationStrList([]);
+    setCoordinatesList([]);
+    setRefreshButtonClicked(true);
+
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
     if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
@@ -142,6 +152,30 @@ function RandomFoodMapView() {
       setOpenSuccessAlert(true);
       setMessage('Refresh success!');
     }
+  }
+
+  let renderRefreshButton = () => {
+    let refreshButton = null;
+
+    if (refreshButtonClicked === true) {
+      refreshButton = (
+        <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
+            Loading...
+          </Button>
+        </div>
+      );
+    } else {
+      refreshButton = (
+        <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" onClick={handleRefresh}>
+            Refresh
+          </Button>
+        </div>
+      );
+    }
+
+    return refreshButton;
   }
 
   return (
@@ -158,11 +192,7 @@ function RandomFoodMapView() {
           }
         </Typography>
       </div>
-      <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
-        <Button variant="contained" color="primary" onClick={handleRefresh}>
-          Refresh
-        </Button>
-      </div>
+      {renderRefreshButton()}
       <div className="mt-3" style={{ margin: '2.5em' }}>
         <CustomMapList
           latitude={latitude}

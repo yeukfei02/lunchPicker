@@ -60,6 +60,9 @@ function MainPage() {
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
+  const [randomButtonClicked, setRandomButtonClicked] = useState(false);
+
   const [resultList, setResultList] = useState([]);
 
   useEffect(() => {
@@ -245,6 +248,8 @@ function MainPage() {
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success!');
+          setSubmitButtonClicked(false);
+          setRandomButtonClicked(false);
         }
       })
       .catch((error) => {
@@ -252,6 +257,8 @@ function MainPage() {
           log("error = ", error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
+          setSubmitButtonClicked(false);
+          setRandomButtonClicked(false);
         }
       });
   }
@@ -276,6 +283,8 @@ function MainPage() {
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success!');
+          setSubmitButtonClicked(false);
+          setRandomButtonClicked(false);
         }
       })
       .catch((error) => {
@@ -283,6 +292,8 @@ function MainPage() {
           log("error = ", error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
+          setSubmitButtonClicked(false);
+          setRandomButtonClicked(false);
         }
       });
   }
@@ -436,20 +447,36 @@ function MainPage() {
 
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
+        if (submitButtonClicked === true) {
+          submitButton = (
+            <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
+              Loading...
+            </Button>
+          );
+        } else {
+          submitButton = (
+            <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          );
+        }
+      }
+    }
+
+    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
+      if (submitButtonClicked === true) {
+        submitButton = (
+          <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
+            Loading...
+          </Button>
+        );
+      } else {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
             Submit
           </Button>
         );
       }
-    }
-
-    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
-      submitButton = (
-        <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
-          Submit
-        </Button>
-      );
     }
 
     return submitButton;
@@ -466,11 +493,21 @@ function MainPage() {
   }
 
   const renderRandomButton = () => {
-    const randomButton = (
-      <Button className="w-100" variant="outlined" color="secondary" onClick={handleRandom}>
-        Random
-      </Button>
-    );
+    let randomButton = null;
+
+    if (randomButtonClicked === true) {
+      randomButton = (
+        <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleRandom}>
+          Loading...
+        </Button>
+      );
+    } else {
+      randomButton = (
+        <Button className="w-100" variant="outlined" color="secondary" onClick={handleRandom}>
+          Let's eat!
+        </Button>
+      );
+    }
 
     return randomButton;
   }
@@ -510,6 +547,10 @@ function MainPage() {
   }
 
   const handleSubmit = () => {
+    setRandomFoodTerm('');
+    setResultList([]);
+    setSubmitButtonClicked(true);
+
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
         const term = !_.isEmpty(selectedTerm) ? selectedTerm.label : '';
@@ -544,6 +585,9 @@ function MainPage() {
   }
 
   const handleRandom = () => {
+    setResultList([]);
+    setRandomButtonClicked(true);
+
     if (_.isEmpty(formattedRandomFoodList)) {
       axios.get(
         `${ROOT_URL}/category/get-categories`,
