@@ -476,17 +476,21 @@ function MainPage() {
   }
 
   const renderSortedByButton = () => {
-    const sortedByButton = (
-      <div>
-        <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByRating}>
-          Sorted by rating
-        </Button>
-        <div className="my-3"></div>
-        <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByDistance}>
-          Sorted by distance
-        </Button>
-      </div>
-    );
+    let sortedByButton = null;
+
+    if (!_.isEmpty(resultList)) {
+      sortedByButton = (
+        <div>
+          <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByRating}>
+            Sorted by rating
+          </Button>
+          <div className="my-3"></div>
+          <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByDistance}>
+            Sorted by distance
+          </Button>
+        </div>
+      );
+    }
 
     return sortedByButton;
   }
