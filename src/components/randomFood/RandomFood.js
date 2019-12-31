@@ -45,6 +45,8 @@ function RandomFood() {
 
   const [open, setOpen] = useState(true);
 
+  const [refreshButtonClicked, setRefreshButtonClicked] = useState(false);
+
   const [resultList, setResultList] = useState([]);
 
   useEffect(() => {
@@ -139,13 +141,39 @@ function RandomFood() {
         if (!_.isEmpty(response)) {
           log("response = ", response);
           setResultList(response.data.restaurants.businesses);
+          setRefreshButtonClicked(false);
         }
       })
       .catch((error) => {
         if (!_.isEmpty(error)) {
           log("error = ", error);
+          setRefreshButtonClicked(false);
         }
       });
+  }
+
+  const renderRefreshButton = () => {
+    let refreshButton = null;
+
+    if (refreshButtonClicked === true) {
+      refreshButton = (
+        <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
+            Loading...
+          </Button>
+        </div>
+      );
+    } else {
+      refreshButton = (
+        <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" onClick={handleRefresh}>
+            Refresh
+          </Button>
+        </div>
+      );
+    }
+
+    return refreshButton;
   }
 
   const renderRandomFood = () => {
@@ -199,6 +227,9 @@ function RandomFood() {
   }
 
   const handleRefresh = () => {
+    setResultList([]);
+    setRefreshButtonClicked(true);
+
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
     if (latitude !== 0 && longitude !== 0) {
@@ -248,11 +279,7 @@ function RandomFood() {
           />
         </FormGroup>
       </div>
-      <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
-        <Button variant="contained" color="primary" onClick={handleRefresh}>
-          Refresh
-        </Button>
-      </div>
+      {renderRefreshButton()}
       <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Button variant="outlined" color="primary" onClick={handleSortedByRating}>
           Sorted by rating
