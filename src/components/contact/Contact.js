@@ -7,6 +7,8 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import { StripeProvider } from 'react-stripe-elements';
 import MyStoreCheckout from '../myStoreCheckout/MyStoreCheckout';
 
+import { getStripeApiKey } from '../../common/Common';
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
@@ -38,17 +40,17 @@ function Contact() {
         </Paper>
       </div>
       <div className="my-5 d-flex justify-content-center">
-        <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-          <h5>You can support lunch picker better feature and development by donorbox or stripe:</h5>
-          <h6 className="my-3">Donorbox:</h6>
+        <Paper className={`${classes.root} mx-4 w-75`}>
+          <h5 className="text-center">Donate for lunch picker better features and development</h5>
+          <h6 className="my-3">Donorbox</h6>
           <a
-            className="dbox-donation-button"
+            className="dbox-donation-button w-100 text-center"
             style={{ background: '#ff0000', color: '#fff', textDecoration: 'none', fontFamily: 'Verdana,sans-serif', display: 'inline-block', fontSize: '16px', padding: '13px 17px', borderRadius: '2px', boxShadow: '0 1px 0 0 #1f5a89', textShadow: '0 1px rgba(0, 0, 0, 0.3)' }}
             href="https://donorbox.org/donate-for-lunch-picker-better-features-and-development?default_interval=o">
             Donate
           </a>
-          <h6 className="my-3">Stripe:</h6>
-          <StripeProvider apiKey="pk_test_NZ0RpkNsrP6yvxIEr95z6ATO00evlvKpSP">
+          <h6 className="my-3">Stripe</h6>
+          <StripeProvider apiKey={getStripeApiKey()}>
             <MyStoreCheckout />
           </StripeProvider>
         </Paper>

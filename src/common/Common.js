@@ -38,6 +38,18 @@ export const getFirebaseProjectId = () => {
   return "lunchpicker-2232b";
 }
 
+export const getStripeApiKey = () => {
+  let result = '';
+
+  if (window.location.href.includes('localhost')) {
+    result = "pk_test_NZ0RpkNsrP6yvxIEr95z6ATO00evlvKpSP";
+  } else {
+    result = "pk_live_YbsoEmSzoPtTAuI0dB7bSR6k002TH9P1kD";
+  }
+
+  return result;
+}
+
 export const getRootUrl = () => {
   let ROOT_URL = '';
   if (window.location.href.includes('localhost')) {
