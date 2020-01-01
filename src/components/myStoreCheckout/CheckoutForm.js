@@ -104,9 +104,6 @@ function CheckoutForm(props) {
       creditCardPayment(amount, currency, token, card);
       setToken('');
       setCard({});
-    } else {
-      setOpenErrorAlert(true);
-      setMessage('Please select currency!');
     }
   };
 
@@ -144,6 +141,26 @@ function CheckoutForm(props) {
       });
   }
 
+  const renderPayNowButton = () => {
+    let payNowButton = null;
+
+    if (amount === 0 && _.isEmpty(currency) && _.isEmpty(token) && _.isEmpty(card)) {
+      payNowButton = (
+        <Button className="w-100" variant="outlined" color="primary" disabled={true} onClick={handlePayNow}>
+          Pay now
+        </Button>
+      );
+    } else {
+      payNowButton = (
+        <Button className="w-100" variant="outlined" color="primary" onClick={handlePayNow}>
+          Pay now
+        </Button>
+      );
+    }
+
+    return payNowButton;
+  }
+
   return (
     <div>
       <TextField
@@ -166,9 +183,7 @@ function CheckoutForm(props) {
         isClearable={true}
       />
       <CardSection />
-      <Button className="w-100" variant="outlined" color="primary" onClick={handlePayNow}>
-        Pay now
-      </Button>
+      {renderPayNowButton()}
       <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} message={message} />
     </div>
   );
