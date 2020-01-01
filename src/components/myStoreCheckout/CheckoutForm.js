@@ -86,13 +86,18 @@ function CheckoutForm(props) {
     props.stripe.createToken()
       .then((response) => {
         log("response = ", response);
-        setToken(response.token.id);
-        setCard(response.token.card);
+        if (!_.isEmpty(response.token)) {
+          setToken(response.token.id);
+          setCard(response.token.card);
+        }
+
+        if (!_.isEmpty(response.error)) {
+          setOpenErrorAlert(true);
+          setMessage(response.error.message);
+        }
       })
       .catch((error) => {
         log("error = ", error);
-        setOpenErrorAlert(true);
-        setMessage('Please enter your card details!');
       });
 
     if (amount > 0 && !_.isEmpty(currency) && !_.isEmpty(token) && !_.isEmpty(card)) {
