@@ -41,10 +41,13 @@ export const log = (message, item) => {
   console.log(message, item);
 
   // timber
-  const timber = new Timber(process.env.REACT_APP_TIMBER_API_KEY, process.env.REACT_APP_TIMBER_SOURCE_ID);
-  if (typeof item === 'object') {
-    timber.log(`${message} ${JSON.stringify(item)}`);
-  } else if (typeof item === 'string') {
-    timber.log(`${message} ${item}`);
+  const environment = process.env.NODE_ENV;
+  if (environment === 'development') {
+    const timber = new Timber(process.env.REACT_APP_TIMBER_API_KEY, process.env.REACT_APP_TIMBER_SOURCE_ID);
+    if (typeof item === 'object') {
+      timber.log(`${message} ${JSON.stringify(item)}`);
+    } else if (typeof item === 'string') {
+      timber.log(`${message} ${item}`);
+    }
   }
 }
