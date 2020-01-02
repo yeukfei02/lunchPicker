@@ -8,10 +8,8 @@ import {
 import * as Sentry from '@sentry/browser';
 import './index.css';
 
-import { getSentryDsn } from './common/Common';
-
 // sentry
-Sentry.init({ dsn: getSentryDsn() });
+Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DSN });
 
 ReactDOM.render(
   <Router>
