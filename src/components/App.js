@@ -26,9 +26,7 @@ import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
 import {
-  getGoogleAnalyticsId,
   getFirebaseConfig,
-  getFirebaseWebPushCertificates,
   getRootUrl,
   log
 } from '../common/Common';
@@ -55,14 +53,14 @@ const theme = createMuiTheme({
 )
 
 // google analytic
-ReactGA.initialize(getGoogleAnalyticsId());
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
 
 // firebase
 const firebaseConfig = getFirebaseConfig();
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
-messaging.usePublicVapidKey(getFirebaseWebPushCertificates());
+messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
 
 function App() {
   const location = useLocation();
