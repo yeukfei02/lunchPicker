@@ -7,6 +7,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import Tooltip from '@material-ui/core/Tooltip';
+import Bounce from 'react-reveal/Bounce';
+import { red, grey } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -40,6 +45,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
   },
+  red: {
+    color: theme.palette.getContrastText(red[500]),
+    backgroundColor: red[500],
+  },
+  grey: {
+    color: theme.palette.getContrastText(grey[500]),
+    backgroundColor: grey[500],
+  }
 }));
 
 function MainPage() {
@@ -74,6 +87,11 @@ function MainPage() {
     if (latitude !== 0 && longitude !== 0)
       findLocationTextByLatLong(latitude, longitude);
   }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (!_.isEmpty(resultList))
+      setRandomButtonClicked(false);
+  }, [resultList])
 
   const getSelectedTermList = () => {
     axios.get(
@@ -497,15 +515,29 @@ function MainPage() {
 
     if (randomButtonClicked === true) {
       randomButton = (
-        <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleRandom}>
-          Loading...
-        </Button>
+        <Bounce>
+          <Tooltip title="Let's eat" placement="bottom">
+            <Avatar
+              alt=""
+              className={`${classes.grey}`}
+              style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
+              disabled={true}>
+              <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
+            </Avatar>
+          </Tooltip>
+        </Bounce>
       );
     } else {
       randomButton = (
-        <Button className="w-100" variant="outlined" color="secondary" onClick={handleRandom}>
-          Let's eat!
-        </Button>
+        <Tooltip title="Let's eat" placement="bottom">
+          <Avatar
+            alt=""
+            className={`${classes.red}`}
+            style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
+            onClick={handleRandom}>
+            <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
+          </Avatar>
+        </Tooltip>
       );
     }
 
