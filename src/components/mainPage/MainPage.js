@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import Tooltip from '@material-ui/core/Tooltip';
+import Bounce from 'react-reveal/Bounce';
 import { red, grey } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
@@ -514,15 +515,17 @@ function MainPage() {
 
     if (randomButtonClicked === true) {
       randomButton = (
-        <Tooltip title="Let's eat" placement="bottom">
-          <Avatar
-            alt=""
-            className={`${classes.grey}`}
-            style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
-            disabled={true}>
-            <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
-          </Avatar>
-        </Tooltip>
+        <Bounce>
+          <Tooltip title="Let's eat" placement="bottom">
+            <Avatar
+              alt=""
+              className={`${classes.grey}`}
+              style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
+              disabled={true}>
+              <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
+            </Avatar>
+          </Tooltip>
+        </Bounce>
       );
     } else {
       randomButton = (
