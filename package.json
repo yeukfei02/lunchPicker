@@ -43,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn run build",
-    "deploy-firebase": "yarn run build && firebase deploy"
+    "deploy-firebase": "rm -rf build && yarn run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
