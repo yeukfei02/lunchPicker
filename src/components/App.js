@@ -48,6 +48,9 @@ const theme = createMuiTheme({
     background: {
       default: "#FAFAD2"
     }
+  },
+  typography: {
+    "fontFamily": "Ubuntu, sans-serif",
   }
 },
 )
