@@ -33,7 +33,7 @@
     "react-select": "^3.0.8",
     "react-stripe-elements": "^6.0.1",
     "react-table": "^7.0.0-rc.15",
-    "serve": "^11.2.0",
+    "serve": "^11.3.0",
     "styled-components": "^4.4.1"
   },
   "scripts": {
