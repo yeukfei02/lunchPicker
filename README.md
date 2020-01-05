@@ -2,6 +2,8 @@
 
 ![Travis (.com)](https://img.shields.io/travis/com/yeukfei02/lunchPicker)
 
+![Netlify](https://img.shields.io/netlify/563e8670-d2b0-4866-88a7-913262150b8c)
+
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/yeukfei02/lunchPicker)
 ![GitHub repo size](https://img.shields.io/github/repo-size/yeukfei02/lunchPicker)
 
