@@ -9802,10 +9802,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-normalize@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/react-normalize/-/react-normalize-0.4.3.tgz#885ea10741b3b0061831eb209af6199a6150d7e8"
-  integrity sha512-iVnx7BtgfxQGwZUhyugeQfh8vp+kXPL0906rYLVqkcHPYi05ELw3aSg7Lwo0TasKG0Sv2rIwvopQe1Ov0FOckg==
+react-normalize@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/react-normalize/-/react-normalize-0.4.4.tgz#d051cfa294a671dd01c1e3f8c5fe8c0b4b243831"
+  integrity sha512-brdWy6+qfnsd/goCULMgAnqJRpccXpCVlvr8/y+u6WsL4C3Gf0FH0RtCQRo2kV2UNOWaZX3D7ToALmDajzTSdQ==
   dependencies:
     "@emotion/core" "^10.0.15"
 
