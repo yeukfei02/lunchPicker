@@ -1,5 +1,7 @@
 # lunchPicker
 
+![Travis (.com)](https://img.shields.io/travis/com/yeukfei02/lunchPicker)
+
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/yeukfei02/lunchPicker)
 ![GitHub repo size](https://img.shields.io/github/repo-size/yeukfei02/lunchPicker)
 
