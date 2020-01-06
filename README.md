@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/lunchPicker/community](https://badges.gitter.im/lunchPicker/community.svg)](https://gitter.im/lunchPicker/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-![Travis (.com)](https://img.shields.io/travis/com/yeukfei02/lunchPicker)
+[![Build Status](https://travis-ci.com/yeukfei02/lunchPicker.svg?branch=master)](https://travis-ci.com/yeukfei02/lunchPicker)
 [![codecov](https://codecov.io/gh/yeukfei02/lunchPicker/branch/master/graph/badge.svg)](https://codecov.io/gh/yeukfei02/lunchPicker)
 
 ![Netlify](https://img.shields.io/netlify/563e8670-d2b0-4866-88a7-913262150b8c)
