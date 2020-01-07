@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import clsx from 'clsx';
@@ -21,6 +21,7 @@ import { yellow } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
+import Snackbar from '../snackBar/SnackBar';
 import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
@@ -55,6 +56,21 @@ function CardView(props) {
   const [expanded, setExpanded] = useState(false);
   const [reviewsList, setReviewsList] = useState([]);
 
+  const [addToFavoritesClicked, setAddToFavoritesClicked] = useState(false);
+
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (openSuccessAlert === true) {
+      setOpenSuccessAlert(false);
+    }
+    if (!_.isEmpty(message)) {
+      setMessage('');
+    }
+  }, [openSuccessAlert, message]);
+
+  // card data
   const item = props.resultListItem;
   const id = item.id;
   const name = item.name;
@@ -122,6 +138,26 @@ function CardView(props) {
     return starIconList;
   }
 
+  const renderFavouriteIcon = () => {
+    let favouriteIcon = null;
+
+    if (props.inFavouritesView === undefined) {
+      favouriteIcon = (
+        <IconButton aria-label="add to favorites" onClick={() => handleAddToFavorites()}>
+          <FavoriteIcon style={{ color: !addToFavoritesClicked ? red[200] : red[500] }} />
+        </IconButton>
+      );
+    } else {
+      favouriteIcon = (
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon style={{ color: red[500] }} />
+        </IconButton>
+      );
+    }
+
+    return favouriteIcon;
+  }
+
   const handleOpenUserProfileUrl = (userProfileUrl) => {
     window.open(userProfileUrl);
   }
@@ -171,83 +207,113 @@ function CardView(props) {
     history.push(`/restaurant-details/${id}`);
   }
 
+  const handleAddToFavorites = () => {
+    setAddToFavoritesClicked(true);
+
+    axios.post(
+      `${ROOT_URL}/favourites/add-to-favourites`,
+      {
+        currentToken: localStorage.getItem('firebaseCurrentToken'),
+        item: item
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+          setOpenSuccessAlert(true);
+          setMessage('Add to favourites success!');
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
+  }
+
   return (
-    <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar
-            style={{ cursor: 'pointer' }}
-            aria-label="recipe"
-            className={classes.avatar}
-            onClick={() => handleOpenRestaurantDetailsById(id)}>
-            {avatarStr}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={
-          <div
-            onClick={() => handleOpenRestaurantDetailsById(id)}
-            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
-            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
-            {name}
-          </div>
-        }
-        subheader={subHeader}
-      />
-      <CardMedia
-        style={{ cursor: 'pointer' }}
-        className={classes.media}
-        image={imageUrl}
-        title={name}
-        onClick={handleOpenUrl}
-      />
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          component="p">
-          Location: <span
-            onClick={(e) => handleLocationClick(e)}
-            onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
-            onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
-            {location}
-          </span>
-        </Typography>
-        <div className="my-2"></div>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {!_.isEmpty(displayPhone) ? `Phone: ${displayPhone}` : ''}
-        </Typography>
-        <div className="my-2"></div>
-        {renderStarIcon()}
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon style={{ color: red[500] }} />
-        </IconButton>
-        <IconButton aria-label="link" onClick={handleOpenUrl}>
-          <LinkIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+    <div>
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar
+              style={{ cursor: 'pointer' }}
+              aria-label="recipe"
+              className={classes.avatar}
+              onClick={() => handleOpenRestaurantDetailsById(id)}>
+              {avatarStr}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={
+            <div
+              onClick={() => handleOpenRestaurantDetailsById(id)}
+              onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+              onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+              {name}
+            </div>
+          }
+          subheader={subHeader}
+        />
+        <CardMedia
+          style={{ cursor: 'pointer' }}
+          className={classes.media}
+          image={imageUrl}
+          title={name}
+          onClick={handleOpenUrl}
+        />
         <CardContent>
-          {renderReviewsList()}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p">
+            Location: <span
+              onClick={(e) => handleLocationClick(e)}
+              onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
+              onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+              {location}
+            </span>
+          </Typography>
+          <div className="my-2"></div>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {!_.isEmpty(displayPhone) ? `Phone: ${displayPhone}` : ''}
+          </Typography>
+          <div className="my-2"></div>
+          {renderStarIcon()}
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          {renderFavouriteIcon()}
+          <IconButton aria-label="link" onClick={handleOpenUrl}>
+            <LinkIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            {renderReviewsList()}
+          </CardContent>
+        </Collapse>
+      </Card>
+      <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
+    </div>
   );
 }
 
