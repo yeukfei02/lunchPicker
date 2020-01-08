@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import Button from '@material-ui/core/Button';
 import { StripeProvider } from 'react-stripe-elements';
 import MyStoreCheckout from '../myStoreCheckout/MyStoreCheckout';
 
@@ -26,6 +27,10 @@ function Contact() {
     window.open('https://github.com/yeukfei02');
   }
 
+  const handleDonate = () => {
+    window.open('https://donorbox.org/donate-for-lunch-picker-better-features-and-development');
+  }
+
   return (
     <div>
       <div className="mt-5 d-flex justify-content-center">
@@ -43,12 +48,9 @@ function Contact() {
         <Paper className={`${classes.root} mx-4 w-75`}>
           <h5 className="text-center">Donate for lunch picker better features and development</h5>
           <h6 className="my-3">Donorbox</h6>
-          <a
-            className="dbox-donation-button w-100 text-center"
-            style={{ background: '#ff0000', color: '#fff', textDecoration: 'none', fontFamily: 'Verdana,sans-serif', display: 'inline-block', fontSize: '16px', padding: '13px 17px', borderRadius: '2px', boxShadow: '0 1px 0 0 #1f5a89', textShadow: '0 1px rgba(0, 0, 0, 0.3)' }}
-            href="https://donorbox.org/donate-for-lunch-picker-better-features-and-development?default_interval=o">
+          <Button className="w-100" variant="outlined" color="primary" onClick={handleDonate}>
             Donate
-          </a>
+          </Button>
           <h6 className="my-3">Stripe</h6>
           <StripeProvider apiKey={getStripeApiKey()}>
             <MyStoreCheckout />
