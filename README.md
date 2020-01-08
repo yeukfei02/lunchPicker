@@ -32,7 +32,7 @@ https://lunchpicker.netlify.com/
 
 ### Requirement:
  - install yarn
- - install node
+ - install node (v12+)
  - install firebase cli
 
 ### Testing and run:
