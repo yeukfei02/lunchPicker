@@ -135,6 +135,12 @@ function Favourites() {
     return renderDiv;
   }
 
+  const reloadFavourites = () => {
+    if (!_.isEmpty(currentToken)) {
+      getFavourites(currentToken);
+    }
+  }
+
   const renderFavourites = () => {
     let cardViewResultList = null;
 
@@ -143,7 +149,7 @@ function Favourites() {
         return (
           <Grid key={i} item xs={12} sm={4}>
             <div className="d-flex justify-content-center">
-              <CardView resultListItem={item.item} inFavouritesView={true} />
+              <CardView resultListItem={item} inFavouritesView={true} reloadFavourites={reloadFavourites} />
             </div>
           </Grid>
         );
