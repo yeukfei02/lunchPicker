@@ -3,9 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { red } from '@material-ui/core/colors';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -20,18 +17,12 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     flexGrow: 1,
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: red[500],
-  },
 }));
 
 function Favourites() {
   const classes = useStyles();
 
   const [favourites, setFavourites] = useState([]);
-
-  const [open, setOpen] = useState(true);
 
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [message, setMessage] = useState('');
@@ -52,14 +43,6 @@ function Favourites() {
       setMessage('');
     }
   }, [openSuccessAlert, message]);
-
-  useEffect(() => {
-    if (!_.isEmpty(favourites)) {
-      setTimeout(() => {
-        setOpen(false)
-      }, 1500);
-    }
-  }, [favourites]);
 
   const getFavourites = (currentToken) => {
     axios.get(
@@ -103,12 +86,6 @@ function Favourites() {
     } else {
       renderDiv = (
         <div>
-          <Backdrop
-            className={classes.backdrop}
-            open={open}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
           <div className="mt-4 d-flex justify-content-center">
             <Paper className={`${classes.root} mx-4 w-75 text-center`}>
               <h4>There are no result.</h4>
