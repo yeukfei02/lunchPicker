@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -27,6 +28,9 @@ function Favourites() {
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [deleteAllFavouritesButtonClicked, setDeleteAllFavouritesButtonClicked] = useState(false);
+  const [deleteAllFavouritesStatus, setDeleteAllFavouritesStatus] = useState(false);
+
   const currentToken = localStorage.getItem('firebaseCurrentToken');
 
   useEffect(() => {
@@ -43,6 +47,15 @@ function Favourites() {
       setMessage('');
     }
   }, [openSuccessAlert, message]);
+
+  useEffect(() => {
+    if (deleteAllFavouritesStatus === true) {
+      setTimeout(() => {
+        getFavourites(currentToken);
+        setDeleteAllFavouritesStatus(false);
+      }, 1000);
+    }
+  }, [deleteAllFavouritesStatus, currentToken]);
 
   const getFavourites = (currentToken) => {
     axios.get(
@@ -70,6 +83,30 @@ function Favourites() {
           log("error = ", error);
         }
       });
+  }
+
+  const renderDeleteAllFavouritesButton = () => {
+    let deleteAllFavouritesButton = null;
+
+    if (deleteAllFavouritesButtonClicked === true) {
+      deleteAllFavouritesButton = (
+        <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" disabled={true} onClick={handleDeleteAllFavourites}>
+            Loading...
+          </Button>
+        </div>
+      );
+    } else {
+      deleteAllFavouritesButton = (
+        <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
+          <Button variant="contained" color="primary" onClick={handleDeleteAllFavourites}>
+            Delete all favourites
+          </Button>
+        </div>
+      );
+    }
+
+    return deleteAllFavouritesButton;
   }
 
   const renderDiv = () => {
@@ -116,6 +153,38 @@ function Favourites() {
     return cardViewResultList;
   }
 
+  const handleDeleteAllFavourites = () => {
+    setDeleteAllFavouritesButtonClicked(true);
+
+    axios.delete(
+      `${ROOT_URL}/favourites/delete-all-favourites`,
+      {
+        params: {
+          currentToken: currentToken
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+          setOpenSuccessAlert(true);
+          setMessage('Delete all favorites success!');
+          setDeleteAllFavouritesButtonClicked(false);
+          setDeleteAllFavouritesStatus(true);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+          setDeleteAllFavouritesButtonClicked(false);
+          setDeleteAllFavouritesStatus(true);
+        }
+      });
+  }
+
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
@@ -125,6 +194,7 @@ function Favourites() {
           </div>
         </Typography>
       </div>
+      {renderDeleteAllFavouritesButton()}
       {renderDiv()}
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div >
