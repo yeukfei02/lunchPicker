@@ -16,6 +16,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LinkIcon from '@material-ui/icons/Link';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { red } from '@material-ui/core/colors';
 import { yellow } from '@material-ui/core/colors';
 import _ from 'lodash';
@@ -71,7 +72,8 @@ function CardView(props) {
   }, [openSuccessAlert, message]);
 
   // card data
-  const item = props.resultListItem;
+  const item = props.inFavouritesView === undefined ? props.resultListItem : props.resultListItem.item;
+  const _id = props.inFavouritesView !== undefined ? props.resultListItem._id : '';
   const id = item.id;
   const name = item.name;
   const avatarStr = name[0].toUpperCase();
@@ -236,6 +238,50 @@ function CardView(props) {
       });
   }
 
+  const renderDeleteButton = () => {
+    let deleteButton = null;
+
+    if (props.inFavouritesView === undefined) {
+      deleteButton = (
+        <IconButton aria-label="settings">
+          <MoreVertIcon />
+        </IconButton>
+      );
+    } else {
+      deleteButton = (
+        <HighlightOffIcon fontSize="large" style={{ cursor: 'pointer' }} onClick={() => handleDeleteFavouritesById(_id)} />
+      );
+    }
+
+    return deleteButton;
+  }
+
+  const handleDeleteFavouritesById = (_id) => {
+    axios.delete(
+      `${ROOT_URL}/favourites/delete-favourites/${_id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then((response) => {
+        if (!_.isEmpty(response)) {
+          log("response = ", response);
+          setOpenSuccessAlert(true);
+          setMessage('Delete favourites by id success!');
+          setTimeout(() => {
+            props.reloadFavourites();
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        if (!_.isEmpty(error)) {
+          log("error = ", error);
+        }
+      });
+  }
+
   return (
     <div>
       <Card className={classes.card}>
@@ -249,11 +295,7 @@ function CardView(props) {
               {avatarStr}
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
+          action={renderDeleteButton()}
           title={
             <div
               onClick={() => handleOpenRestaurantDetailsById(id)}
