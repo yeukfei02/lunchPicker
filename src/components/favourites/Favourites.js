@@ -53,7 +53,7 @@ function Favourites() {
       setTimeout(() => {
         getFavourites(currentToken);
         setDeleteAllFavouritesStatus(false);
-      }, 1000);
+      }, 500);
     }
   }, [deleteAllFavouritesStatus, currentToken]);
 

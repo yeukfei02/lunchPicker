@@ -30,6 +30,14 @@ function CheckoutForm(props) {
   }, []);
 
   useEffect(() => {
+    if (amount > 0 && !_.isEmpty(currency) && !_.isEmpty(token) && !_.isEmpty(card)) {
+      creditCardPayment(amount, currency, token, card);
+      setToken('');
+      setCard({});
+    }
+  }, [amount, currency, token, card]);
+
+  useEffect(() => {
     if (openSuccessAlert === true) {
       setOpenSuccessAlert(false);
     }
@@ -99,12 +107,6 @@ function CheckoutForm(props) {
       .catch((error) => {
         log("error = ", error);
       });
-
-    if (amount > 0 && !_.isEmpty(currency) && !_.isEmpty(token) && !_.isEmpty(card)) {
-      creditCardPayment(amount, currency, token, card);
-      setToken('');
-      setCard({});
-    }
   };
 
   const creditCardPayment = (amount, currency, token, card) => {
@@ -129,7 +131,7 @@ function CheckoutForm(props) {
           setMessage('Payment success!');
           setTimeout(() => {
             window.open(response.data.charges.receipt_url);
-          }, 1500);
+          }, 1000);
         }
       })
       .catch((error) => {
