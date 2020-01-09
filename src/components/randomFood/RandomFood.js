@@ -58,7 +58,7 @@ function RandomFood() {
     if (!_.isEmpty(randomFoodList)) {
       setTimeout(() => {
         setOpen(false)
-      }, 1500);
+      }, 1000);
     }
   }, [randomFoodList]);
 

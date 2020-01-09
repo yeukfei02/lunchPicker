@@ -272,7 +272,7 @@ function CardView(props) {
           setMessage('Delete favourites by id success!');
           setTimeout(() => {
             props.reloadFavourites();
-          }, 1000);
+          }, 500);
         }
       })
       .catch((error) => {
