@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 function RandomFood() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const [useRandomFoodCategory, setUseRandomFoodCategory] = useState(false);
   const [selectedTerm, setSelectedTerm] = useState('');
@@ -159,7 +161,7 @@ function RandomFood() {
       refreshButton = (
         <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
-            Loading...
+            {t('loading')}
           </Button>
         </div>
       );
@@ -167,7 +169,7 @@ function RandomFood() {
       refreshButton = (
         <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" onClick={handleRefresh}>
-            Refresh
+            {t('refresh')}
           </Button>
         </div>
       );
@@ -216,7 +218,7 @@ function RandomFood() {
           </Backdrop>
           <div className="mt-4 d-flex justify-content-center">
             <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-              <h4>There are no result.</h4>
+              <h4>{t('thereAreNoResult')}</h4>
             </Paper>
           </div>
         </div>
@@ -262,7 +264,7 @@ function RandomFood() {
           {
             useRandomFoodCategory === true && !_.isEmpty(selectedTerm) ?
               <div>
-                <b>Current food category:</b> {selectedTerm}
+                <b>{t('currentFoodCategory')}</b> {selectedTerm}
               </div>
               :
               null
@@ -275,19 +277,19 @@ function RandomFood() {
             control={
               <Switch checked={useRandomFoodCategory} color="primary" onChange={(e) => handleSwitchChange(e)} value="useRandomFoodCategory" />
             }
-            label="Use random food category"
+            label={t('useRandomFoodCategory')}
           />
         </FormGroup>
       </div>
       {renderRefreshButton()}
       <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Button variant="outlined" color="primary" onClick={handleSortedByRating}>
-          Sorted by rating
+          {t('sortedByRating')}
         </Button>
       </div>
       <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Button variant="outlined" color="primary" onClick={handleSortedByDistance}>
-          Sorted by distance
+          {t('sortedByDistance')}
         </Button>
       </div>
       {renderDiv()}

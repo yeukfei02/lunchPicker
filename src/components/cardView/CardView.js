@@ -19,6 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { red } from '@material-ui/core/colors';
 import { yellow } from '@material-ui/core/colors';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -53,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 function CardView(props) {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [expanded, setExpanded] = useState(false);
   const [reviewsList, setReviewsList] = useState([]);
@@ -186,7 +188,7 @@ function CardView(props) {
 
     return (
       <div>
-        <Typography paragraph>Review:</Typography>
+        <Typography paragraph>{t('review')}</Typography>
         {formattedReviewsList}
       </div>
     );
@@ -318,7 +320,7 @@ function CardView(props) {
             variant="body2"
             color="textSecondary"
             component="p">
-            Location: <span
+            {t('location')} <span
               onClick={(e) => handleLocationClick(e)}
               onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
               onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
@@ -327,7 +329,7 @@ function CardView(props) {
           </Typography>
           <div className="my-2"></div>
           <Typography variant="body2" color="textSecondary" component="p">
-            {!_.isEmpty(displayPhone) ? `Phone: ${displayPhone}` : ''}
+            {!_.isEmpty(displayPhone) ? `${t('phone')} ${displayPhone}` : ''}
           </Typography>
           <div className="my-2"></div>
           {renderStarIcon()}

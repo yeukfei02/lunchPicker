@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 function Favourites() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const [favourites, setFavourites] = useState([]);
 
@@ -100,7 +102,7 @@ function Favourites() {
       deleteAllFavouritesButton = (
         <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" onClick={handleDeleteAllFavourites}>
-            Delete all favourites
+            {t('deleteAllFavourites')}
           </Button>
         </div>
       );
@@ -125,7 +127,7 @@ function Favourites() {
         <div>
           <div className="mt-4 d-flex justify-content-center">
             <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-              <h4>There are no result.</h4>
+              <h4>{t('thereAreNoResult')}</h4>
             </Paper>
           </div>
         </div>
@@ -196,7 +198,7 @@ function Favourites() {
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Typography component={'span'}>
           <div>
-            <b>Your total favourites:</b> {favourites.length}
+            <b>{t('yourTotalFavourites')}</b> {favourites.length}
           </div>
         </Typography>
       </div>

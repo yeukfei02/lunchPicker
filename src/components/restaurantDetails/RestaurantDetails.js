@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -26,6 +27,8 @@ const useStyles = makeStyles(theme => ({
 
 function RestaurantDetails(props) {
   const classes = useStyles();
+  const { t } = useTranslation();
+
   const [restaurantDetails, setRestaurantDetails] = useState({});
   const [photosList, setPhotosList] = useState([]);
   const [name, setName] = useState('');
@@ -109,7 +112,7 @@ function RestaurantDetails(props) {
         <div className="my-5 d-flex justify-content-center">
           <Paper className={`${classes.root} mx-4 w-75 d-flex justify-content-center`}>
             <div>
-              <h5 className="mb-3">Restaurant details</h5>
+              <h5 className="mb-3">{t('restaurantDetails')}</h5>
               <ImageSlider photosList={photosList} />
               <TextField
                 label="Name"

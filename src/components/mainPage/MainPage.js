@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Bounce from 'react-reveal/Bounce';
 import { red, grey } from '@material-ui/core/colors';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -58,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 function MainPage() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const [selectedTermList, setSelectedTermList] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState('');
@@ -373,13 +375,13 @@ function MainPage() {
           <FormControlLabel
             value="places"
             control={<Radio color="primary" />}
-            label="Places"
+            label={t('places')}
             labelPlacement="end"
           />
           <FormControlLabel
             value="useCurrentLocation"
             control={<Radio color="primary" />}
-            label="Current Location"
+            label={t('currentLocation')}
             labelPlacement="end"
           />
         </RadioGroup>
@@ -514,13 +516,13 @@ function MainPage() {
         if (submitButtonClicked === true) {
           submitButton = (
             <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
-              Loading...
+              {t('loading...')}
             </Button>
           );
         } else {
           submitButton = (
             <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
-              Submit
+              {t('submit')}
             </Button>
           );
         }
@@ -531,13 +533,13 @@ function MainPage() {
       if (submitButtonClicked === true) {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
-            Loading...
+            {t('loading...')}
           </Button>
         );
       } else {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" onClick={handleSubmit}>
-            Submit
+            {t('submit')}
           </Button>
         );
       }
@@ -549,7 +551,7 @@ function MainPage() {
   const renderClearButton = () => {
     const clearButton = (
       <Button className="w-100" variant="outlined" color="primary" onClick={handleClear}>
-        Clear
+        {t('clear')}
       </Button>
     );
 
@@ -597,11 +599,11 @@ function MainPage() {
       sortedByButton = (
         <div>
           <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByRating}>
-            Sorted by rating
+            {t('sortedByRating')}
           </Button>
           <div className="my-3"></div>
           <Button className="w-100" variant="outlined" color="primary" onClick={handleSortedByDistance}>
-            Sorted by distance
+            {t('sortedByDistance')}
           </Button>
         </div>
       );
@@ -616,7 +618,7 @@ function MainPage() {
     if (!_.isEmpty(randomFoodTerm)) {
       randomFoodCategory = (
         <div className="my-3 d-flex justify-content-center">
-          <h6>Random food category: {randomFoodTerm}</h6>
+          <h6>{t('randomFoodCategory')} {randomFoodTerm}</h6>
         </div>
       );
     }
