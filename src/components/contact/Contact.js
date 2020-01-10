@@ -7,6 +7,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Button from '@material-ui/core/Button';
 import { StripeProvider } from 'react-stripe-elements';
 import MyStoreCheckout from '../myStoreCheckout/MyStoreCheckout';
+import { useTranslation } from 'react-i18next';
 
 import { getStripeApiKey } from '../../common/Common';
 
@@ -18,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 function Contact() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const handleEmailIconClick = () => {
     window.open('mailto:yeukfei02@gmail.com');
@@ -35,7 +37,7 @@ function Contact() {
     <div>
       <div className="mt-5 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4 w-75 text-center`}>
-          <h4>Contact us via email or visit our github repo</h4>
+          <h5>{t('contactTitle')}</h5>
           <Tooltip title="yeukfei02@gmail.com" placement="bottom">
             <EmailIcon style={{ cursor: 'pointer' }} className="mr-3" fontSize="large" onClick={handleEmailIconClick} />
           </Tooltip>
@@ -46,10 +48,10 @@ function Contact() {
       </div>
       <div className="my-5 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4 w-75`}>
-          <h5 className="text-center">Donate for lunch picker better features and development</h5>
+          <h5 className="text-center">{t('donateTitle')}</h5>
           <h6 className="my-3">Donorbox</h6>
           <Button className="w-100" variant="outlined" color="primary" onClick={handleDonate}>
-            Donate
+            {t('donate')}
           </Button>
           <h6 className="my-3">Stripe</h6>
           <StripeProvider apiKey={getStripeApiKey()}>

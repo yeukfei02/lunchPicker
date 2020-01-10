@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ import { getRootUrl, log } from '../../common/Common';
 const ROOT_URL = getRootUrl();
 
 function RandomFoodMapView() {
+  const { t } = useTranslation();
+
   const [selectedTerm, setSelectedTerm] = useState('');
 
   const [randomFoodList, setRandomFoodList] = useState([]);
@@ -161,7 +164,7 @@ function RandomFoodMapView() {
       refreshButton = (
         <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
-            Loading...
+            {t('loading')}
           </Button>
         </div>
       );
@@ -169,7 +172,7 @@ function RandomFoodMapView() {
       refreshButton = (
         <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" onClick={handleRefresh}>
-            Refresh
+            {t('refresh')}
           </Button>
         </div>
       );
@@ -185,7 +188,7 @@ function RandomFoodMapView() {
           {
             !_.isEmpty(selectedTerm) ?
               <div>
-                <b>Current food category:</b> {selectedTerm}
+                <b>{t('currentFoodCategory')}</b> {selectedTerm}
               </div>
               :
               null

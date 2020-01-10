@@ -5,6 +5,7 @@ import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import _ from 'lodash';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import CardSection from './CardSection';
 import Snackbar from '../snackBar/SnackBar';
@@ -14,6 +15,8 @@ import { getRootUrl, log } from '../../common/Common';
 const ROOT_URL = getRootUrl();
 
 function CheckoutForm(props) {
+  const { t } = useTranslation();
+
   const [currencyList, setCurrencyList] = useState([]);
   const [amount, setAmount] = useState(0);
   const [currency, setCurrency] = useState('');
@@ -149,13 +152,13 @@ function CheckoutForm(props) {
     if (amount === 0 && _.isEmpty(currency) && _.isEmpty(token) && _.isEmpty(card)) {
       payNowButton = (
         <Button className="w-100" variant="outlined" color="primary" disabled={true} onClick={handlePayNow}>
-          Pay now
+          {t('payNow')}
         </Button>
       );
     } else {
       payNowButton = (
         <Button className="w-100" variant="outlined" color="primary" onClick={handlePayNow}>
-          Pay now
+          {t('payNow')}
         </Button>
       );
     }

@@ -18,6 +18,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MailIcon from '@material-ui/icons/Mail';
 import { red } from '@material-ui/core/colors';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +36,7 @@ function NavBar() {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const toggleDrawer = (status) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -82,27 +84,27 @@ function NavBar() {
       <List>
         <ListItem button key="Home" onClick={handleHomeClick}>
           <ListItemIcon><HomeIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary={t('home')} />
         </ListItem>
         <ListItem button key="Random food" onClick={handleRandomFoodClick}>
           <ListItemIcon><FastfoodIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Random food" />
+          <ListItemText primary={t('randomFood')} />
         </ListItem>
         <ListItem button key="Random food map view" onClick={handleRandomFoodMapViewClick}>
           <ListItemIcon><MapIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Random food map view" />
+          <ListItemText primary={t('randomFoodMapView')} />
         </ListItem>
         <ListItem button key="Favourites" onClick={handleFavouritesClick}>
           <ListItemIcon><FavoriteIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Favourites" />
+          <ListItemText primary={t('favourites')} />
         </ListItem>
         <ListItem button key="Settings" onClick={handleSettingsClick}>
           <ListItemIcon><SettingsIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText primary={t('settings')} />
         </ListItem>
         <ListItem button key="Contact us" onClick={handleContactUsClick}>
           <ListItemIcon><MailIcon style={{ color: red[500] }} /></ListItemIcon>
-          <ListItemText primary="Contact us" />
+          <ListItemText primary={t('contactUs')} />
         </ListItem>
       </List>
     </div>
