@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
 import { StripeProvider } from 'react-stripe-elements';
 import MyStoreCheckout from '../myStoreCheckout/MyStoreCheckout';
 import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
 
 import { getStripeApiKey } from '../../common/Common';
 
@@ -21,6 +25,8 @@ function Contact() {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const [radioButtonValue, setRadioButtonValue] = useState('stripe');
+
   const handleEmailIconClick = () => {
     window.open('mailto:yeukfei02@gmail.com');
   }
@@ -31,6 +37,34 @@ function Contact() {
 
   const handleDonate = () => {
     window.open('https://donorbox.org/donate-for-lunch-picker-better-features-and-development');
+  }
+
+  const handleRadioButtonChange = (e) => {
+    setRadioButtonValue(e.target.value);
+  };
+
+  const renderDiv = () => {
+    let resultDiv = null;
+
+    if (_.isEqual(radioButtonValue, 'donorbox')) {
+      resultDiv = (
+        <div>
+          <Button className="w-100" variant="outlined" color="primary" onClick={handleDonate}>
+            {t('donate')}
+          </Button>
+        </div>
+      );
+    } else if (_.isEqual(radioButtonValue, 'stripe')) {
+      resultDiv = (
+        <div>
+          <StripeProvider apiKey={getStripeApiKey()}>
+            <MyStoreCheckout />
+          </StripeProvider>
+        </div>
+      );
+    }
+
+    return resultDiv;
   }
 
   return (
@@ -49,14 +83,21 @@ function Contact() {
       <div className="my-5 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4 w-75`}>
           <h5 className="text-center">{t('donateTitle')}</h5>
-          <h6 className="my-3">Donorbox</h6>
-          <Button className="w-100" variant="outlined" color="primary" onClick={handleDonate}>
-            {t('donate')}
-          </Button>
-          <h6 className="my-3">Stripe</h6>
-          <StripeProvider apiKey={getStripeApiKey()}>
-            <MyStoreCheckout />
-          </StripeProvider>
+          <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
+            <FormControlLabel
+              value="donorbox"
+              control={<Radio color="primary" />}
+              label="Donorbox"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="stripe"
+              control={<Radio color="primary" />}
+              label="Stripe"
+              labelPlacement="end"
+            />
+          </RadioGroup>
+          {renderDiv()}
         </Paper>
       </div>
     </div>
