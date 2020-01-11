@@ -15,6 +15,7 @@ import "firebase/analytics";
 import "firebase/messaging";
 import _ from 'lodash';
 import axios from 'axios';
+import is from 'is_js';
 
 import NavBar from './navBar/NavBar';
 import MainPage from './mainPage/MainPage';
@@ -59,11 +60,16 @@ const theme = createMuiTheme({
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
 
 // firebase
-const firebaseConfig = getFirebaseConfig();
-firebase.initializeApp(firebaseConfig);
+const isNotSafari = is.not.safari();
 
-const messaging = firebase.messaging();
-messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
+let messaging = null;
+if (isNotSafari) {
+  const firebaseConfig = getFirebaseConfig();
+  firebase.initializeApp(firebaseConfig);
+
+  messaging = firebase.messaging();
+  messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
+}
 
 function App() {
   const location = useLocation();
@@ -72,16 +78,18 @@ function App() {
   const [refreshedToken, setRefreshedToken] = useState('');
 
   useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (_.isEqual(permission, 'granted')) {
-        log('Notification permission granted.', "");
+    if (!_.isEmpty(messaging)) {
+      Notification.requestPermission().then((permission) => {
+        if (_.isEqual(permission, 'granted')) {
+          log('Notification permission granted.', "");
 
-        getToken(messaging);
-        onTokenRefresh(messaging);
-      } else {
-        log('Unable to get permission to notify.', "");
-      }
-    });
+          getToken(messaging);
+          onTokenRefresh(messaging);
+        } else {
+          log('Unable to get permission to notify.', "");
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
