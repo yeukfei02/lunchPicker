@@ -57,6 +57,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const selectStyles = {
+  container: (base, state) => ({
+    ...base,
+    opacity: state.isDisabled ? ".5" : "1",
+    backgroundColor: "transparent",
+    zIndex: "999"
+  })
+};
+
 function MainPage() {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -353,6 +362,7 @@ function MainPage() {
       selectDropdown = (
         <div>
           <Select
+            styles={selectStyles}
             placeholder="Select the food you want..."
             value={selectedTerm}
             onChange={handleChange}
