@@ -29,12 +29,14 @@
       "setting": "Setting",
       "subscribeMessage": "Subscribe message",
       "changeLanguage": "Change Language",
+      "selectLanguage": "Select language",
       "english": "English",
       "chinese": "Chinese",
 
       "contactTitle": "Contact us via email or visit our github repo",
       "donateTitle": "Donate for lunch picker better features and development",
       "donate": "Donate",
+      "selectCurrency": "Select currency",
       "payNow": "Pay now",
 
       "location": "Location:",
@@ -74,12 +76,14 @@
       "setting": "設定",
       "subscribeMessage": "訂閱通知",
       "changeLanguage": "變更語言",
+      "selectLanguage": "選擇語言",
       "english": "英文",
       "chinese": "中文",
 
       "contactTitle": "通過電子郵件聯繫我們或訪問我們的github",
       "donateTitle": "為lunch picker捐贈 將來有更好的功能和發展",
       "donate": "捐贈",
+      "selectCurrency": "選擇貨幣",
       "payNow": "付款",
 
       "location": "地點:",

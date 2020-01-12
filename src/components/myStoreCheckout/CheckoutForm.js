@@ -14,6 +14,15 @@ import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
+const selectStyles = {
+  container: (base, state) => ({
+    ...base,
+    opacity: state.isDisabled ? ".5" : "1",
+    backgroundColor: "transparent",
+    zIndex: "999"
+  })
+};
+
 function CheckoutForm(props) {
   const { t } = useTranslation();
 
@@ -181,7 +190,8 @@ function CheckoutForm(props) {
         onChange={handleAmountChange}
       />
       <Select
-        placeholder="Select currency"
+        styles={selectStyles}
+        placeholder={t('selectCurrency')}
         value={currency}
         onChange={handleCurrencyChange}
         options={currencyList}
