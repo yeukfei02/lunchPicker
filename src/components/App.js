@@ -60,15 +60,20 @@ const theme = createMuiTheme({
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
 
 // firebase
-const isNotSafari = is.not.safari();
-
 let messaging = null;
-if (isNotSafari) {
-  const firebaseConfig = getFirebaseConfig();
-  firebase.initializeApp(firebaseConfig);
 
-  messaging = firebase.messaging();
-  messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
+const isDesktop = is.desktop();
+const isAndroid = is.android();
+if (isDesktop || isAndroid) {
+  // chrome or firefox
+  const isNotSafari = is.not.safari();
+  if (isNotSafari) {
+    const firebaseConfig = getFirebaseConfig();
+    firebase.initializeApp(firebaseConfig);
+
+    messaging = firebase.messaging();
+    messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
+  }
 }
 
 function App() {
