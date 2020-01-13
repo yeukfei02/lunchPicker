@@ -8,8 +8,10 @@
       "settings": "Settings",
       "contactUs": "Contact us",
 
+      "selectTheFoodYouWant": "Select the food you want...",
       "places": "Places",
       "currentLocation": "Current Location",
+      "currentLocationWaitForBrowserDetection": "Current Location (wait for browser detection)",
       "submit": "Submit",
       "clear": "Clear",
       "randomFoodCategory": "Random food category:",
@@ -55,8 +57,10 @@
       "settings": "設定",
       "contactUs": "聯繫我們",
 
+      "selectTheFoodYouWant": "選擇你想要的食物...",
       "places": "地點",
       "currentLocation": "當前位置",
+      "currentLocationWaitForBrowserDetection": "當前位置 (等待瀏覽器偵查)",
       "submit": "提交",
       "clear": "清除",
       "randomFoodCategory": "隨機食物類別:",

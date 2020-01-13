@@ -226,6 +226,8 @@ function MainPage() {
     navigator.geolocation.getCurrentPosition((location) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
+      log("latitude = ", latitude);
+      log("longitude = ", longitude);
       setLatitude(latitude);
       setLongitude(longitude);
     });
@@ -340,13 +342,13 @@ function MainPage() {
     setLocation(e.target.value);
   }
 
-  const handleLatitudeChange = (e) => {
-    setLatitude(e.target.value);
-  }
-
-  const handleLongitudeChange = (e) => {
-    setLongitude(e.target.value);
-  }
+  // const handleLatitudeChange = (e) => {
+  //   setLatitude(e.target.value);
+  // }
+  //
+  // const handleLongitudeChange = (e) => {
+  //   setLongitude(e.target.value);
+  // }
 
   const formatGroupLabel = (data) => (
     <div style={groupStyles}>
@@ -363,7 +365,7 @@ function MainPage() {
         <div>
           <Select
             styles={selectStyles}
-            placeholder="Select the food you want..."
+            placeholder={t('selectTheFoodYouWant')}
             value={selectedTerm}
             onChange={handleChange}
             options={selectedTermList}
@@ -388,12 +390,23 @@ function MainPage() {
             label={t('places')}
             labelPlacement="end"
           />
-          <FormControlLabel
-            value="useCurrentLocation"
-            control={<Radio color="primary" />}
-            label={t('currentLocation')}
-            labelPlacement="end"
-          />
+          {
+            latitude !== 0 && longitude !== 0 ?
+              <FormControlLabel
+                value="useCurrentLocation"
+                control={<Radio color="primary" />}
+                label={t('currentLocation')}
+                labelPlacement="end"
+              />
+              :
+              <FormControlLabel
+                value="useCurrentLocation"
+                control={<Radio color="primary" />}
+                label={t('currentLocationWaitForBrowserDetection')}
+                labelPlacement="end"
+                disabled={true}
+              />
+          }
         </RadioGroup>
       </div>
     );
@@ -429,49 +442,49 @@ function MainPage() {
     return locationInput;
   }
 
-  const renderLatitudeAndLongitudeInput = () => {
-    let latitudeAndLongitudeInput = null;
-
-    if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
-      latitudeAndLongitudeInput = (
-        <div>
-          <TextField
-            id="outlined-full-width"
-            label="Latitude"
-            placeholder="Enter latitude..."
-            type="number"
-            helperText="your current latitude"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={latitude}
-            onChange={handleLatitudeChange}
-          />
-          <TextField
-            id="outlined-full-width"
-            label="Longitude"
-            placeholder="Enter longitude..."
-            type="number"
-            helperText="your current longitude"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={longitude}
-            onChange={handleLongitudeChange}
-          />
-          <div className="my-3"></div>
-        </div>
-      );
-    }
-
-    return latitudeAndLongitudeInput;
-  }
+  // const renderLatitudeAndLongitudeInput = () => {
+  //   let latitudeAndLongitudeInput = null;
+  //
+  //   if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
+  //     latitudeAndLongitudeInput = (
+  //       <div>
+  //         <TextField
+  //           id="outlined-full-width"
+  //           label="Latitude"
+  //           placeholder="Enter latitude..."
+  //           type="number"
+  //           helperText="your current latitude"
+  //           fullWidth
+  //           margin="normal"
+  //           variant="outlined"
+  //           InputLabelProps={{
+  //             shrink: true,
+  //           }}
+  //           value={latitude}
+  //           onChange={handleLatitudeChange}
+  //         />
+  //         <TextField
+  //           id="outlined-full-width"
+  //           label="Longitude"
+  //           placeholder="Enter longitude..."
+  //           type="number"
+  //           helperText="your current longitude"
+  //           fullWidth
+  //           margin="normal"
+  //           variant="outlined"
+  //           InputLabelProps={{
+  //             shrink: true,
+  //           }}
+  //           value={longitude}
+  //           onChange={handleLongitudeChange}
+  //         />
+  //         <div className="my-3"></div>
+  //       </div>
+  //     );
+  //   }
+  //
+  //   return latitudeAndLongitudeInput;
+  // }
 
   const renderAvailableCountry = () => {
     const availableCountry = [
@@ -768,7 +781,7 @@ function MainPage() {
           {renderSelectDropdown()}
           {renderRadioButton()}
           {renderLocationInput()}
-          {renderLatitudeAndLongitudeInput()}
+          {/*renderLatitudeAndLongitudeInput()*/}
           {renderSubmitButton()}
           <div className="my-3"></div>
           {renderClearButton()}
