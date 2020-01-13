@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.com/yeukfei02/lunchPicker.svg?branch=master)](https://travis-ci.com/yeukfei02/lunchPicker)
 [![codecov](https://codecov.io/gh/yeukfei02/lunchPicker/branch/master/graph/badge.svg)](https://codecov.io/gh/yeukfei02/lunchPicker)
-[![CodeFactor](https://www.codefactor.io/repository/github/yeukfei02/lunchpicker/badge)](https://www.codefactor.io/repository/github/yeukfei02/lunchpicker)
 [![Join the chat at https://gitter.im/lunchPicker/community](https://badges.gitter.im/lunchPicker/community.svg)](https://gitter.im/lunchPicker/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/yeukfei02/lunchPicker)
