@@ -18,6 +18,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import logo from '../../images/logo.png';
+import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
 import { getRootUrl, log } from '../../common/Common';
@@ -791,6 +792,7 @@ function MainPage() {
           {renderRandomFoodCategory()}
           <div className="my-3"></div>
           {renderSortedByButton()}
+          <FloatingActionButton />
           <Snackbar openSuccessAlert={openSuccessAlert} openErrorAlert={openErrorAlert} message={message} />
         </Paper>
       </div>
