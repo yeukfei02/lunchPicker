@@ -16,6 +16,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import CardView from '../cardView/CardView';
+import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import { getRootUrl, log } from '../../common/Common';
 
@@ -296,6 +297,7 @@ function RandomFood() {
         </Button>
       </div>
       {renderDiv()}
+      <FloatingActionButton />
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
   )
