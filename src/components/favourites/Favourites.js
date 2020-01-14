@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { useTranslation } from 'react-i18next';
+import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -150,9 +151,11 @@ function Favourites() {
       cardViewResultList = favourites.map((item, i) => {
         return (
           <Grid key={i} item xs={12} sm={4}>
-            <div className="d-flex justify-content-center">
-              <CardView resultListItem={item} inFavouritesView={true} reloadFavourites={reloadFavourites} />
-            </div>
+            <Fade bottom>
+              <div className="d-flex justify-content-center">
+                <CardView resultListItem={item} inFavouritesView={true} reloadFavourites={reloadFavourites} />
+              </div>
+            </Fade>
           </Grid>
         );
       });

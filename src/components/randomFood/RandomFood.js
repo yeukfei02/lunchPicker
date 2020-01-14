@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';
+import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -185,9 +186,11 @@ function RandomFood() {
       cardViewResultList = resultList.map((item, i) => {
         return (
           <Grid key={i} item xs={12} sm={4}>
-            <div className="d-flex justify-content-center">
-              <CardView resultListItem={item} />
-            </div>
+            <Fade bottom>
+              <div className="d-flex justify-content-center">
+                <CardView resultListItem={item} />
+              </div>
+            </Fade>
           </Grid>
         );
       });

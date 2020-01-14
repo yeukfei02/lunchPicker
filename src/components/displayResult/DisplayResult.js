@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Fade from 'react-reveal/Fade';
 import _ from 'lodash';
 
 import CardView from '../cardView/CardView';
@@ -22,9 +23,11 @@ function DisplayResult(props) {
       cardViewResultList = props.resultList.map((item, i) => {
         return (
           <Grid key={i} item xs={12} sm={4}>
-            <div className="d-flex justify-content-center">
-              <CardView resultListItem={item} />
-            </div>
+            <Fade bottom>
+              <div className="d-flex justify-content-center">
+                <CardView resultListItem={item} />
+              </div>
+            </Fade>
           </Grid>
         );
       });
