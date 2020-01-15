@@ -16,12 +16,12 @@ https://lunch-picker-web.herokuapp.com/
 
 https://lunchpicker.netlify.com/
 
-### Requirement:
+## Requirement:
  - install yarn
  - install node (v12+)
  - install firebase cli
 
-### Testing and run:
+## Testing and run:
 ```
 $ yarn
 
