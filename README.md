@@ -36,3 +36,7 @@ $ yarn run deploy-firebase
 ```
 
 open localhost:5000
+
+## Contributing
+
+Please refer to [CONTRIBUTING.md](https://github.com/yeukfei02/lunchPicker/blob/master/CONTRIBUTING.md)
