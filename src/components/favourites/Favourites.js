@@ -35,13 +35,9 @@ function Favourites() {
   const [deleteAllFavouritesButtonClicked, setDeleteAllFavouritesButtonClicked] = useState(false);
   const [deleteAllFavouritesStatus, setDeleteAllFavouritesStatus] = useState(false);
 
-  const currentToken = localStorage.getItem('firebaseCurrentToken');
-
   useEffect(() => {
-    if (!_.isEmpty(currentToken)) {
-      getFavourites(currentToken);
-    }
-  }, [currentToken]);
+    getFavourites();
+  }, []);
 
   useEffect(() => {
     if (openSuccessAlert === true) {
@@ -55,19 +51,16 @@ function Favourites() {
   useEffect(() => {
     if (deleteAllFavouritesStatus === true) {
       setTimeout(() => {
-        getFavourites(currentToken);
+        getFavourites();
         setDeleteAllFavouritesStatus(false);
       }, 500);
     }
-  }, [deleteAllFavouritesStatus, currentToken]);
+  }, [deleteAllFavouritesStatus]);
 
-  const getFavourites = (currentToken) => {
+  const getFavourites = () => {
     axios.get(
       `${ROOT_URL}/favourites/get-favourites`,
       {
-        params: {
-          currentToken: currentToken
-        },
         headers: {
           'Content-Type': 'application/json'
         }
@@ -140,9 +133,7 @@ function Favourites() {
   }
 
   const reloadFavourites = () => {
-    if (!_.isEmpty(currentToken)) {
-      getFavourites(currentToken);
-    }
+    getFavourites();
   }
 
   const renderFavourites = () => {
@@ -171,9 +162,6 @@ function Favourites() {
     axios.delete(
       `${ROOT_URL}/favourites/delete-all-favourites`,
       {
-        params: {
-          currentToken: currentToken
-        },
         headers: {
           'Content-Type': 'application/json'
         }
