@@ -217,7 +217,6 @@ function CardView(props) {
     axios.post(
       `${ROOT_URL}/favourites/add-to-favourites`,
       {
-        currentToken: localStorage.getItem('firebaseCurrentToken'),
         item: item
       },
       {
