@@ -25,6 +25,9 @@ https://lunchpicker.netlify.com/
 ```
 $ yarn
 
+// use eslint and prettier to format code
+$ yarn run lint
+
 // development
 $ yarn run dev
 
