@@ -47,6 +47,7 @@
   },
   "scripts": {
     "dev": "PORT=5000 react-scripts start",
+    "production": "yarn run build && yarn run start",
     "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage",

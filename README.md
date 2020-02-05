@@ -25,14 +25,17 @@ https://lunchpicker.netlify.com/
 ```
 $ yarn
 
-// use eslint and prettier to format code
-$ yarn run lint
-
 // development
 $ yarn run dev
 
 // production
-$ yarn run build
+$ yarn run production
+
+// run test case
+$ yarn run test
+
+// use eslint and prettier to format code
+$ yarn run lint
 
 // deploy to firebase
 $ yarn run deploy-firebase
