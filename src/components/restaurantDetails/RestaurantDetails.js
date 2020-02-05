@@ -104,9 +104,8 @@ function RestaurantDetails(props) {
     let resultDiv = null;
 
     if (!_.isEmpty(restaurantDetails)) {
-      const url = restaurantDetails.url;
       const displayPhone = restaurantDetails.display_phone;
-      const categories = restaurantDetails.categories;
+      const url = restaurantDetails.url;
 
       resultDiv = (
         <div className="my-5 d-flex justify-content-center">
@@ -147,25 +146,6 @@ function RestaurantDetails(props) {
                 }}
                 variant="outlined"
               />
-              {
-                categories.forEach((item, i) => {
-                  return (
-                    <div key={i}>
-                      <TextField
-                        label="Category"
-                        placeholder="Category"
-                        value={item.title}
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{
-                          readOnly: true,
-                        }}
-                        variant="outlined"
-                      />
-                    </div>
-                  );
-                })
-              }
               <TextField
                 label="Location"
                 placeholder="Location"
