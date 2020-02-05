@@ -39,6 +39,10 @@ function Contact() {
     window.open('https://donorbox.org/donate-for-lunch-picker-better-features-and-development');
   }
 
+  const handleBuyMeACoffee = () => {
+    window.open('https://www.buymeacoffee.com/yeukfei02');
+  }
+
   const handleRadioButtonChange = (e) => {
     setRadioButtonValue(e.target.value);
   };
@@ -51,6 +55,14 @@ function Contact() {
         <div>
           <Button className="w-100" variant="outlined" color="primary" onClick={handleDonate}>
             {t('donate')}
+          </Button>
+        </div>
+      );
+    } else if (_.isEqual(radioButtonValue, 'buyMeACoffee')) {
+      resultDiv = (
+        <div>
+          <Button className="w-100" variant="outlined" color="primary" onClick={handleBuyMeACoffee}>
+            {t('buyMeACoffee')}
           </Button>
         </div>
       );
@@ -88,6 +100,12 @@ function Contact() {
               value="donorbox"
               control={<Radio color="primary" />}
               label="Donorbox"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="buyMeACoffee"
+              control={<Radio color="primary" />}
+              label="Buy me a coffee"
               labelPlacement="end"
             />
             <FormControlLabel
