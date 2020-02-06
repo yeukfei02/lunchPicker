@@ -5,6 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Button from '@material-ui/core/Button';
@@ -19,6 +20,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
   },
+  formControl: {
+    margin: theme.spacing(3),
+  }
 }));
 
 function Contact() {
@@ -95,26 +99,28 @@ function Contact() {
       <div className="my-5 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4 w-75`}>
           <h5 className="text-center">{t('donateTitle')}</h5>
-          <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
-            <FormControlLabel
-              value="donorbox"
-              control={<Radio color="primary" />}
-              label="Donorbox"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="buyMeACoffee"
-              control={<Radio color="primary" />}
-              label="Buy me a coffee"
-              labelPlacement="end"
-            />
-            <FormControlLabel
-              value="stripe"
-              control={<Radio color="primary" />}
-              label="Stripe"
-              labelPlacement="end"
-            />
-          </RadioGroup>
+          <FormControl component="fieldset" className={classes.formControl}>
+            <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange}>
+              <FormControlLabel
+                value="donorbox"
+                control={<Radio color="primary" />}
+                label="Donorbox"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="buyMeACoffee"
+                control={<Radio color="primary" />}
+                label="Buy me a coffee"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="stripe"
+                control={<Radio color="primary" />}
+                label="Stripe"
+                labelPlacement="end"
+              />
+            </RadioGroup>
+          </FormControl>
           {renderDiv()}
         </Paper>
       </div>
