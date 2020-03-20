@@ -37,7 +37,7 @@ jest.mock('react-i18next', () => ({
   })
 }));
 
-describe("renders test", () => {
+describe("render test", () => {
   it("NavBar", () => {
     shallow(<NavBar />);
   });
