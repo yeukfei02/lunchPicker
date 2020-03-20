@@ -76,23 +76,36 @@ function CardView(props) {
   // card data
   const item = props.inFavouritesView === undefined ? props.resultListItem : props.resultListItem.item;
   const _id = props.inFavouritesView !== undefined ? props.resultListItem._id : '';
-  const id = item.id;
-  const name = item.name;
-  const avatarStr = name[0].toUpperCase();
-  const categories = item.categories;
-  const imageUrl = item.image_url;
-  const url = item.url;
-  const rating = item.rating;
-  const location = item.location.display_address.join(', ');
-  const displayPhone = item.display_phone;
+
+  let id = '';
+  let name = '';
+  let avatarStr = '';
+  let categories = '';
+  let imageUrl = '';
+  let url = '';
+  let rating = '';
+  let location = '';
+  let displayPhone = '';
+  if (!_.isEmpty(item)) {
+    id = item.id;
+    name = item.name;
+    avatarStr = item.name[0].toUpperCase();
+    categories = item.categories;
+    imageUrl = item.image_url;
+    url = item.url;
+    rating = item.rating;
+    location = item.location.display_address.join(', ');
+    displayPhone = item.display_phone;
+  }
 
   let subHeader = "";
   if (!_.isEmpty(categories)) {
     categories.forEach((item, i) => {
-      if (i === 0)
-        subHeader += item.title;
-      else
-        subHeader += ", " + item.title;
+      if (!_.isEmpty(item.title))
+        if (i === 0)
+          subHeader += item.title;
+        else
+          subHeader += ", " + item.title;
     });
   }
 
