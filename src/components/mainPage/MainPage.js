@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
-import logo from '../../images/logo.png';
+import logo from '../../images/logo2.png';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
@@ -280,7 +280,7 @@ function MainPage() {
           log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
-          setMessage('Retrieved data success!');
+          setMessage('Retrieved data success! Please scroll down');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
@@ -315,7 +315,7 @@ function MainPage() {
           log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
-          setMessage('Retrieved data success!');
+          setMessage('Retrieved data success! Please scroll down');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
@@ -776,8 +776,8 @@ function MainPage() {
           <div className="mb-4 d-flex justify-content-end">
             {renderAvailableCountry()}
           </div>
-          <div className="mt-2 mb-5 d-flex justify-content-center">
-            <img src={logo} className="img-fluid" alt="logo" width="50%" />
+          <div className="mt-2 mb-4 d-flex justify-content-center">
+            <img src={logo} className="img-fluid" alt="logo" width="100%" />
           </div>
           {renderSelectDropdown()}
           {renderRadioButton()}
