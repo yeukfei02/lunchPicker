@@ -280,7 +280,7 @@ function MainPage() {
           log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
-          setMessage('Retrieved data success!');
+          setMessage('Retrieved data success! Please scroll down');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
@@ -315,7 +315,7 @@ function MainPage() {
           log("response = ", response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
-          setMessage('Retrieved data success!');
+          setMessage('Retrieved data success! Please scroll down');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
