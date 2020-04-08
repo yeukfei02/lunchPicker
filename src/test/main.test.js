@@ -3,6 +3,8 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { shallow, mount } from "enzyme";
 
+Enzyme.configure({ adapter: new Adapter() });
+
 import NavBar from '../components/navBar/NavBar';
 import MainPage from '../components/mainPage/MainPage';
 import RandomFood from '../components/randomFood/RandomFood';
@@ -22,8 +24,6 @@ import ReactTable from '../components/reactTable/ReactTable';
 import ImageSlider from '../components/imageSlider/ImageSlider';
 import CustomMap from '../components/customMap/CustomMap';
 
-Enzyme.configure({ adapter: new Adapter() });
-
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     push: jest.fn(),
@@ -37,72 +37,74 @@ jest.mock('react-i18next', () => ({
   })
 }));
 
-describe("render test", () => {
-  it("NavBar", () => {
-    shallow(<NavBar />);
-  });
+describe("main.test", () => {
+  describe("render test", () => {
+    it("NavBar", () => {
+      shallow(<NavBar />);
+    });
 
-  it("MainPage", () => {
-    shallow(<MainPage />);
-  });
+    it("MainPage", () => {
+      shallow(<MainPage />);
+    });
 
-  it("RandomFood", () => {
-    shallow(<RandomFood />);
-  });
+    it("RandomFood", () => {
+      shallow(<RandomFood />);
+    });
 
-  it("RandomFoodMapView", () => {
-    shallow(<RandomFoodMapView />);
-  });
+    it("RandomFoodMapView", () => {
+      shallow(<RandomFoodMapView />);
+    });
 
-  it("Favourites", () => {
-    shallow(<Favourites />);
-  });
+    it("Favourites", () => {
+      shallow(<Favourites />);
+    });
 
-  it("Settings", () => {
-    shallow(<Settings />);
-  });
+    it("Settings", () => {
+      shallow(<Settings />);
+    });
 
-  it("Contact", () => {
-    shallow(<Contact />);
-  });
+    it("Contact", () => {
+      shallow(<Contact />);
+    });
 
-  it("RestaurantDetails", () => {
-    shallow(<RestaurantDetails />);
-  });
+    it("RestaurantDetails", () => {
+      shallow(<RestaurantDetails />);
+    });
 
-  it("FloatingActionButton", () => {
-    shallow(<FloatingActionButton />);
-  });
+    it("FloatingActionButton", () => {
+      shallow(<FloatingActionButton />);
+    });
 
-  it("Snackbar", () => {
-    shallow(<Snackbar />);
-  });
+    it("Snackbar", () => {
+      shallow(<Snackbar />);
+    });
 
-  it("DisplayResult", () => {
-    shallow(<DisplayResult />);
-  });
+    it("DisplayResult", () => {
+      shallow(<DisplayResult />);
+    });
 
-  it("CardView", () => {
-    shallow(<CardView />);
-  });
+    it("CardView", () => {
+      shallow(<CardView />);
+    });
 
-  it("CustomMapList", () => {
-    shallow(<CustomMapList />);
-  });
+    it("CustomMapList", () => {
+      shallow(<CustomMapList />);
+    });
 
-  it("MyStoreCheckout", () => {
-    shallow(<MyStoreCheckout />);
-  });
+    it("MyStoreCheckout", () => {
+      shallow(<MyStoreCheckout />);
+    });
 
-  it("ReactTable", () => {
-    shallow(<ReactTable />);
-  });
+    it("ReactTable", () => {
+      shallow(<ReactTable />);
+    });
 
-  it("ImageSlider", () => {
-    shallow(<ImageSlider />);
-  });
+    it("ImageSlider", () => {
+      shallow(<ImageSlider />);
+    });
 
-  it("CustomMap", () => {
-    shallow(<CustomMap />);
+    it("CustomMap", () => {
+      shallow(<CustomMap />);
+    });
   });
 });
