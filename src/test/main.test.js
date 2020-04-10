@@ -3,8 +3,6 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { shallow, mount } from "enzyme";
 
-Enzyme.configure({ adapter: new Adapter() });
-
 import NavBar from '../components/navBar/NavBar';
 import MainPage from '../components/mainPage/MainPage';
 import RandomFood from '../components/randomFood/RandomFood';
@@ -23,6 +21,8 @@ import MyStoreCheckout from '../components/myStoreCheckout/MyStoreCheckout';
 import ReactTable from '../components/reactTable/ReactTable';
 import ImageSlider from '../components/imageSlider/ImageSlider';
 import CustomMap from '../components/customMap/CustomMap';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
