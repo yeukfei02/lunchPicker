@@ -50,7 +50,7 @@ open localhost:5000
 build images and start container
 ```
 docker build -t <username>/lunch-picker:<tag> .
-docker run -p 3000:3000 -d <username>/lunch-picker:<tag>
+docker run -p 80:80 -d <username>/lunch-picker:<tag>
 docker exec -it <containerId> /bin/bash
 docker logs <containerId>
 ```
