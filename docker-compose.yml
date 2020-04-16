@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: lunchPicker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 80:80
+    environment:
+      - NODE_ENV=production
