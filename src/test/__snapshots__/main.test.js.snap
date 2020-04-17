@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`main.test render test CardView 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test Contact 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test CustomMap 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test CustomMapList 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test DisplayResult 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test Favourites 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test FloatingActionButton 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test ImageSlider 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test MainPage 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test MyStoreCheckout 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test NavBar 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test RandomFood 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test RandomFoodMapView 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test ReactTable 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test RestaurantDetails 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test Settings 1`] = `ShallowWrapper {}`;
+
+exports[`main.test render test Snackbar 1`] = `ShallowWrapper {}`;
