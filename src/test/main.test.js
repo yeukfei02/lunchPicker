@@ -40,71 +40,88 @@ jest.mock('react-i18next', () => ({
 describe("main.test", () => {
   describe("render test", () => {
     it("NavBar", () => {
-      shallow(<NavBar />);
+      const wrapper = shallow(<NavBar />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("MainPage", () => {
-      shallow(<MainPage />);
+      const wrapper = shallow(<MainPage />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("RandomFood", () => {
-      shallow(<RandomFood />);
+      const wrapper = shallow(<RandomFood />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("RandomFoodMapView", () => {
-      shallow(<RandomFoodMapView />);
+      const wrapper = shallow(<RandomFoodMapView />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("Favourites", () => {
-      shallow(<Favourites />);
+      const wrapper = shallow(<Favourites />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("Settings", () => {
-      shallow(<Settings />);
+      const wrapper = shallow(<Settings />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("Contact", () => {
-      shallow(<Contact />);
+      const wrapper = shallow(<Contact />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("RestaurantDetails", () => {
-      shallow(<RestaurantDetails />);
+      const wrapper = shallow(<RestaurantDetails />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("FloatingActionButton", () => {
-      shallow(<FloatingActionButton />);
+      const wrapper = shallow(<FloatingActionButton />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("Snackbar", () => {
-      shallow(<Snackbar />);
+      const wrapper = shallow(<Snackbar />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("DisplayResult", () => {
-      shallow(<DisplayResult />);
+      const wrapper = shallow(<DisplayResult />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("CardView", () => {
-      shallow(<CardView />);
+      const wrapper = shallow(<CardView />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("CustomMapList", () => {
-      shallow(<CustomMapList />);
+      const wrapper = shallow(<CustomMapList />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("MyStoreCheckout", () => {
-      shallow(<MyStoreCheckout />);
+      const wrapper = shallow(<MyStoreCheckout />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("ReactTable", () => {
-      shallow(<ReactTable />);
+      const wrapper = shallow(<ReactTable />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("ImageSlider", () => {
-      shallow(<ImageSlider />);
+      const wrapper = shallow(<ImageSlider />);
+      expect(wrapper).toMatchSnapshot();
     });
 
     it("CustomMap", () => {
-      shallow(<CustomMap />);
+      const wrapper = shallow(<CustomMap />);
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });
