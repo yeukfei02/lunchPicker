@@ -12,9 +12,9 @@ The web hosted in 3 different places:
 
 https://lunchpicker-2232b.firebaseapp.com/
 
-https://lunch-picker-web.herokuapp.com/
+https://lunchpicker.netlify.app/
 
-https://lunchpicker.netlify.com/
+https://lunch-picker-web.herokuapp.com/
 
 ## Requirement:
  - install yarn
