@@ -8,7 +8,9 @@ If you’re a working software engineer, you’ve probably encountered with one 
 
 Lunch picker is the tool you’ll turn to to answer this question.
 
-The web hosted in 3 different places:
+The web hosted in below places:
+
+https://lunchpicker.me/
 
 https://lunchpicker-2232b.firebaseapp.com/
 
