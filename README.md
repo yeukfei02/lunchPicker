@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/yeukfei02/lunchPicker.svg?branch=master)](https://travis-ci.com/yeukfei02/lunchPicker)
 [![codecov](https://codecov.io/gh/yeukfei02/lunchPicker/branch/master/graph/badge.svg)](https://codecov.io/gh/yeukfei02/lunchPicker)
-[![Join the chat at https://gitter.im/lunchPicker/community](https://badges.gitter.im/lunchPicker/community.svg)](https://gitter.im/lunchPicker/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Discord](https://img.shields.io/discord/709269779793444944)](https://discord.gg/HdXSpNg)
 
 If you’re a working software engineer, you’ve probably encountered with one of the toughest questions, where should I have lunch?
 
