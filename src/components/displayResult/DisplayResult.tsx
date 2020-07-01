@@ -13,14 +13,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function DisplayResult(props) {
+function DisplayResult(props: any) {
   const classes = useStyles();
 
   const renderDisplayResult = () => {
     let cardViewResultList = null;
 
     if (!_.isEmpty(props.resultList)) {
-      cardViewResultList = props.resultList.map((item, i) => {
+      cardViewResultList = props.resultList.map((item: any, i: number) => {
         return (
           <Grid key={i} item xs={12} sm={4}>
             <Fade bottom>
@@ -34,10 +34,10 @@ function DisplayResult(props) {
     }
 
     return cardViewResultList;
-  }
+  };
 
   const renderDiv = () => {
-    let renderDiv = null;
+    let renderDiv: any = null;
 
     if (!_.isEmpty(props.resultList)) {
       renderDiv = (
@@ -50,11 +50,9 @@ function DisplayResult(props) {
     }
 
     return renderDiv;
-  }
+  };
 
-  return (
-    renderDiv()
-  )
+  return renderDiv();
 }
 
 export default DisplayResult;

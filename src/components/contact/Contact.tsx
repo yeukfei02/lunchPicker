@@ -22,37 +22,37 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(3),
-  }
+  },
 }));
 
 function Contact() {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [radioButtonValue, setRadioButtonValue] = useState('stripe');
+  const [radioButtonValue, setRadioButtonValue] = useState<string>('stripe');
 
   const handleEmailIconClick = () => {
     window.open('mailto:yeukfei02@gmail.com');
-  }
+  };
 
   const handleGithubIconClick = () => {
     window.open('https://github.com/yeukfei02');
-  }
+  };
 
   const handleDonate = () => {
     window.open('https://donorbox.org/donate-for-lunch-picker-better-features-and-development');
-  }
+  };
 
   const handleBuyMeACoffee = () => {
     window.open('https://www.buymeacoffee.com/yeukfei02');
-  }
+  };
 
-  const handleRadioButtonChange = (e) => {
+  const handleRadioButtonChange = (e: any) => {
     setRadioButtonValue(e.target.value);
   };
 
   const renderDiv = () => {
-    let resultDiv = null;
+    let resultDiv: any = null;
 
     if (_.isEqual(radioButtonValue, 'donorbox')) {
       resultDiv = (
@@ -81,7 +81,7 @@ function Contact() {
     }
 
     return resultDiv;
-  }
+  };
 
   return (
     <div>
@@ -100,7 +100,12 @@ function Contact() {
         <Paper className={`${classes.root} mx-4 w-75`}>
           <h5 className="text-center">{t('donateTitle')}</h5>
           <FormControl component="fieldset" className={classes.formControl}>
-            <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange}>
+            <RadioGroup
+              aria-label="position"
+              name="position"
+              value={radioButtonValue}
+              onChange={handleRadioButtonChange}
+            >
               <FormControlLabel
                 value="donorbox"
                 control={<Radio color="primary" />}
@@ -125,7 +130,7 @@ function Contact() {
         </Paper>
       </div>
     </div>
-  )
+  );
 }
 
 export default Contact;

@@ -11,10 +11,7 @@ import axios from 'axios';
 
 import Snackbar from '../snackBar/SnackBar';
 
-import {
-  getRootUrl,
-  log
-} from '../../common/Common';
+import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -25,12 +22,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const selectStyles = {
-  container: (base, state) => ({
+  container: (base: any, state: any) => ({
     ...base,
-    opacity: state.isDisabled ? ".5" : "1",
-    backgroundColor: "transparent",
-    zIndex: "999"
-  })
+    opacity: state.isDisabled ? '.5' : '1',
+    backgroundColor: 'transparent',
+    zIndex: '999',
+  }),
 };
 
 function Settings() {
@@ -52,15 +49,15 @@ function Settings() {
     }
   }
 
-  const [subscribeStatus, setSubscribeStatus] = useState(true);
+  const [subscribeStatus, setSubscribeStatus] = useState<boolean>(true);
 
-  const [languageList, setLanguageList] = useState([]);
-  const [language, setLanguage] = useState(defaultLanguage);
+  const [languageList, setLanguageList] = useState<any[]>([]);
+  const [language, setLanguage] = useState<any>(defaultLanguage);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const currentToken = localStorage.getItem('firebaseCurrentToken');
+  const currentToken: string | null = localStorage.getItem('firebaseCurrentToken');
 
   useEffect(() => {
     getLanguageList(t);
@@ -68,10 +65,8 @@ function Settings() {
 
   useEffect(() => {
     if (!_.isEmpty(currentToken)) {
-      if (subscribeStatus === true)
-        subscribeTopic(currentToken);
-      else
-        unsubscribeTopic(currentToken);
+      if (subscribeStatus === true) subscribeTopic(currentToken);
+      else unsubscribeTopic(currentToken);
     }
   }, [subscribeStatus, currentToken]);
 
@@ -84,22 +79,22 @@ function Settings() {
     }
   }, [openSuccessAlert, message]);
 
-  const getLanguageList = (t) => {
-    const languageList = [
+  const getLanguageList = (t: any) => {
+    const languageList: any[] = [
       { value: 'eng', label: t('english') },
       { value: 'chi', label: t('chinese') },
     ];
     setLanguageList(languageList);
-  }
+  };
 
-  const handleLanguageChange = (selectedLanguage) => {
+  const handleLanguageChange = (selectedLanguage: any) => {
     if (!_.isEmpty(selectedLanguage)) {
       setLanguage(selectedLanguage);
       i18n.changeLanguage(selectedLanguage.value);
     }
-  }
+  };
 
-  const handleSwitchChange = (e) => {
+  const handleSwitchChange = (e: any) => {
     setSubscribeStatus(e.target.checked);
 
     setOpenSuccessAlert(true);
@@ -108,57 +103,59 @@ function Settings() {
     } else {
       setMessage('Unsubscribe message success!');
     }
-  }
+  };
 
-  const subscribeTopic = (currentToken) => {
-    axios.post(
-      `${ROOT_URL}/firebase/subscribe-topic`,
-      {
-        currentTokenList: [currentToken],
-        topic: "all"
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+  const subscribeTopic = (currentToken: string | null) => {
+    axios
+      .post(
+        `${ROOT_URL}/firebase/subscribe-topic`,
+        {
+          currentTokenList: [currentToken],
+          topic: 'all',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
-  const unsubscribeTopic = (currentToken) => {
-    axios.post(
-      `${ROOT_URL}/firebase/unsubscribe-topic`,
-      {
-        currentTokenList: [currentToken],
-        topic: "all"
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+  const unsubscribeTopic = (currentToken: string | null) => {
+    axios
+      .post(
+        `${ROOT_URL}/firebase/unsubscribe-topic`,
+        {
+          currentTokenList: [currentToken],
+          topic: 'all',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   return (
     <div className="mt-5 d-flex justify-content-center">
@@ -168,7 +165,12 @@ function Settings() {
           <FormGroup row>
             <FormControlLabel
               control={
-                <Switch checked={subscribeStatus} color="primary" onChange={(e) => handleSwitchChange(e)} value="subscribeStatus" />
+                <Switch
+                  checked={subscribeStatus}
+                  color="primary"
+                  onChange={e => handleSwitchChange(e)}
+                  value="subscribeStatus"
+                />
               }
               label={t('subscribeMessage')}
             />
@@ -186,7 +188,7 @@ function Settings() {
       </Paper>
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
-  )
+  );
 }
 
 export default Settings;

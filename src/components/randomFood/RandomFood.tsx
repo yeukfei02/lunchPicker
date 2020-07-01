@@ -37,21 +37,21 @@ function RandomFood() {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [useRandomFoodCategory, setUseRandomFoodCategory] = useState(false);
-  const [selectedTerm, setSelectedTerm] = useState('');
+  const [useRandomFoodCategory, setUseRandomFoodCategory] = useState<boolean>(false);
+  const [selectedTerm, setSelectedTerm] = useState<any>('');
 
-  const [randomFoodList, setRandomFoodList] = useState([]);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [randomFoodList, setRandomFoodList] = useState<any[]>([]);
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState<boolean>(true);
 
-  const [refreshButtonClicked, setRefreshButtonClicked] = useState(false);
+  const [refreshButtonClicked, setRefreshButtonClicked] = useState<boolean>(false);
 
-  const [resultList, setResultList] = useState([]);
+  const [resultList, setResultList] = useState<any[]>([]);
 
   useEffect(() => {
     getRandomFoodList();
@@ -61,7 +61,7 @@ function RandomFood() {
   useEffect(() => {
     if (!_.isEmpty(randomFoodList)) {
       setTimeout(() => {
-        setOpen(false)
+        setOpen(false);
       }, 1000);
     }
   }, [randomFoodList]);
@@ -83,23 +83,26 @@ function RandomFood() {
   }, [openSuccessAlert, message]);
 
   const getRandomFoodList = () => {
-    axios.get(
-      `${ROOT_URL}/category/get-categories`,
-      {
+    axios
+      .get(`${ROOT_URL}/category/get-categories`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           if (!_.isEmpty(response.data.categories)) {
-            let randomFoodList = [];
-            response.data.categories.forEach((item, i) => {
+            const randomFoodList: any[] = [];
+            response.data.categories.forEach((item: any, i: number) => {
               if (!_.isEmpty(item.parent_aliases)) {
                 const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                if (
+                  _.isEqual(parentAliases, 'food') ||
+                  _.isEqual(parentAliases, 'restaurants') ||
+                  _.isEqual(parentAliases, 'bars') ||
+                  _.isEqual(parentAliases, 'breakfast_brunch')
+                ) {
                   randomFoodList.push(item);
                 }
               }
@@ -111,53 +114,56 @@ function RandomFood() {
           }
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   const getUserCurrentLatLong = () => {
-    navigator.geolocation.getCurrentPosition((location) => {
+    navigator.geolocation.getCurrentPosition((location: any) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
       setLatitude(latitude);
       setLongitude(longitude);
     });
-  }
+  };
 
-  const findRestaurantsByLatLong = (useRandomFoodCategory, selectedTerm, latitude, longitude) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
-      {
+  const findRestaurantsByLatLong = (
+    useRandomFoodCategory: boolean,
+    selectedTerm: string,
+    latitude: number,
+    longitude: number,
+  ) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
         params: {
           term: useRandomFoodCategory === true ? selectedTerm : '',
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
         },
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setResultList(response.data.restaurants.businesses);
           setRefreshButtonClicked(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setRefreshButtonClicked(false);
         }
       });
-  }
+  };
 
   const renderRefreshButton = () => {
-    let refreshButton = null;
+    let refreshButton: any = null;
 
     if (refreshButtonClicked === true) {
       refreshButton = (
@@ -178,10 +184,10 @@ function RandomFood() {
     }
 
     return refreshButton;
-  }
+  };
 
   const renderRandomFood = () => {
-    let cardViewResultList = null;
+    let cardViewResultList: any = null;
 
     if (!_.isEmpty(resultList)) {
       cardViewResultList = resultList.map((item, i) => {
@@ -198,10 +204,10 @@ function RandomFood() {
     }
 
     return cardViewResultList;
-  }
+  };
 
   const renderDiv = () => {
-    let renderDiv = null;
+    let renderDiv: any = null;
 
     if (!_.isEmpty(resultList)) {
       renderDiv = (
@@ -214,10 +220,7 @@ function RandomFood() {
     } else {
       renderDiv = (
         <div>
-          <Backdrop
-            className={classes.backdrop}
-            open={open}
-          >
+          <Backdrop className={classes.backdrop} open={open}>
             <CircularProgress color="inherit" />
           </Backdrop>
           <div className="mt-4 d-flex justify-content-center">
@@ -230,7 +233,7 @@ function RandomFood() {
     }
 
     return renderDiv;
-  }
+  };
 
   const handleRefresh = () => {
     setResultList([]);
@@ -243,43 +246,45 @@ function RandomFood() {
       setOpenSuccessAlert(true);
       setMessage('Refresh success!');
     }
-  }
+  };
 
   const handleSortedByRating = () => {
     const sortedByRatingResultList = _.orderBy(resultList, ['rating'], ['desc']);
     setResultList(sortedByRatingResultList);
-  }
+  };
 
   const handleSortedByDistance = () => {
     const sortedByDistanceResultList = _.orderBy(resultList, ['distance'], ['asc']);
     setResultList(sortedByDistanceResultList);
-  }
+  };
 
-  const handleSwitchChange = (e) => {
+  const handleSwitchChange = (e: any) => {
     setUseRandomFoodCategory(e.target.checked);
     setOpenSuccessAlert(true);
     setMessage('Refresh success!');
-  }
+  };
 
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Typography component={'span'}>
-          {
-            useRandomFoodCategory === true && !_.isEmpty(selectedTerm) ?
-              <div>
-                <b>{t('currentFoodCategory')}</b> {selectedTerm}
-              </div>
-              :
-              null
-          }
+          {useRandomFoodCategory === true && !_.isEmpty(selectedTerm) ? (
+            <div>
+              <b>{t('currentFoodCategory')}</b> {selectedTerm}
+            </div>
+          ) : null}
         </Typography>
       </div>
       <div className="mt-2 d-flex justify-content-end" style={{ marginRight: '1.5em' }}>
         <FormGroup row>
           <FormControlLabel
             control={
-              <Switch checked={useRandomFoodCategory} color="primary" onChange={(e) => handleSwitchChange(e)} value="useRandomFoodCategory" />
+              <Switch
+                checked={useRandomFoodCategory}
+                color="primary"
+                onChange={e => handleSwitchChange(e)}
+                value="useRandomFoodCategory"
+              />
             }
             label={t('useRandomFoodCategory')}
           />
@@ -300,7 +305,7 @@ function RandomFood() {
       <FloatingActionButton />
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
-  )
+  );
 }
 
 export default RandomFood;

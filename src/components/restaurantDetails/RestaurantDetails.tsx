@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -25,24 +25,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RestaurantDetails(props) {
+function RestaurantDetails(props: any) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [restaurantDetails, setRestaurantDetails] = useState({});
-  const [photosList, setPhotosList] = useState([]);
-  const [name, setName] = useState('');
-  const [locationStr, setLocationStr] = useState('');
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [restaurantDetails, setRestaurantDetails] = useState<any>({});
+  const [photosList, setPhotosList] = useState<any[]>([]);
+  const [name, setName] = useState<string>('');
+  const [locationStr, setLocationStr] = useState<string>('');
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     const id = props.match.params.id;
-    if (!_.isEmpty(id))
-      getRestaurantsDetailsById(id);
+    if (!_.isEmpty(id)) getRestaurantsDetailsById(id);
   }, [props.match.params.id]);
 
   useEffect(() => {
@@ -54,18 +53,16 @@ function RestaurantDetails(props) {
     }
   }, [openSuccessAlert, message]);
 
-  const getRestaurantsDetailsById = (id) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/get-restaurant-details/${id}`,
-      {
+  const getRestaurantsDetailsById = (id: string) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/get-restaurant-details/${id}`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setRestaurantDetails(response.data.restaurantDetails);
 
           const name = response.data.restaurantDetails.name;
@@ -93,19 +90,19 @@ function RestaurantDetails(props) {
           setMessage('Retrieve restaurant details success!');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   const renderRestaurantDetails = () => {
-    let resultDiv = null;
+    let resultDiv: any = null;
 
     if (!_.isEmpty(restaurantDetails)) {
-      const displayPhone = restaurantDetails.display_phone;
-      const url = restaurantDetails.url;
+      const displayPhone = (restaurantDetails as any).display_phone;
+      const url = (restaurantDetails as any).url;
 
       resultDiv = (
         <div className="my-5 d-flex justify-content-center">
@@ -119,7 +116,7 @@ function RestaurantDetails(props) {
                 value={name}
                 fullWidth
                 margin="normal"
-                InputLabelProps={{
+                InputProps={{
                   readOnly: true,
                 }}
                 variant="outlined"
@@ -130,7 +127,7 @@ function RestaurantDetails(props) {
                 value={displayPhone}
                 fullWidth
                 margin="normal"
-                InputLabelProps={{
+                InputProps={{
                   readOnly: true,
                 }}
                 variant="outlined"
@@ -141,7 +138,7 @@ function RestaurantDetails(props) {
                 value={url}
                 fullWidth
                 margin="normal"
-                InputLabelProps={{
+                InputProps={{
                   readOnly: true,
                 }}
                 variant="outlined"
@@ -152,7 +149,7 @@ function RestaurantDetails(props) {
                 value={locationStr}
                 fullWidth
                 margin="normal"
-                InputLabelProps={{
+                InputProps={{
                   readOnly: true,
                 }}
                 variant="outlined"
@@ -164,10 +161,10 @@ function RestaurantDetails(props) {
     }
 
     return resultDiv;
-  }
+  };
 
   const renderCustomMap = () => {
-    let resultDiv = null;
+    let resultDiv: any = null;
 
     if (latitude !== 0 && longitude !== 0) {
       resultDiv = (
@@ -180,46 +177,45 @@ function RestaurantDetails(props) {
     }
 
     return resultDiv;
-  }
+  };
 
   const renderOpeningTimeTable = () => {
-    let resultDiv = null;
+    let resultDiv: any = null;
 
     if (!_.isEmpty(restaurantDetails)) {
-      const hours = restaurantDetails.hours;
+      const hours = (restaurantDetails as any).hours;
       if (!_.isEmpty(hours)) {
-        let data = [];
+        let data: any[] = [];
         let hoursType = '';
         let isOpenNow = '';
 
-        hours.forEach((item, i) => {
+        hours.forEach((item: any, i: number) => {
           const open = item.open;
           if (!_.isEmpty(open)) {
-            data = open.map((item, i) => {
+            data = open.map((item: any, i: number) => {
               switch (item.day) {
                 case 0:
-                  item.day = "Mon";
+                  item.day = 'Mon';
                   break;
                 case 1:
-                  item.day = "Tue";
+                  item.day = 'Tue';
                   break;
                 case 2:
-                  item.day = "Wed";
+                  item.day = 'Wed';
                   break;
                 case 3:
-                  item.day = "Thu";
+                  item.day = 'Thu';
                   break;
                 case 4:
-                  item.day = "Fri";
+                  item.day = 'Fri';
                   break;
                 case 5:
-                  item.day = "Sat";
+                  item.day = 'Sat';
                   break;
                 case 6:
-                  item.day = "Sun";
+                  item.day = 'Sun';
                   break;
                 default:
-
               }
               if (!item.start.includes(':')) {
                 item.start = `${item.start.substring(0, 2)}:${item.start.substring(2)}`;
@@ -237,25 +233,21 @@ function RestaurantDetails(props) {
 
         const column = [
           {
-            Header: "Day",
-            accessor: "day",
+            Header: 'Day',
+            accessor: 'day',
           },
           {
-            Header: "Start",
-            accessor: "start",
+            Header: 'Start',
+            accessor: 'start',
           },
           {
-            Header: "End",
-            accessor: "end",
+            Header: 'End',
+            accessor: 'end',
           },
           {
-            Header: "Is overnight",
-            accessor: (data) => {
-              return (
-                <Checkbox
-                  checked={data.is_overnight ? true : false}
-                />
-              );
+            Header: 'Is overnight',
+            accessor: (data: any) => {
+              return <Checkbox checked={data.is_overnight ? true : false} />;
             },
           },
         ];
@@ -271,20 +263,13 @@ function RestaurantDetails(props) {
                   value={hoursType.toLowerCase()}
                   fullWidth
                   margin="normal"
-                  InputLabelProps={{
+                  InputProps={{
                     readOnly: true,
                   }}
                   variant="outlined"
                 />
                 <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={isOpenNow ? true : false}
-                      />
-                    }
-                    label="Is open now"
-                  />
+                  <FormControlLabel control={<Checkbox checked={isOpenNow ? true : false} />} label="Is open now" />
                 </FormGroup>
               </div>
             </Paper>
@@ -294,7 +279,7 @@ function RestaurantDetails(props) {
 
       return resultDiv;
     }
-  }
+  };
 
   return (
     <div>
@@ -303,7 +288,7 @@ function RestaurantDetails(props) {
       {renderOpeningTimeTable()}
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
-  )
+  );
 }
 
 export default withRouter(RestaurantDetails);

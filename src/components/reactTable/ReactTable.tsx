@@ -29,52 +29,50 @@ const Styles = styled.div`
       }
     }
   }
-`
+`;
 
-function Table({ columns, data }) {
+function Table(props: any) {
   // Use the state and functions returned from useTable to build your UI
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    columns: props.columns,
+    data: props.data,
+  });
 
   // Render the UI for your table
   return (
     <table {...getTableProps()}>
       <thead>
-        {headerGroups.map((headerGroup, i) => (
+        {headerGroups.map((headerGroup: any, i: number) => (
           <tr key={i} {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column, i) => (
-              <th key={i} {...column.getHeaderProps()}>{column.render('Header')}</th>
+            {headerGroup.headers.map((column: any, i: number) => (
+              <th key={i} {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </th>
             ))}
           </tr>
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map(
-          (row, i) => {
-            prepareRow(row);
-            return (
-              <tr key={i} {...row.getRowProps()}>
-                {row.cells.map((cell, i) => {
-                  return <td key={i} {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          }
-        )}
+        {rows.map((row: any, i: number) => {
+          prepareRow(row);
+          return (
+            <tr key={i} {...row.getRowProps()}>
+              {row.cells.map((cell: any, i: number) => {
+                return (
+                  <td key={i} {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
-  )
+  );
 }
 
-function ReactTable(props) {
+function ReactTable(props: any) {
   const columns = useMemo(() => props.column, [props.column]);
   const data = useMemo(() => props.data, [props.data]);
 
@@ -82,7 +80,7 @@ function ReactTable(props) {
     <Styles>
       <Table columns={columns} data={data} />
     </Styles>
-  )
+  );
 }
 
 export default ReactTable;

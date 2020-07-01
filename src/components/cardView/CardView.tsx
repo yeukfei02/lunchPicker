@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -51,18 +51,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CardView(props) {
+function CardView(props: any) {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation();
 
-  const [expanded, setExpanded] = useState(false);
-  const [reviewsList, setReviewsList] = useState([]);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [reviewsList, setReviewsList] = useState<any[]>([]);
 
-  const [addToFavoritesClicked, setAddToFavoritesClicked] = useState(false);
+  const [addToFavoritesClicked, setAddToFavoritesClicked] = useState<boolean>(false);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     if (openSuccessAlert === true) {
@@ -80,10 +80,10 @@ function CardView(props) {
   let id = '';
   let name = '';
   let avatarStr = '';
-  let categories = '';
+  let categories: any[] = [];
   let imageUrl = '';
   let url = '';
-  let rating = '';
+  let rating = 0;
   let location = '';
   let displayPhone = '';
   if (!_.isEmpty(item)) {
@@ -98,65 +98,58 @@ function CardView(props) {
     displayPhone = item.display_phone;
   }
 
-  let subHeader = "";
+  let subHeader = '';
   if (!_.isEmpty(categories)) {
-    categories.forEach((item, i) => {
+    categories.forEach((item: any, i: number) => {
       if (!_.isEmpty(item.title))
-        if (i === 0)
-          subHeader += item.title;
-        else
-          subHeader += ", " + item.title;
+        if (i === 0) subHeader += item.title;
+        else subHeader += ', ' + item.title;
     });
   }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    if (expanded === false)
-      getRestaurantsDetailsReviewById(id);
+    if (expanded === false) getRestaurantsDetailsReviewById(id);
   };
 
-  const getRestaurantsDetailsReviewById = () => {
-    axios.get(
-      `${ROOT_URL}/restaurant/get-restaurant-details-review/${id}`,
-      {
+  const getRestaurantsDetailsReviewById = (id: string) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/get-restaurant-details-review/${id}`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           const reviewsList = response.data.restaurantDetailsReview.reviews;
           setReviewsList(reviewsList);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
   };
 
   const handleOpenUrl = () => {
     window.open(url);
-  }
+  };
 
   const renderStarIcon = () => {
-    let starIconList = [];
+    const starIconList: any[] = [];
 
     for (let i = 0; i < rating; i++) {
-      starIconList.push(
-        <StarIcon key={i} style={{ color: yellow[600] }} fontSize="small" />
-      );
+      starIconList.push(<StarIcon key={i} style={{ color: yellow[600] }} fontSize="small" />);
     }
 
     return starIconList;
-  }
+  };
 
   const renderFavouriteIcon = () => {
-    let favouriteIcon = null;
+    let favouriteIcon: any = null;
 
     if (props.inFavouritesView === undefined) {
       favouriteIcon = (
@@ -173,29 +166,34 @@ function CardView(props) {
     }
 
     return favouriteIcon;
-  }
+  };
 
-  const handleOpenUserProfileUrl = (userProfileUrl) => {
+  const handleOpenUserProfileUrl = (userProfileUrl: string) => {
     window.open(userProfileUrl);
-  }
+  };
 
   const renderReviewsList = () => {
-    let formattedReviewsList = null;
+    let formattedReviewsList: any = null;
 
     if (!_.isEmpty(reviewsList)) {
-      formattedReviewsList = reviewsList.map((item, i) => {
+      formattedReviewsList = reviewsList.map((item: any, i: number) => {
         const text = item.text;
         const userName = item.user.name;
         const userProfileUrl = item.user.profile_url;
         const userImageUrl = item.user.image_url;
         return (
           <div key={i} className="my-3">
-            <Avatar style={{ cursor: 'pointer' }} alt="user" src={userImageUrl} onClick={() => handleOpenUserProfileUrl(userProfileUrl)} />
+            <Avatar
+              style={{ cursor: 'pointer' }}
+              alt="user"
+              src={userImageUrl}
+              onClick={() => handleOpenUserProfileUrl(userProfileUrl)}
+            />
             <Typography className="mt-2">
               <b>{userName}</b>: {text}
             </Typography>
           </div>
-        )
+        );
       });
     }
 
@@ -205,55 +203,56 @@ function CardView(props) {
         {formattedReviewsList}
       </div>
     );
-  }
+  };
 
-  const handleLocationClick = (e) => {
+  const handleLocationClick = (e: any) => {
     const text = e.target.innerHTML;
     window.open(`https://www.google.com/maps/search/?api=1&query=${text}`);
-  }
+  };
 
-  const handleOnMouseEnterTextStyle = (e) => {
+  const handleOnMouseEnterTextStyle = (e: any) => {
     e.target.setAttribute('style', 'cursor: pointer; text-decoration: underline; color: #ed1f30');
-  }
+  };
 
-  const handleOnMouseLeaveTextStyle = (e) => {
+  const handleOnMouseLeaveTextStyle = (e: any) => {
     e.target.removeAttribute('style');
-  }
+  };
 
-  const handleOpenRestaurantDetailsById = (id) => {
+  const handleOpenRestaurantDetailsById = (id: string) => {
     history.push(`/restaurant-details/${id}`);
-  }
+  };
 
   const handleAddToFavorites = () => {
     setAddToFavoritesClicked(true);
 
-    axios.post(
-      `${ROOT_URL}/favourites/add-to-favourites`,
-      {
-        item: item
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+    axios
+      .post(
+        `${ROOT_URL}/favourites/add-to-favourites`,
+        {
+          item: item,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setOpenSuccessAlert(true);
           setMessage('Add to favourites success!');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   const renderDeleteButton = () => {
-    let deleteButton = null;
+    let deleteButton: any = null;
 
     if (props.inFavouritesView === undefined) {
       deleteButton = (
@@ -263,25 +262,27 @@ function CardView(props) {
       );
     } else {
       deleteButton = (
-        <HighlightOffIcon fontSize="large" style={{ cursor: 'pointer' }} onClick={() => handleDeleteFavouritesById(_id)} />
+        <HighlightOffIcon
+          fontSize="large"
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleDeleteFavouritesById(_id)}
+        />
       );
     }
 
     return deleteButton;
-  }
+  };
 
-  const handleDeleteFavouritesById = (_id) => {
-    axios.delete(
-      `${ROOT_URL}/favourites/delete-favourites/${_id}`,
-      {
+  const handleDeleteFavouritesById = (_id: string) => {
+    axios
+      .delete(`${ROOT_URL}/favourites/delete-favourites/${_id}`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setOpenSuccessAlert(true);
           setMessage('Delete favourites by id success!');
           setTimeout(() => {
@@ -289,12 +290,12 @@ function CardView(props) {
           }, 500);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   return (
     <div>
@@ -305,7 +306,8 @@ function CardView(props) {
               style={{ cursor: 'pointer' }}
               aria-label="recipe"
               className={classes.avatar}
-              onClick={() => handleOpenRestaurantDetailsById(id)}>
+              onClick={() => handleOpenRestaurantDetailsById(id)}
+            >
               {avatarStr}
             </Avatar>
           }
@@ -313,8 +315,9 @@ function CardView(props) {
           title={
             <div
               onClick={() => handleOpenRestaurantDetailsById(id)}
-              onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
-              onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+              onMouseEnter={e => handleOnMouseEnterTextStyle(e)}
+              onMouseLeave={e => handleOnMouseLeaveTextStyle(e)}
+            >
               {name}
             </div>
           }
@@ -328,14 +331,13 @@ function CardView(props) {
           onClick={handleOpenUrl}
         />
         <CardContent>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p">
-            {t('location')} <span
-              onClick={(e) => handleLocationClick(e)}
-              onMouseEnter={(e) => handleOnMouseEnterTextStyle(e)}
-              onMouseLeave={(e) => handleOnMouseLeaveTextStyle(e)}>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {t('location')}{' '}
+            <span
+              onClick={e => handleLocationClick(e)}
+              onMouseEnter={e => handleOnMouseEnterTextStyle(e)}
+              onMouseLeave={e => handleOnMouseLeaveTextStyle(e)}
+            >
               {location}
             </span>
           </Typography>
@@ -363,9 +365,7 @@ function CardView(props) {
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            {renderReviewsList()}
-          </CardContent>
+          <CardContent>{renderReviewsList()}</CardContent>
         </Collapse>
       </Card>
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />

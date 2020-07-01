@@ -1,7 +1,7 @@
 import React from 'react';
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import { shallow, mount } from "enzyme";
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { shallow, mount } from 'enzyme';
 
 import NavBar from '../components/navBar/NavBar';
 import MainPage from '../components/mainPage/MainPage';
@@ -32,94 +32,94 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: key => key,
-    i18n: key => key
-  })
+    t: (key: any) => key,
+    i18n: (key: any) => key,
+  }),
 }));
 
-describe("main.test", () => {
-  describe("render test", () => {
-    it("NavBar", () => {
+describe('main.test', () => {
+  describe('render test', () => {
+    it('NavBar', () => {
       const wrapper = shallow(<NavBar />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("MainPage", () => {
+    it('MainPage', () => {
       const wrapper = shallow(<MainPage />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("RandomFood", () => {
+    it('RandomFood', () => {
       const wrapper = shallow(<RandomFood />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("RandomFoodMapView", () => {
+    it('RandomFoodMapView', () => {
       const wrapper = shallow(<RandomFoodMapView />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("Favourites", () => {
+    it('Favourites', () => {
       const wrapper = shallow(<Favourites />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("Settings", () => {
+    it('Settings', () => {
       const wrapper = shallow(<Settings />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("Contact", () => {
+    it('Contact', () => {
       const wrapper = shallow(<Contact />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("RestaurantDetails", () => {
+    it('RestaurantDetails', () => {
       const wrapper = shallow(<RestaurantDetails />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("FloatingActionButton", () => {
+    it('FloatingActionButton', () => {
       const wrapper = shallow(<FloatingActionButton />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("Snackbar", () => {
+    it('Snackbar', () => {
       const wrapper = shallow(<Snackbar />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("DisplayResult", () => {
+    it('DisplayResult', () => {
       const wrapper = shallow(<DisplayResult />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("CardView", () => {
+    it('CardView', () => {
       const wrapper = shallow(<CardView />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("CustomMapList", () => {
+    it('CustomMapList', () => {
       const wrapper = shallow(<CustomMapList />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("MyStoreCheckout", () => {
+    it('MyStoreCheckout', () => {
       const wrapper = shallow(<MyStoreCheckout />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("ReactTable", () => {
+    it('ReactTable', () => {
       const wrapper = shallow(<ReactTable />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("ImageSlider", () => {
+    it('ImageSlider', () => {
       const wrapper = shallow(<ImageSlider />);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("CustomMap", () => {
+    it('CustomMap', () => {
       const wrapper = shallow(<CustomMap />);
       expect(wrapper).toMatchSnapshot();
     });

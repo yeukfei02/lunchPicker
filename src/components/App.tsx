@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Normalize from 'react-normalize';
 import Favicon from 'react-favicon';
-import favicon from '../images/favicon.ico';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import {
-  Switch,
-  Route
-} from "react-router-dom";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Switch, Route } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import * as firebase from "firebase/app";
-import "firebase/analytics";
-import "firebase/messaging";
+import * as firebase from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/messaging';
 import _ from 'lodash';
 import axios from 'axios';
 import is from 'is_js';
@@ -26,11 +22,7 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import {
-  getFirebaseConfig,
-  getRootUrl,
-  log
-} from '../common/Common';
+import { getFirebaseConfig, getRootUrl, log } from '../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -41,26 +33,28 @@ const ROOT_URL = getRootUrl();
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#ed1f30'
+      main: '#ed1f30',
     },
     secondary: {
-      main: '#2b76f0'
+      main: '#2b76f0',
     },
     background: {
-      default: "#FAFAD2"
-    }
+      default: '#FAFAD2',
+    },
   },
   typography: {
-    "fontFamily": "Ubuntu, sans-serif",
-  }
-},
-)
+    fontFamily: 'Ubuntu, sans-serif',
+  },
+});
 
 // google analytic
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_ID);
+const trackingCode: string = process.env['REACT_APP_GOOGLE_ANALYTICS_ID']
+  ? process.env['REACT_APP_GOOGLE_ANALYTICS_ID']
+  : '';
+ReactGA.initialize(trackingCode);
 
 // firebase
-let messaging = null;
+let messaging: any = null;
 
 const isDesktop = is.desktop();
 const isAndroid = is.android();
@@ -72,26 +66,26 @@ if (isDesktop || isAndroid) {
     firebase.initializeApp(firebaseConfig);
 
     messaging = firebase.messaging();
-    messaging.usePublicVapidKey(process.env.REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES);
+    messaging.usePublicVapidKey(process.env['REACT_APP_FIREBASE_WEB_PUSH_CERTIFICATES']);
   }
 }
 
 function App() {
   const location = useLocation();
 
-  const [currentToken, setCurrentToken] = useState('');
-  const [refreshedToken, setRefreshedToken] = useState('');
+  const [currentToken, setCurrentToken] = useState<string>('');
+  const [refreshedToken, setRefreshedToken] = useState<string>('');
 
   useEffect(() => {
     if (!_.isEmpty(messaging)) {
-      Notification.requestPermission().then((permission) => {
+      Notification.requestPermission().then((permission: any) => {
         if (_.isEqual(permission, 'granted')) {
-          log('Notification permission granted.', "");
+          log('Notification permission granted.', '');
 
           getToken(messaging);
           onTokenRefresh(messaging);
         } else {
-          log('Unable to get permission to notify.', "");
+          log('Unable to get permission to notify.', '');
         }
       });
     }
@@ -108,90 +102,94 @@ function App() {
     ReactGA.pageview(location.pathname);
   }, [location.pathname]);
 
-  const getToken = (messaging) => {
-    messaging.getToken()
-      .then((currentToken) => {
+  const getToken = (messaging: any) => {
+    messaging
+      .getToken()
+      .then((currentToken: string) => {
         if (currentToken) {
-          log("currentToken = ", currentToken);
+          log('currentToken = ', currentToken);
           localStorage.setItem('firebaseCurrentToken', currentToken);
           setCurrentToken(currentToken);
         } else {
           log('No Instance ID token available. Request permission to generate one.', '');
         }
       })
-      .catch((err) => {
+      .catch((err: any) => {
         log('An error occurred while retrieving token.', err);
       });
-  }
+  };
 
-  const onTokenRefresh = (messaging) =>
+  const onTokenRefresh = (messaging: any) =>
     messaging.onTokenRefresh(() => {
-      messaging.getToken()
-        .then((refreshedToken) => {
-          log("refreshedToken = ", refreshedToken);
+      messaging
+        .getToken()
+        .then((refreshedToken: string) => {
+          log('refreshedToken = ', refreshedToken);
           localStorage.setItem('firebaseRefreshedToken', refreshedToken);
           setRefreshedToken(refreshedToken);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           log('Unable to retrieve refreshed token ', err);
         });
     });
 
-  const addTokenToServer = (currentToken, refreshedToken) => {
-    axios.post(
-      `${ROOT_URL}/firebase/add-token-to-server`,
-      {
-        currentToken: currentToken,
-        refreshedToken: refreshedToken
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+  const addTokenToServer = (currentToken: string, refreshedToken: string) => {
+    axios
+      .post(
+        `${ROOT_URL}/firebase/add-token-to-server`,
+        {
+          currentToken: currentToken,
+          refreshedToken: refreshedToken,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
-  const subscribeTopic = (currentToken) => {
-    axios.post(
-      `${ROOT_URL}/firebase/subscribe-topic`,
-      {
-        currentTokenList: [currentToken],
-        topic: "all"
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+  const subscribeTopic = (currentToken: string) => {
+    axios
+      .post(
+        `${ROOT_URL}/firebase/subscribe-topic`,
+        {
+          currentTokenList: [currentToken],
+          topic: 'all',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <Normalize />
-      <Favicon url={favicon} />
+      <Favicon url={require('../images/favicon.ico')} />
       <NavBar />
 
       <Switch>
@@ -218,7 +216,7 @@ function App() {
         </Route>
       </Switch>
     </MuiThemeProvider>
-  )
+  );
 }
 
 export default App;
