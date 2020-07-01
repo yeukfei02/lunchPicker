@@ -15,27 +15,27 @@ import { getRootUrl, log } from '../../common/Common';
 const ROOT_URL = getRootUrl();
 
 const selectStyles = {
-  container: (base, state) => ({
+  container: (base: any, state: any) => ({
     ...base,
-    opacity: state.isDisabled ? ".5" : "1",
-    backgroundColor: "transparent",
-    zIndex: "999"
-  })
+    opacity: state.isDisabled ? '.5' : '1',
+    backgroundColor: 'transparent',
+    zIndex: '999',
+  }),
 };
 
-function CheckoutForm(props) {
+function CheckoutForm(props: any) {
   const { t } = useTranslation();
 
-  const [currencyList, setCurrencyList] = useState([]);
-  const [amount, setAmount] = useState(0);
-  const [currency, setCurrency] = useState('');
+  const [currencyList, setCurrencyList] = useState<any[]>([]);
+  const [amount, setAmount] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>('');
 
-  const [token, setToken] = useState('');
-  const [card, setCard] = useState({});
+  const [token, setToken] = useState<string>('');
+  const [card, setCard] = useState<any>({});
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     getCurrencyList();
@@ -70,13 +70,13 @@ function CheckoutForm(props) {
       { value: 'usd', label: 'US Dollar (USD)' },
     ];
     setCurrencyList(currencyList);
-  }
+  };
 
-  const handleAmountChange = (e) => {
+  const handleAmountChange = (e: any) => {
     setAmount(e.target.value);
-  }
+  };
 
-  const handleCurrencyChange = (selectedCurrency) => {
+  const handleCurrencyChange = (selectedCurrency: any) => {
     setCurrency(selectedCurrency);
 
     if (!_.isEmpty(selectedCurrency)) {
@@ -97,15 +97,15 @@ function CheckoutForm(props) {
           setAmount(1);
           break;
         default:
-
       }
     }
-  }
+  };
 
   const handlePayNow = () => {
-    props.stripe.createToken()
-      .then((response) => {
-        log("response = ", response);
+    props.stripe
+      .createToken()
+      .then((response: any) => {
+        log('response = ', response);
         if (!_.isEmpty(response.token)) {
           setToken(response.token.id);
           setCard(response.token.card);
@@ -116,29 +116,30 @@ function CheckoutForm(props) {
           setMessage(response.error.message);
         }
       })
-      .catch((error) => {
-        log("error = ", error);
+      .catch((error: any) => {
+        log('error = ', error);
       });
   };
 
-  const creditCardPayment = (amount, currency, token, card) => {
-    axios.post(
-      `${ROOT_URL}/stripe/credit-card-payment`,
-      {
-        amount: Math.round(amount * 100),
-        currency: currency.value,
-        token: token,
-        card: card
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+  const creditCardPayment = (amount: number, currency: any, token: string, card: any) => {
+    axios
+      .post(
+        `${ROOT_URL}/stripe/credit-card-payment`,
+        {
+          amount: Math.round(amount * 100),
+          currency: currency.value,
+          token: token,
+          card: card,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setOpenSuccessAlert(true);
           setMessage('Payment success!');
           setTimeout(() => {
@@ -146,17 +147,17 @@ function CheckoutForm(props) {
           }, 1000);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setOpenErrorAlert(true);
           setMessage('Payment failed!');
         }
       });
-  }
+  };
 
   const renderPayNowButton = () => {
-    let payNowButton = null;
+    let payNowButton: any = null;
 
     if (amount === 0 && _.isEmpty(currency) && _.isEmpty(token) && _.isEmpty(card)) {
       payNowButton = (
@@ -173,7 +174,7 @@ function CheckoutForm(props) {
     }
 
     return payNowButton;
-  }
+  };
 
   return (
     <div>

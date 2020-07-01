@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 function FloatingActionButton() {
   const classes = useStyles();
 
-  const [showFab, setShowFab] = useState(false);
+  const [showFab, setShowFab] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -30,30 +30,23 @@ function FloatingActionButton() {
   const scrollToTop = () => {
     window.scroll(0, 0);
     setShowFab(false);
-  }
+  };
 
   const renderFab = () => {
-    let fab = null;
+    let fab: any = null;
 
     if (showFab === true) {
       fab = (
-        <Fab
-          className={classes.fab}
-          style={{ zIndex: '999' }}
-          color="primary"
-          aria-label="up"
-          onClick={scrollToTop}>
+        <Fab className={classes.fab} style={{ zIndex: 999 }} color="primary" aria-label="up" onClick={scrollToTop}>
           <UpIcon />
         </Fab>
       );
     }
 
     return fab;
-  }
+  };
 
-  return (
-    renderFab()
-  );
+  return renderFab();
 }
 
 export default FloatingActionButton;

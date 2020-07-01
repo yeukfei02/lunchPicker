@@ -14,19 +14,19 @@ const ROOT_URL = getRootUrl();
 function RandomFoodMapView() {
   const { t } = useTranslation();
 
-  const [selectedTerm, setSelectedTerm] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState<any>('');
 
-  const [randomFoodList, setRandomFoodList] = useState([]);
-  const [nameList, setNameList] = useState([]);
-  const [locationStrList, setLocationStrList] = useState([]);
-  const [coordinatesList, setCoordinatesList] = useState([]);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [randomFoodList, setRandomFoodList] = useState<any[]>([]);
+  const [nameList, setNameList] = useState<any[]>([]);
+  const [locationStrList, setLocationStrList] = useState<any[]>([]);
+  const [coordinatesList, setCoordinatesList] = useState<any[]>([]);
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const [refreshButtonClicked, setRefreshButtonClicked] = useState(false);
+  const [refreshButtonClicked, setRefreshButtonClicked] = useState<boolean>(false);
 
   useEffect(() => {
     getRandomFoodList();
@@ -50,23 +50,26 @@ function RandomFoodMapView() {
   }, [openSuccessAlert, message]);
 
   const getRandomFoodList = () => {
-    axios.get(
-      `${ROOT_URL}/category/get-categories`,
-      {
+    axios
+      .get(`${ROOT_URL}/category/get-categories`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           if (!_.isEmpty(response.data.categories)) {
-            let randomFoodList = [];
-            response.data.categories.forEach((item, i) => {
+            const randomFoodList: any[] = [];
+            response.data.categories.forEach((item: any, i: number) => {
               if (!_.isEmpty(item.parent_aliases)) {
                 const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                if (
+                  _.isEqual(parentAliases, 'food') ||
+                  _.isEqual(parentAliases, 'restaurants') ||
+                  _.isEqual(parentAliases, 'bars') ||
+                  _.isEqual(parentAliases, 'breakfast_brunch')
+                ) {
                   randomFoodList.push(item);
                 }
               }
@@ -78,55 +81,55 @@ function RandomFoodMapView() {
           }
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   const getUserCurrentLatLong = () => {
-    navigator.geolocation.getCurrentPosition((location) => {
+    navigator.geolocation.getCurrentPosition((location: any) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
       setLatitude(latitude);
       setLongitude(longitude);
     });
-  }
+  };
 
-  const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
-      {
+  const findRestaurantsByLatLong = (selectedTerm: string, latitude: number, longitude: number) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
         params: {
           term: selectedTerm,
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
         },
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
 
-          const nameList = response.data.restaurants.businesses.map((item, i) => {
-            const obj = {};
-            obj.name = item.name;
+          const nameList = response.data.restaurants.businesses.map((item: any, i: number) => {
+            const obj = {
+              name: item.name,
+            };
             return obj;
           });
           setNameList(nameList);
 
-          const locationStrList = response.data.restaurants.businesses.map((item, i) => {
-            const obj = {};
-            obj.locationStr = item.location.display_address.join(', ');
+          const locationStrList = response.data.restaurants.businesses.map((item: any, i: number) => {
+            const obj = {
+              locationStr: item.location.display_address.join(', '),
+            };
             return obj;
           });
           setLocationStrList(locationStrList);
 
-          const coordinatesList = response.data.restaurants.businesses.map((item, i) => {
+          const coordinatesList = response.data.restaurants.businesses.map((item: any, i: number) => {
             return item.coordinates;
           });
           setCoordinatesList(coordinatesList);
@@ -134,13 +137,13 @@ function RandomFoodMapView() {
           setRefreshButtonClicked(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setRefreshButtonClicked(false);
         }
       });
-  }
+  };
 
   const handleRefresh = () => {
     setNameList([]);
@@ -155,10 +158,10 @@ function RandomFoodMapView() {
       setOpenSuccessAlert(true);
       setMessage('Refresh success!');
     }
-  }
+  };
 
-  let renderRefreshButton = () => {
-    let refreshButton = null;
+  const renderRefreshButton = () => {
+    let refreshButton: any = null;
 
     if (refreshButtonClicked === true) {
       refreshButton = (
@@ -179,20 +182,17 @@ function RandomFoodMapView() {
     }
 
     return refreshButton;
-  }
+  };
 
   return (
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Typography component={'span'}>
-          {
-            !_.isEmpty(selectedTerm) ?
-              <div>
-                <b>{t('currentFoodCategory')}</b> {selectedTerm}
-              </div>
-              :
-              null
-          }
+          {!_.isEmpty(selectedTerm) ? (
+            <div>
+              <b>{t('currentFoodCategory')}</b> {selectedTerm}
+            </div>
+          ) : null}
         </Typography>
       </div>
       {renderRefreshButton()}
@@ -207,7 +207,7 @@ function RandomFoodMapView() {
       </div>
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
     </div>
-  )
+  );
 }
 
 export default RandomFoodMapView;

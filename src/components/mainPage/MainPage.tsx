@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
 
-import logo from '../../images/logo2.png';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
@@ -31,19 +30,6 @@ const groupStyles = {
   justifyContent: 'space-between',
 };
 
-const groupBadgeStyles = {
-  backgroundColor: '#EBECF0',
-  borderRadius: '2em',
-  color: '#172B4D',
-  display: 'inline-block',
-  fontSize: 12,
-  fontWeight: 'normal',
-  lineHeight: '1',
-  minWidth: 1,
-  padding: '0.16666666666667em 0.5em',
-  textAlign: 'center',
-};
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
@@ -55,41 +41,41 @@ const useStyles = makeStyles(theme => ({
   grey: {
     color: theme.palette.getContrastText(grey[500]),
     backgroundColor: grey[500],
-  }
+  },
 }));
 
 const selectStyles = {
-  container: (base, state) => ({
+  container: (base: any, state: any) => ({
     ...base,
-    opacity: state.isDisabled ? ".5" : "1",
-    backgroundColor: "transparent",
-    zIndex: "999"
-  })
+    opacity: state.isDisabled ? '.5' : '1',
+    backgroundColor: 'transparent',
+    zIndex: '999',
+  }),
 };
 
 function MainPage() {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [selectedTermList, setSelectedTermList] = useState([]);
-  const [selectedTerm, setSelectedTerm] = useState('');
-  const [radioButtonValue, setRadioButtonValue] = useState('');
+  const [selectedTermList, setSelectedTermList] = useState<any[]>([]);
+  const [selectedTerm, setSelectedTerm] = useState<any>(null);
+  const [radioButtonValue, setRadioButtonValue] = useState<string>('');
 
-  const [formattedRandomFoodList, setFormattedRandomFoodList] = useState([]);
-  const [randomFoodTerm, setRandomFoodTerm] = useState([]);
+  const [formattedRandomFoodList, setFormattedRandomFoodList] = useState<any[]>([]);
+  const [randomFoodTerm, setRandomFoodTerm] = useState<any>([]);
 
-  const [location, setLocation] = useState('');
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [location, setLocation] = useState<string>('');
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
   const [message, setMessage] = useState('');
 
-  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
-  const [randomButtonClicked, setRandomButtonClicked] = useState(false);
+  const [submitButtonClicked, setSubmitButtonClicked] = useState<boolean>(false);
+  const [randomButtonClicked, setRandomButtonClicked] = useState<boolean>(false);
 
-  const [resultList, setResultList] = useState([]);
+  const [resultList, setResultList] = useState<any[]>([]);
 
   useEffect(() => {
     getSelectedTermList();
@@ -97,115 +83,111 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    if (latitude !== 0 && longitude !== 0)
-      findLocationTextByLatLong(latitude, longitude);
+    if (latitude !== 0 && longitude !== 0) findLocationTextByLatLong(latitude, longitude);
   }, [latitude, longitude]);
 
   useEffect(() => {
-    if (!_.isEmpty(resultList))
-      setRandomButtonClicked(false);
-  }, [resultList])
+    if (!_.isEmpty(resultList)) setRandomButtonClicked(false);
+  }, [resultList]);
 
   const getSelectedTermList = () => {
-    axios.get(
-      `${ROOT_URL}/category/get-categories`,
-      {
+    axios
+      .get(`${ROOT_URL}/category/get-categories`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           if (!_.isEmpty(response.data.categories)) {
-            let foodList = [];
-            let restaurantsList = [];
-            let barsList = [];
-            let breakfastBrunchList = [];
-            response.data.categories.forEach((item, i) => {
+            const foodList: any[] = [];
+            const restaurantsList: any[] = [];
+            const barsList: any[] = [];
+            const breakfastBrunchList: any[] = [];
+            response.data.categories.forEach((item: any, i: number) => {
               if (!_.isEmpty(item.parent_aliases)) {
                 const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, "food")) {
+                if (_.isEqual(parentAliases, 'food')) {
                   foodList.push(item);
                 }
-                if (_.isEqual(parentAliases, "restaurants")) {
+                if (_.isEqual(parentAliases, 'restaurants')) {
                   restaurantsList.push(item);
                 }
-                if (_.isEqual(parentAliases, "bars")) {
+                if (_.isEqual(parentAliases, 'bars')) {
                   barsList.push(item);
                 }
-                if (_.isEqual(parentAliases, "breakfast_brunch")) {
+                if (_.isEqual(parentAliases, 'breakfast_brunch')) {
                   breakfastBrunchList.push(item);
                 }
               }
             });
 
-            let foodObj = {};
-            let restaurantsObj = {};
-            let barsObj = {};
-            let breakfastBrunchObj = {};
+            let foodObj: any = {};
+            let restaurantsObj: any = {};
+            let barsObj: any = {};
+            let breakfastBrunchObj: any = {};
             if (!_.isEmpty(foodList)) {
-              let options = [];
+              const options: any[] = [];
               foodList.forEach((item, i) => {
                 const optionsObj = {
                   value: item.alias,
-                  label: item.title
-                }
+                  label: item.title,
+                };
                 options.push(optionsObj);
               });
 
               foodObj = {
                 label: 'Food',
-                options: options
+                options: options,
               };
             }
             if (!_.isEmpty(restaurantsList)) {
-              let options = [];
+              const options: any[] = [];
               restaurantsList.forEach((item, i) => {
                 const optionsObj = {
                   value: item.alias,
-                  label: item.title
-                }
+                  label: item.title,
+                };
                 options.push(optionsObj);
               });
 
               restaurantsObj = {
                 label: 'Restaurants',
-                options: options
+                options: options,
               };
             }
             if (!_.isEmpty(barsList)) {
-              let options = [];
+              const options: any[] = [];
               barsList.forEach((item, i) => {
                 const optionsObj = {
                   value: item.alias,
-                  label: item.title
-                }
+                  label: item.title,
+                };
                 options.push(optionsObj);
               });
 
               barsObj = {
                 label: 'Bars',
-                options: options
+                options: options,
               };
             }
             if (!_.isEmpty(breakfastBrunchList)) {
-              let options = [];
+              const options: any[] = [];
               breakfastBrunchList.forEach((item, i) => {
                 const optionsObj = {
                   value: item.alias,
-                  label: item.title
-                }
+                  label: item.title,
+                };
                 options.push(optionsObj);
               });
 
               breakfastBrunchObj = {
                 label: 'Breakfast and Brunch',
-                options: options
-              }
+                options: options,
+              };
             }
-            let formattedSelectedTermList = [];
+            const formattedSelectedTermList: any[] = [];
             formattedSelectedTermList.push(foodObj);
             formattedSelectedTermList.push(restaurantsObj);
             formattedSelectedTermList.push(barsObj);
@@ -214,70 +196,66 @@ function MainPage() {
           }
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setOpenErrorAlert(true);
           setMessage('Get categories error!');
         }
       });
-  }
+  };
 
   const getUserCurrentLatLong = () => {
-    navigator.geolocation.getCurrentPosition((location) => {
+    navigator.geolocation.getCurrentPosition((location: any) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
-      log("latitude = ", latitude);
-      log("longitude = ", longitude);
+      log('latitude = ', latitude);
+      log('longitude = ', longitude);
       setLatitude(latitude);
       setLongitude(longitude);
     });
-  }
+  };
 
-  const findLocationTextByLatLong = (latitude, longitude) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/find-location-text-by-lat-long`,
-      {
+  const findLocationTextByLatLong = (latitude: number, longitude: number) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/find-location-text-by-lat-long`, {
         params: {
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
         },
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setLocation(response.data.location.display_name);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setOpenErrorAlert(true);
           setMessage('Find location text by lat long error!');
         }
       });
-  }
+  };
 
-  const findRestaurantsByLocation = (selectedTerm, location) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/find-restaurants-by-location`,
-      {
+  const findRestaurantsByLocation = (selectedTerm: string, location: any) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/find-restaurants-by-location`, {
         params: {
           term: selectedTerm,
-          location: location
+          location: location,
         },
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success! Please scroll down');
@@ -285,34 +263,32 @@ function MainPage() {
           setRandomButtonClicked(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
       });
-  }
+  };
 
-  const findRestaurantsByLatLong = (selectedTerm, latitude, longitude) => {
-    axios.get(
-      `${ROOT_URL}/restaurant/find-restaurants-by-lat-long`,
-      {
+  const findRestaurantsByLatLong = (selectedTerm: string, latitude: number, longitude: number) => {
+    axios
+      .get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
         params: {
           term: selectedTerm,
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
         },
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setResultList(response.data.restaurants.businesses);
           setOpenSuccessAlert(true);
           setMessage('Retrieved data success! Please scroll down');
@@ -320,28 +296,28 @@ function MainPage() {
           setRandomButtonClicked(false);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setOpenErrorAlert(true);
           setMessage('Location / Latitude Longitude is not valid!');
           setSubmitButtonClicked(false);
           setRandomButtonClicked(false);
         }
       });
-  }
+  };
 
-  const handleChange = (selectedTerm) => {
+  const handleChange = (selectedTerm: any) => {
     setSelectedTerm(selectedTerm);
   };
 
-  const handleRadioButtonChange = e => {
+  const handleRadioButtonChange = (e: any) => {
     setRadioButtonValue(e.target.value);
   };
 
-  const handleLocationChange = (e) => {
+  const handleLocationChange = (e: any) => {
     setLocation(e.target.value);
-  }
+  };
 
   // const handleLatitudeChange = (e) => {
   //   setLatitude(e.target.value);
@@ -351,15 +327,30 @@ function MainPage() {
   //   setLongitude(e.target.value);
   // }
 
-  const formatGroupLabel = (data) => (
+  const formatGroupLabel = (data: any) => (
     <div style={groupStyles}>
       <span>{data.label}</span>
-      <span style={groupBadgeStyles}>{data.options.length}</span>
+      <span
+        style={{
+          backgroundColor: '#EBECF0',
+          borderRadius: '2em',
+          color: '#172B4D',
+          display: 'inline-block',
+          fontSize: 12,
+          fontWeight: 'normal',
+          lineHeight: '1',
+          minWidth: 1,
+          padding: '0.16666666666667em 0.5em',
+          textAlign: 'center',
+        }}
+      >
+        {data.options.length}
+      </span>
     </div>
   );
 
   const renderSelectDropdown = () => {
-    let selectDropdown = null;
+    let selectDropdown: any = null;
 
     if (_.isEqual(window.location.pathname, '/')) {
       selectDropdown = (
@@ -379,44 +370,49 @@ function MainPage() {
     }
 
     return selectDropdown;
-  }
+  };
 
   const renderRadioButton = () => {
     const radioButtonDiv = (
       <div>
-        <RadioGroup aria-label="position" name="position" value={radioButtonValue} onChange={handleRadioButtonChange} row>
+        <RadioGroup
+          aria-label="position"
+          name="position"
+          value={radioButtonValue}
+          onChange={e => handleRadioButtonChange(e)}
+          row
+        >
           <FormControlLabel
             value="places"
             control={<Radio color="primary" />}
             label={t('places')}
             labelPlacement="end"
           />
-          {
-            latitude !== 0 && longitude !== 0 ?
-              <FormControlLabel
-                value="useCurrentLocation"
-                control={<Radio color="primary" />}
-                label={t('currentLocation')}
-                labelPlacement="end"
-              />
-              :
-              <FormControlLabel
-                value="useCurrentLocation"
-                control={<Radio color="primary" />}
-                label={t('currentLocationWaitForBrowserDetection')}
-                labelPlacement="end"
-                disabled={true}
-              />
-          }
+          {latitude !== 0 && longitude !== 0 ? (
+            <FormControlLabel
+              value="useCurrentLocation"
+              control={<Radio color="primary" />}
+              label={t('currentLocation')}
+              labelPlacement="end"
+            />
+          ) : (
+            <FormControlLabel
+              value="useCurrentLocation"
+              control={<Radio color="primary" />}
+              label={t('currentLocationWaitForBrowserDetection')}
+              labelPlacement="end"
+              disabled={true}
+            />
+          )}
         </RadioGroup>
       </div>
     );
 
     return radioButtonDiv;
-  }
+  };
 
   const renderLocationInput = () => {
-    let locationInput = null;
+    let locationInput: any = null;
 
     if (_.isEqual(radioButtonValue, 'places')) {
       locationInput = (
@@ -433,7 +429,7 @@ function MainPage() {
               shrink: true,
             }}
             value={location}
-            onChange={handleLocationChange}
+            onChange={e => handleLocationChange(e)}
           />
           <div className="my-3"></div>
         </div>
@@ -441,10 +437,10 @@ function MainPage() {
     }
 
     return locationInput;
-  }
+  };
 
   // const renderLatitudeAndLongitudeInput = () => {
-  //   let latitudeAndLongitudeInput = null;
+  //   let latitudeAndLongitudeInput: any = null;
   //
   //   if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
   //     latitudeAndLongitudeInput = (
@@ -489,38 +485,38 @@ function MainPage() {
 
   const renderAvailableCountry = () => {
     const availableCountry = [
-      "Argentina",
-      "Australia",
-      "Austria",
-      "Belgium",
-      "Brazil",
-      "Canada",
-      "Chile",
-      "Czech Republic",
-      "Denmark",
-      "Finland",
-      "France",
-      "Germany",
-      "Hong Kong",
-      "Italy",
-      "Japan",
-      "Malaysia",
-      "Mexico",
-      "New Zealand",
-      "Norway",
-      "Philippines",
-      "Poland",
-      "Portugal",
-      "Republic of Ireland",
-      "Singapore",
-      "Spain",
-      "Sweden",
-      "Switzerland",
-      "Taiwan",
-      "The Netherlands",
-      "Turkey",
-      "United Kingdom",
-      "United States"
+      'Argentina',
+      'Australia',
+      'Austria',
+      'Belgium',
+      'Brazil',
+      'Canada',
+      'Chile',
+      'Czech Republic',
+      'Denmark',
+      'Finland',
+      'France',
+      'Germany',
+      'Hong Kong',
+      'Italy',
+      'Japan',
+      'Malaysia',
+      'Mexico',
+      'New Zealand',
+      'Norway',
+      'Philippines',
+      'Poland',
+      'Portugal',
+      'Republic of Ireland',
+      'Singapore',
+      'Spain',
+      'Sweden',
+      'Switzerland',
+      'Taiwan',
+      'The Netherlands',
+      'Turkey',
+      'United Kingdom',
+      'United States',
     ];
 
     const availableCountryText = `Available country: ${availableCountry.join(', ')}`;
@@ -530,10 +526,10 @@ function MainPage() {
         <HelpOutlineIcon style={{ color: red[500], cursor: 'pointer' }} />
       </Tooltip>
     );
-  }
+  };
 
   const renderSubmitButton = () => {
-    let submitButton = null;
+    let submitButton: any = null;
 
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
@@ -570,7 +566,7 @@ function MainPage() {
     }
 
     return submitButton;
-  }
+  };
 
   const renderClearButton = () => {
     const clearButton = (
@@ -580,10 +576,10 @@ function MainPage() {
     );
 
     return clearButton;
-  }
+  };
 
   const renderRandomButton = () => {
-    let randomButton = null;
+    let randomButton: any = null;
 
     if (randomButtonClicked === true) {
       randomButton = (
@@ -593,7 +589,7 @@ function MainPage() {
               alt=""
               className={`${classes.grey}`}
               style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
-              disabled={true}>
+            >
               <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
             </Avatar>
           </Tooltip>
@@ -606,7 +602,8 @@ function MainPage() {
             alt=""
             className={`${classes.red}`}
             style={{ padding: '1.8em', margin: '0 auto', cursor: 'pointer' }}
-            onClick={handleRandom}>
+            onClick={handleRandom}
+          >
             <FastfoodIcon style={{ color: '#fff', fontSize: 34 }} />
           </Avatar>
         </Tooltip>
@@ -614,10 +611,10 @@ function MainPage() {
     }
 
     return randomButton;
-  }
+  };
 
   const renderSortedByButton = () => {
-    let sortedByButton = null;
+    let sortedByButton: any = null;
 
     if (!_.isEmpty(resultList)) {
       sortedByButton = (
@@ -634,21 +631,23 @@ function MainPage() {
     }
 
     return sortedByButton;
-  }
+  };
 
   const renderRandomFoodCategory = () => {
-    let randomFoodCategory = null;
+    let randomFoodCategory: any = null;
 
     if (!_.isEmpty(randomFoodTerm)) {
       randomFoodCategory = (
         <div className="my-3 d-flex justify-content-center">
-          <h6>{t('randomFoodCategory')} {randomFoodTerm}</h6>
+          <h6>
+            {t('randomFoodCategory')} {randomFoodTerm}
+          </h6>
         </div>
       );
     }
 
     return randomFoodCategory;
-  }
+  };
 
   const handleSubmit = () => {
     setRandomFoodTerm('');
@@ -674,7 +673,7 @@ function MainPage() {
         setMessage('');
       }
     }
-  }
+  };
 
   const handleClear = () => {
     setSelectedTerm('');
@@ -686,30 +685,33 @@ function MainPage() {
 
     setRandomFoodTerm('');
     setResultList([]);
-  }
+  };
 
   const handleRandom = () => {
     setResultList([]);
     setRandomButtonClicked(true);
 
     if (_.isEmpty(formattedRandomFoodList)) {
-      axios.get(
-        `${ROOT_URL}/category/get-categories`,
-        {
+      axios
+        .get(`${ROOT_URL}/category/get-categories`, {
           headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-        .then((response) => {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
           if (!_.isEmpty(response)) {
-            log("response = ", response);
+            log('response = ', response);
             if (!_.isEmpty(response.data.categories)) {
-              let randomFoodList = [];
-              response.data.categories.forEach((item, i) => {
+              const randomFoodList: any[] = [];
+              response.data.categories.forEach((item: any, i: number) => {
                 if (!_.isEmpty(item.parent_aliases)) {
                   const parentAliases = item.parent_aliases[0];
-                  if (_.isEqual(parentAliases, "food") || _.isEqual(parentAliases, "restaurants") || _.isEqual(parentAliases, "bars") || _.isEqual(parentAliases, "breakfast_brunch")) {
+                  if (
+                    _.isEqual(parentAliases, 'food') ||
+                    _.isEqual(parentAliases, 'restaurants') ||
+                    _.isEqual(parentAliases, 'bars') ||
+                    _.isEqual(parentAliases, 'breakfast_brunch')
+                  ) {
                     randomFoodList.push(item);
                   }
                 }
@@ -723,9 +725,9 @@ function MainPage() {
             }
           }
         })
-        .catch((error) => {
+        .catch(error => {
           if (!_.isEmpty(error)) {
-            log("error = ", error);
+            log('error = ', error);
             setOpenErrorAlert(true);
             setMessage('Get categories error!');
           }
@@ -733,19 +735,19 @@ function MainPage() {
     } else {
       getRandomResult(formattedRandomFoodList);
     }
-  }
+  };
 
   const handleSortedByRating = () => {
     const sortedByRatingResultList = _.orderBy(resultList, ['rating'], ['desc']);
     setResultList(sortedByRatingResultList);
-  }
+  };
 
   const handleSortedByDistance = () => {
     const sortedByDistanceResultList = _.orderBy(resultList, ['distance'], ['asc']);
     setResultList(sortedByDistanceResultList);
-  }
+  };
 
-  const getRandomResult = (formattedRandomFoodList) => {
+  const getRandomResult = (formattedRandomFoodList: any[]) => {
     const selectedTerm = _.sample(formattedRandomFoodList);
     setRandomFoodTerm(selectedTerm);
     if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
@@ -753,10 +755,10 @@ function MainPage() {
       setOpenSuccessAlert(false);
       setMessage('');
     }
-  }
+  };
 
   const renderDisplayResult = () => {
-    let displayResult = null;
+    let displayResult: any = null;
 
     if (!_.isEmpty(resultList)) {
       displayResult = (
@@ -767,17 +769,15 @@ function MainPage() {
     }
 
     return displayResult;
-  }
+  };
 
   return (
     <div>
       <div className="mt-5 mb-3 d-flex justify-content-center">
         <Paper className={`${classes.root} mx-4`}>
-          <div className="mb-4 d-flex justify-content-end">
-            {renderAvailableCountry()}
-          </div>
+          <div className="mb-4 d-flex justify-content-end">{renderAvailableCountry()}</div>
           <div className="mt-2 mb-4 d-flex justify-content-center">
-            <img src={logo} className="img-fluid" alt="logo" width="100%" />
+            <img src={require('../../images/logo2.png')} className="img-fluid" alt="logo" width="100%" />
           </div>
           {renderSelectDropdown()}
           {renderRadioButton()}

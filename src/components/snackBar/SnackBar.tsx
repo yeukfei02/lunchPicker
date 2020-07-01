@@ -45,7 +45,7 @@ const useStyles1 = makeStyles(theme => ({
   },
 }));
 
-function MySnackbarContentWrapper(props) {
+function MySnackbarContentWrapper(props: any) {
   const classes = useStyles1();
   const { className, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
@@ -70,10 +70,10 @@ function MySnackbarContentWrapper(props) {
   );
 }
 
-function SnackBar(props) {
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const [message, setMessage] = useState('');
+function SnackBar(props: any) {
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     if (props.openSuccessAlert === true) {
@@ -93,7 +93,7 @@ function SnackBar(props) {
     }
   }, [props.message]);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: any) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -103,7 +103,7 @@ function SnackBar(props) {
   };
 
   const renderSnackBar = () => {
-    let snackBar = null;
+    let snackBar: any = null;
 
     if (openSuccessAlert === true) {
       snackBar = (
@@ -116,11 +116,7 @@ function SnackBar(props) {
           autoHideDuration={2000}
           onClose={handleClose}
         >
-          <MySnackbarContentWrapper
-            onClose={handleClose}
-            variant="success"
-            message={message}
-          />
+          <MySnackbarContentWrapper onClose={handleClose} variant="success" message={message} />
         </Snackbar>
       );
     }
@@ -135,23 +131,15 @@ function SnackBar(props) {
           autoHideDuration={2000}
           onClose={handleClose}
         >
-          <MySnackbarContentWrapper
-            onClose={handleClose}
-            variant="error"
-            message={message}
-          />
+          <MySnackbarContentWrapper onClose={handleClose} variant="error" message={message} />
         </Snackbar>
       );
     }
 
     return snackBar;
-  }
+  };
 
-  return (
-    <div>
-      {renderSnackBar()}
-    </div>
-  )
+  return <div>{renderSnackBar()}</div>;
 }
 
 export default SnackBar;

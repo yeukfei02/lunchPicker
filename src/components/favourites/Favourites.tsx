@@ -27,13 +27,13 @@ function Favourites() {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState<any[]>([]);
 
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [message, setMessage] = useState('');
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-  const [deleteAllFavouritesButtonClicked, setDeleteAllFavouritesButtonClicked] = useState(false);
-  const [deleteAllFavouritesStatus, setDeleteAllFavouritesStatus] = useState(false);
+  const [deleteAllFavouritesButtonClicked, setDeleteAllFavouritesButtonClicked] = useState<boolean>(false);
+  const [deleteAllFavouritesStatus, setDeleteAllFavouritesStatus] = useState<boolean>(false);
 
   useEffect(() => {
     getFavourites();
@@ -58,32 +58,30 @@ function Favourites() {
   }, [deleteAllFavouritesStatus]);
 
   const getFavourites = () => {
-    axios.get(
-      `${ROOT_URL}/favourites/get-favourites`,
-      {
+    axios
+      .get(`${ROOT_URL}/favourites/get-favourites`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           const favourites = response.data.favourites;
           setFavourites(favourites);
           setOpenSuccessAlert(true);
           setMessage('Get favorites success!');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
         }
       });
-  }
+  };
 
   const renderDeleteAllFavouritesButton = () => {
-    let deleteAllFavouritesButton = null;
+    let deleteAllFavouritesButton: any = null;
 
     if (deleteAllFavouritesButtonClicked === true) {
       deleteAllFavouritesButton = (
@@ -104,10 +102,10 @@ function Favourites() {
     }
 
     return deleteAllFavouritesButton;
-  }
+  };
 
   const renderDiv = () => {
-    let renderDiv = null;
+    let renderDiv: any = null;
 
     if (!_.isEmpty(favourites)) {
       renderDiv = (
@@ -130,14 +128,14 @@ function Favourites() {
     }
 
     return renderDiv;
-  }
+  };
 
   const reloadFavourites = () => {
     getFavourites();
-  }
+  };
 
   const renderFavourites = () => {
-    let cardViewResultList = null;
+    let cardViewResultList: any = null;
 
     if (!_.isEmpty(favourites)) {
       cardViewResultList = favourites.map((item, i) => {
@@ -154,36 +152,34 @@ function Favourites() {
     }
 
     return cardViewResultList;
-  }
+  };
 
   const handleDeleteAllFavourites = () => {
     setDeleteAllFavouritesButtonClicked(true);
 
-    axios.delete(
-      `${ROOT_URL}/favourites/delete-all-favourites`,
-      {
+    axios
+      .delete(`${ROOT_URL}/favourites/delete-all-favourites`, {
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-      .then((response) => {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
         if (!_.isEmpty(response)) {
-          log("response = ", response);
+          log('response = ', response);
           setOpenSuccessAlert(true);
           setMessage('Delete all favorites success!');
           setDeleteAllFavouritesButtonClicked(false);
           setDeleteAllFavouritesStatus(true);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         if (!_.isEmpty(error)) {
-          log("error = ", error);
+          log('error = ', error);
           setDeleteAllFavouritesButtonClicked(false);
           setDeleteAllFavouritesStatus(true);
         }
       });
-  }
+  };
 
   return (
     <div>
@@ -198,8 +194,8 @@ function Favourites() {
       {renderDiv()}
       <FloatingActionButton />
       <Snackbar openSuccessAlert={openSuccessAlert} message={message} />
-    </div >
-  )
+    </div>
+  );
 }
 
 export default Favourites;
