@@ -72,7 +72,8 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn run build",
     "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
-    "deploy-firebase": "rm -rf build && yarn run build && firebase deploy"
+    "deploy-firebase": "rm -rf build && yarn run build && firebase deploy",
+    "commit": "npx git-cz"
   },
   "eslintConfig": {
     "extends": "react-app"
