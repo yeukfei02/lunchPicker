@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://github.com/yeukfei02/lunchPicker/blob/master/readme-icon.png" width="200" height="200">
+</p>
+
 # lunchPicker
 
 [![Build Status](https://travis-ci.com/yeukfei02/lunchPicker.svg?branch=master)](https://travis-ci.com/yeukfei02/lunchPicker)
