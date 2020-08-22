@@ -1,5 +1,5 @@
 # stage 1
-FROM node:12.14.0 AS builder
+FROM node:12.18.3 AS builder
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY ./ .
