@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RandomFood() {
+function RandomFood(): JSX.Element {
   const classes = useStyles();
   const { t } = useTranslation();
 

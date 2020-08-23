@@ -11,7 +11,7 @@ import { getRootUrl, log } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
-function RandomFoodMapView() {
+function RandomFoodMapView(): JSX.Element {
   const { t } = useTranslation();
 
   const [selectedTerm, setSelectedTerm] = useState<any>('');

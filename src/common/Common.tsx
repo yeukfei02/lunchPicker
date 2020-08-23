@@ -1,6 +1,17 @@
 // import { Timber } from "@timberio/browser";
 
-export const getFirebaseConfig = () => {
+interface FirebaseConfig {
+  apiKey: string | undefined;
+  authDomain: string | undefined;
+  databaseURL: string | undefined;
+  projectId: string | undefined;
+  storageBucket: string | undefined;
+  messagingSenderId: string | undefined;
+  appId: string | undefined;
+  measurementId: string | undefined;
+}
+
+export const getFirebaseConfig = (): FirebaseConfig => {
   const firebaseConfig = {
     apiKey: process.env['REACT_APP_FIREBASE_API_KEY'],
     authDomain: process.env['REACT_APP_FIREBASE_AUTH_DOMAIN'],
@@ -14,8 +25,8 @@ export const getFirebaseConfig = () => {
   return firebaseConfig;
 };
 
-export const getStripeApiKey = () => {
-  let result: any = '';
+export const getStripeApiKey = (): string | undefined => {
+  let result: string | undefined = '';
 
   if (window.location.href.includes('localhost')) {
     result = process.env['REACT_APP_STRIPE_TEST_API_KEY'];
@@ -26,7 +37,7 @@ export const getStripeApiKey = () => {
   return result;
 };
 
-export const getRootUrl = () => {
+export const getRootUrl = (): string => {
   let ROOT_URL = '';
   if (window.location.href.includes('localhost')) {
     ROOT_URL = 'http://localhost:3000/api';
@@ -37,7 +48,7 @@ export const getRootUrl = () => {
   return ROOT_URL;
 };
 
-export const log = (message: string, item: any) => {
+export const log = (message: string, item: any): void => {
   console.log(message, item);
 
   // timber

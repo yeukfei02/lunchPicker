@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Contact() {
+function Contact(): JSX.Element {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -71,9 +71,10 @@ function Contact() {
         </div>
       );
     } else if (_.isEqual(radioButtonValue, 'stripe')) {
+      const stripeApiKey = getStripeApiKey() as string;
       resultDiv = (
         <div>
-          <StripeProvider apiKey={getStripeApiKey()}>
+          <StripeProvider apiKey={stripeApiKey}>
             <MyStoreCheckout />
           </StripeProvider>
         </div>

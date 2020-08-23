@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 
-function CustomMap(props: any) {
+function CustomMap(props: any): JSX.Element {
   const position = [props.latitude || 0, props.longitude || 0] as LatLngTuple;
 
   const handleAddressClick = (e: any) => {

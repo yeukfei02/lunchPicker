@@ -70,7 +70,7 @@ if (isDesktop || isAndroid) {
   }
 }
 
-function App() {
+function App(): JSX.Element {
   const location = useLocation();
 
   const [currentToken, setCurrentToken] = useState<string>('');
