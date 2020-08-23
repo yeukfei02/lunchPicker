@@ -17,7 +17,7 @@ const style = {
   },
 };
 
-function CardSection() {
+function CardSection(): JSX.Element {
   return <CardElement className="MyCardElement" style={style} hidePostalCode={true} />;
 }
 

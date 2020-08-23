@@ -72,7 +72,7 @@ function Table(props: any) {
   );
 }
 
-function ReactTable(props: any) {
+function ReactTable(props: any): JSX.Element {
   const columns = useMemo(() => props.column, [props.column]);
   const data = useMemo(() => props.data, [props.data]);
 

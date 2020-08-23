@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function FloatingActionButton() {
+function FloatingActionButton(): JSX.Element {
   const classes = useStyles();
 
   const [showFab, setShowFab] = useState<boolean>(false);

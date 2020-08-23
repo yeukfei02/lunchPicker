@@ -53,7 +53,7 @@ const selectStyles = {
   }),
 };
 
-function MainPage() {
+function MainPage(): JSX.Element {
   const classes = useStyles();
   const { t } = useTranslation();
 

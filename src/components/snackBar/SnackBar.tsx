@@ -70,7 +70,7 @@ function MySnackbarContentWrapper(props: any) {
   );
 }
 
-function SnackBar(props: any) {
+function SnackBar(props: any): JSX.Element {
   const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
   const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');

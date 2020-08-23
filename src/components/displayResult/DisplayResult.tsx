@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function DisplayResult(props: any) {
+function DisplayResult(props: any): JSX.Element {
   const classes = useStyles();
 
   const renderDisplayResult = () => {

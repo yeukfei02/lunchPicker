@@ -30,7 +30,7 @@ const selectStyles = {
   }),
 };
 
-function Settings() {
+function Settings(): JSX.Element {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
 

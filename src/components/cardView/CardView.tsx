@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CardView(props: any) {
+function CardView(props: any): JSX.Element {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation();

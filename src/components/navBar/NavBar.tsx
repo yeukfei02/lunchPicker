@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavBar() {
+function NavBar(): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
 
   const classes = useStyles();

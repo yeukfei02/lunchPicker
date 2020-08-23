@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Favourites() {
+function Favourites(): JSX.Element {
   const classes = useStyles();
   const { t } = useTranslation();
 

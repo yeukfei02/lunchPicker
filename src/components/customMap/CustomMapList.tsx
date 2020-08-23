@@ -3,7 +3,7 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 import _ from 'lodash';
 
-function CustomMapList(props: any) {
+function CustomMapList(props: any): JSX.Element {
   const [markerList, setMarkerList] = useState<any[]>([]);
 
   useEffect(() => {

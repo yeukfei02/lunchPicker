@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ImageGallery from 'react-image-gallery';
 import _ from 'lodash';
 
-function ImageSlider(props: any) {
+function ImageSlider(props: any): JSX.Element {
   const [sliderList, setSliderList] = useState<any[]>([]);
 
   useEffect(() => {
