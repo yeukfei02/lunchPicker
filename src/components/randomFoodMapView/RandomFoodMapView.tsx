@@ -49,43 +49,35 @@ function RandomFoodMapView(): JSX.Element {
     }
   }, [openSuccessAlert, message]);
 
-  const getRandomFoodList = () => {
-    axios
-      .get(`${ROOT_URL}/category/get-categories`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          if (!_.isEmpty(response.data.categories)) {
-            const randomFoodList: any[] = [];
-            response.data.categories.forEach((item: any, i: number) => {
-              if (!_.isEmpty(item.parent_aliases)) {
-                const parentAliases = item.parent_aliases[0];
-                if (
-                  _.isEqual(parentAliases, 'food') ||
-                  _.isEqual(parentAliases, 'restaurants') ||
-                  _.isEqual(parentAliases, 'bars') ||
-                  _.isEqual(parentAliases, 'breakfast_brunch')
-                ) {
-                  randomFoodList.push(item);
-                }
-              }
-            });
-            const formattedRandomFoodList = randomFoodList.map((item, i) => {
-              return item.title;
-            });
-            setRandomFoodList(formattedRandomFoodList);
+  const getRandomFoodList = async () => {
+    const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      if (!_.isEmpty(response.data.categories)) {
+        const randomFoodList: any[] = [];
+        response.data.categories.forEach((item: any, i: number) => {
+          if (!_.isEmpty(item.parent_aliases)) {
+            const parentAliases = item.parent_aliases[0];
+            if (
+              _.isEqual(parentAliases, 'food') ||
+              _.isEqual(parentAliases, 'restaurants') ||
+              _.isEqual(parentAliases, 'bars') ||
+              _.isEqual(parentAliases, 'breakfast_brunch')
+            ) {
+              randomFoodList.push(item);
+            }
           }
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+        });
+        const formattedRandomFoodList = randomFoodList.map((item, i) => {
+          return item.title;
+        });
+        setRandomFoodList(formattedRandomFoodList);
+      }
+    }
   };
 
   const getUserCurrentLatLong = () => {
@@ -97,52 +89,45 @@ function RandomFoodMapView(): JSX.Element {
     });
   };
 
-  const findRestaurantsByLatLong = (selectedTerm: string, latitude: number, longitude: number) => {
-    axios
-      .get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
-        params: {
-          term: selectedTerm,
-          latitude: latitude,
-          longitude: longitude,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
+  const findRestaurantsByLatLong = async (selectedTerm: string, latitude: number, longitude: number) => {
+    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
+      params: {
+        term: selectedTerm,
+        latitude: latitude,
+        longitude: longitude,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
 
-          const nameList = response.data.restaurants.businesses.map((item: any, i: number) => {
-            const obj = {
-              name: item.name,
-            };
-            return obj;
-          });
-          setNameList(nameList);
-
-          const locationStrList = response.data.restaurants.businesses.map((item: any, i: number) => {
-            const obj = {
-              locationStr: item.location.display_address.join(', '),
-            };
-            return obj;
-          });
-          setLocationStrList(locationStrList);
-
-          const coordinatesList = response.data.restaurants.businesses.map((item: any, i: number) => {
-            return item.coordinates;
-          });
-          setCoordinatesList(coordinatesList);
-
-          setRefreshButtonClicked(false);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setRefreshButtonClicked(false);
-        }
+      const nameList = response.data.restaurants.businesses.map((item: any, i: number) => {
+        const obj = {
+          name: item.name,
+        };
+        return obj;
       });
+      setNameList(nameList);
+
+      const locationStrList = response.data.restaurants.businesses.map((item: any, i: number) => {
+        const obj = {
+          locationStr: item.location.display_address.join(', '),
+        };
+        return obj;
+      });
+      setLocationStrList(locationStrList);
+
+      const coordinatesList = response.data.restaurants.businesses.map((item: any, i: number) => {
+        return item.coordinates;
+      });
+      setCoordinatesList(coordinatesList);
+
+      setRefreshButtonClicked(false);
+    } else {
+      setRefreshButtonClicked(false);
+    }
   };
 
   const handleRefresh = () => {

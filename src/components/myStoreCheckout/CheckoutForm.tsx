@@ -101,59 +101,48 @@ function CheckoutForm(props: any) {
     }
   };
 
-  const handlePayNow = () => {
-    props.stripe
-      .createToken()
-      .then((response: any) => {
-        log('response = ', response);
-        if (!_.isEmpty(response.token)) {
-          setToken(response.token.id);
-          setCard(response.token.card);
-        }
+  const handlePayNow = async () => {
+    const response = await props.stripe.createToken();
+    if (response) {
+      log('response = ', response);
+      if (!_.isEmpty(response.token)) {
+        setToken(response.token.id);
+        setCard(response.token.card);
+      }
 
-        if (!_.isEmpty(response.error)) {
-          setOpenErrorAlert(true);
-          setMessage(response.error.message);
-        }
-      })
-      .catch((error: any) => {
-        log('error = ', error);
-      });
+      if (!_.isEmpty(response.error)) {
+        setOpenErrorAlert(true);
+        setMessage(response.error.message);
+      }
+    }
   };
 
-  const creditCardPayment = (amount: number, currency: any, token: string, card: any) => {
-    axios
-      .post(
-        `${ROOT_URL}/stripe/credit-card-payment`,
-        {
-          amount: Math.round(amount * 100),
-          currency: currency.value,
-          token: token,
-          card: card,
+  const creditCardPayment = async (amount: number, currency: any, token: string, card: any) => {
+    const response = await axios.post(
+      `${ROOT_URL}/stripe/credit-card-payment`,
+      {
+        amount: Math.round(amount * 100),
+        currency: currency.value,
+        token: token,
+        card: card,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setOpenSuccessAlert(true);
-          setMessage('Payment success!');
-          setTimeout(() => {
-            window.open(response.data.charges.receipt_url);
-          }, 1000);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setOpenErrorAlert(true);
-          setMessage('Payment failed!');
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setOpenSuccessAlert(true);
+      setMessage('Payment success!');
+      setTimeout(() => {
+        window.open(response.data.charges.receipt_url);
+      }, 1000);
+    } else {
+      setOpenErrorAlert(true);
+      setMessage('Payment failed!');
+    }
   };
 
   const renderPayNowButton = () => {

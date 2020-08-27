@@ -57,27 +57,19 @@ function Favourites(): JSX.Element {
     }
   }, [deleteAllFavouritesStatus]);
 
-  const getFavourites = () => {
-    axios
-      .get(`${ROOT_URL}/favourites/get-favourites`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          const favourites = response.data.favourites;
-          setFavourites(favourites);
-          setOpenSuccessAlert(true);
-          setMessage('Get favorites success!');
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+  const getFavourites = async () => {
+    const response = await axios.get(`${ROOT_URL}/favourites/get-favourites`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      const favourites = response.data.favourites;
+      setFavourites(favourites);
+      setOpenSuccessAlert(true);
+      setMessage('Get favorites success!');
+    }
   };
 
   const renderDeleteAllFavouritesButton = () => {
@@ -154,31 +146,24 @@ function Favourites(): JSX.Element {
     return cardViewResultList;
   };
 
-  const handleDeleteAllFavourites = () => {
+  const handleDeleteAllFavourites = async () => {
     setDeleteAllFavouritesButtonClicked(true);
 
-    axios
-      .delete(`${ROOT_URL}/favourites/delete-all-favourites`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setOpenSuccessAlert(true);
-          setMessage('Delete all favorites success!');
-          setDeleteAllFavouritesButtonClicked(false);
-          setDeleteAllFavouritesStatus(true);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setDeleteAllFavouritesButtonClicked(false);
-          setDeleteAllFavouritesStatus(true);
-        }
-      });
+    const response = await axios.delete(`${ROOT_URL}/favourites/delete-all-favourites`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setOpenSuccessAlert(true);
+      setMessage('Delete all favorites success!');
+      setDeleteAllFavouritesButtonClicked(false);
+      setDeleteAllFavouritesStatus(true);
+    } else {
+      setDeleteAllFavouritesButtonClicked(false);
+      setDeleteAllFavouritesStatus(true);
+    }
   };
 
   return (

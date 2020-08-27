@@ -133,56 +133,40 @@ function App(): JSX.Element {
         });
     });
 
-  const addTokenToServer = (currentToken: string, refreshedToken: string) => {
-    axios
-      .post(
-        `${ROOT_URL}/firebase/add-token-to-server`,
-        {
-          currentToken: currentToken,
-          refreshedToken: refreshedToken,
+  const addTokenToServer = async (currentToken: string, refreshedToken: string) => {
+    const response = await axios.post(
+      `${ROOT_URL}/firebase/add-token-to-server`,
+      {
+        currentToken: currentToken,
+        refreshedToken: refreshedToken,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+    }
   };
 
-  const subscribeTopic = (currentToken: string) => {
-    axios
-      .post(
-        `${ROOT_URL}/firebase/subscribe-topic`,
-        {
-          currentTokenList: [currentToken],
-          topic: 'all',
+  const subscribeTopic = async (currentToken: string) => {
+    const response = await axios.post(
+      `${ROOT_URL}/firebase/subscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: 'all',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+    }
   };
 
   return (
