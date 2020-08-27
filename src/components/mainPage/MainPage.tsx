@@ -80,6 +80,7 @@ function MainPage(): JSX.Element {
   useEffect(() => {
     getSelectedTermList();
     getUserCurrentLatLong();
+    setIntitialResultList();
   }, []);
 
   useEffect(() => {
@@ -87,7 +88,10 @@ function MainPage(): JSX.Element {
   }, [latitude, longitude]);
 
   useEffect(() => {
-    if (!_.isEmpty(resultList)) setRandomButtonClicked(false);
+    if (!_.isEmpty(resultList)) {
+      localStorage.setItem('resultList', JSON.stringify(resultList));
+      setRandomButtonClicked(false);
+    }
   }, [resultList]);
 
   const getSelectedTermList = () => {
@@ -214,6 +218,14 @@ function MainPage(): JSX.Element {
       setLatitude(latitude);
       setLongitude(longitude);
     });
+  };
+
+  const setIntitialResultList = () => {
+    const resultListFromLocalStorageStr = localStorage.getItem('resultList');
+    if (resultListFromLocalStorageStr) {
+      const resultListFromLocalStorageJSON = JSON.parse(resultListFromLocalStorageStr);
+      setResultList(resultListFromLocalStorageJSON);
+    }
   };
 
   const findLocationTextByLatLong = (latitude: number, longitude: number) => {
@@ -652,6 +664,7 @@ function MainPage(): JSX.Element {
   const handleSubmit = () => {
     setRandomFoodTerm('');
     setResultList([]);
+    localStorage.setItem('resultList', '');
     setSubmitButtonClicked(true);
 
     if (_.isEqual(radioButtonValue, 'places')) {
@@ -685,10 +698,12 @@ function MainPage(): JSX.Element {
 
     setRandomFoodTerm('');
     setResultList([]);
+    localStorage.setItem('resultList', '');
   };
 
   const handleRandom = () => {
     setResultList([]);
+    localStorage.setItem('resultList', '');
     setRandomButtonClicked(true);
 
     if (_.isEmpty(formattedRandomFoodList)) {
