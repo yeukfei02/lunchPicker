@@ -105,56 +105,40 @@ function Settings(): JSX.Element {
     }
   };
 
-  const subscribeTopic = (currentToken: string | null) => {
-    axios
-      .post(
-        `${ROOT_URL}/firebase/subscribe-topic`,
-        {
-          currentTokenList: [currentToken],
-          topic: 'all',
+  const subscribeTopic = async (currentToken: string | null) => {
+    const response = await axios.post(
+      `${ROOT_URL}/firebase/subscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: 'all',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+    }
   };
 
-  const unsubscribeTopic = (currentToken: string | null) => {
-    axios
-      .post(
-        `${ROOT_URL}/firebase/unsubscribe-topic`,
-        {
-          currentTokenList: [currentToken],
-          topic: 'all',
+  const unsubscribeTopic = async (currentToken: string | null) => {
+    const response = await axios.post(
+      `${ROOT_URL}/firebase/unsubscribe-topic`,
+      {
+        currentTokenList: [currentToken],
+        topic: 'all',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+    }
   };
 
   return (

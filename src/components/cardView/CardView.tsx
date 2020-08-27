@@ -113,25 +113,17 @@ function CardView(props: any): JSX.Element {
     if (expanded === false) getRestaurantsDetailsReviewById(id);
   };
 
-  const getRestaurantsDetailsReviewById = (id: string) => {
-    axios
-      .get(`${ROOT_URL}/restaurant/get-restaurant-details-review/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          const reviewsList = response.data.restaurantDetailsReview.reviews;
-          setReviewsList(reviewsList);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+  const getRestaurantsDetailsReviewById = async (id: string) => {
+    const response = await axios.get(`${ROOT_URL}/restaurant/get-restaurant-details-review/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      const reviewsList = response.data.restaurantDetailsReview.reviews;
+      setReviewsList(reviewsList);
+    }
   };
 
   const handleOpenUrl = () => {
@@ -222,33 +214,25 @@ function CardView(props: any): JSX.Element {
     history.push(`/restaurant-details/${id}`);
   };
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = async () => {
     setAddToFavoritesClicked(true);
 
-    axios
-      .post(
-        `${ROOT_URL}/favourites/add-to-favourites`,
-        {
-          item: item,
+    const response = await axios.post(
+      `${ROOT_URL}/favourites/add-to-favourites`,
+      {
+        item: item,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setOpenSuccessAlert(true);
-          setMessage('Add to favourites success!');
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+      },
+    );
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setOpenSuccessAlert(true);
+      setMessage('Add to favourites success!');
+    }
   };
 
   const renderDeleteButton = () => {
@@ -273,28 +257,20 @@ function CardView(props: any): JSX.Element {
     return deleteButton;
   };
 
-  const handleDeleteFavouritesById = (_id: string) => {
-    axios
-      .delete(`${ROOT_URL}/favourites/delete-favourites/${_id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setOpenSuccessAlert(true);
-          setMessage('Delete favourites by id success!');
-          setTimeout(() => {
-            props.reloadFavourites();
-          }, 500);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-        }
-      });
+  const handleDeleteFavouritesById = async (_id: string) => {
+    const response = await axios.delete(`${ROOT_URL}/favourites/delete-favourites/${_id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setOpenSuccessAlert(true);
+      setMessage('Delete favourites by id success!');
+      setTimeout(() => {
+        props.reloadFavourites();
+      }, 500);
+    }
   };
 
   return (

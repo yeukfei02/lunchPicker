@@ -80,6 +80,7 @@ function MainPage(): JSX.Element {
   useEffect(() => {
     getSelectedTermList();
     getUserCurrentLatLong();
+    setIntitialResultList();
   }, []);
 
   useEffect(() => {
@@ -87,122 +88,118 @@ function MainPage(): JSX.Element {
   }, [latitude, longitude]);
 
   useEffect(() => {
-    if (!_.isEmpty(resultList)) setRandomButtonClicked(false);
+    if (!_.isEmpty(resultList)) {
+      localStorage.setItem('resultList', JSON.stringify(resultList));
+      setRandomButtonClicked(false);
+    }
   }, [resultList]);
 
-  const getSelectedTermList = () => {
-    axios
-      .get(`${ROOT_URL}/category/get-categories`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          if (!_.isEmpty(response.data.categories)) {
-            const foodList: any[] = [];
-            const restaurantsList: any[] = [];
-            const barsList: any[] = [];
-            const breakfastBrunchList: any[] = [];
-            response.data.categories.forEach((item: any, i: number) => {
-              if (!_.isEmpty(item.parent_aliases)) {
-                const parentAliases = item.parent_aliases[0];
-                if (_.isEqual(parentAliases, 'food')) {
-                  foodList.push(item);
-                }
-                if (_.isEqual(parentAliases, 'restaurants')) {
-                  restaurantsList.push(item);
-                }
-                if (_.isEqual(parentAliases, 'bars')) {
-                  barsList.push(item);
-                }
-                if (_.isEqual(parentAliases, 'breakfast_brunch')) {
-                  breakfastBrunchList.push(item);
-                }
-              }
-            });
-
-            let foodObj: any = {};
-            let restaurantsObj: any = {};
-            let barsObj: any = {};
-            let breakfastBrunchObj: any = {};
-            if (!_.isEmpty(foodList)) {
-              const options: any[] = [];
-              foodList.forEach((item, i) => {
-                const optionsObj = {
-                  value: item.alias,
-                  label: item.title,
-                };
-                options.push(optionsObj);
-              });
-
-              foodObj = {
-                label: 'Food',
-                options: options,
-              };
+  const getSelectedTermList = async () => {
+    const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      if (!_.isEmpty(response.data.categories)) {
+        const foodList: any[] = [];
+        const restaurantsList: any[] = [];
+        const barsList: any[] = [];
+        const breakfastBrunchList: any[] = [];
+        response.data.categories.forEach((item: any, i: number) => {
+          if (!_.isEmpty(item.parent_aliases)) {
+            const parentAliases = item.parent_aliases[0];
+            if (_.isEqual(parentAliases, 'food')) {
+              foodList.push(item);
             }
-            if (!_.isEmpty(restaurantsList)) {
-              const options: any[] = [];
-              restaurantsList.forEach((item, i) => {
-                const optionsObj = {
-                  value: item.alias,
-                  label: item.title,
-                };
-                options.push(optionsObj);
-              });
-
-              restaurantsObj = {
-                label: 'Restaurants',
-                options: options,
-              };
+            if (_.isEqual(parentAliases, 'restaurants')) {
+              restaurantsList.push(item);
             }
-            if (!_.isEmpty(barsList)) {
-              const options: any[] = [];
-              barsList.forEach((item, i) => {
-                const optionsObj = {
-                  value: item.alias,
-                  label: item.title,
-                };
-                options.push(optionsObj);
-              });
-
-              barsObj = {
-                label: 'Bars',
-                options: options,
-              };
+            if (_.isEqual(parentAliases, 'bars')) {
+              barsList.push(item);
             }
-            if (!_.isEmpty(breakfastBrunchList)) {
-              const options: any[] = [];
-              breakfastBrunchList.forEach((item, i) => {
-                const optionsObj = {
-                  value: item.alias,
-                  label: item.title,
-                };
-                options.push(optionsObj);
-              });
-
-              breakfastBrunchObj = {
-                label: 'Breakfast and Brunch',
-                options: options,
-              };
+            if (_.isEqual(parentAliases, 'breakfast_brunch')) {
+              breakfastBrunchList.push(item);
             }
-            const formattedSelectedTermList: any[] = [];
-            formattedSelectedTermList.push(foodObj);
-            formattedSelectedTermList.push(restaurantsObj);
-            formattedSelectedTermList.push(barsObj);
-            formattedSelectedTermList.push(breakfastBrunchObj);
-            setSelectedTermList(formattedSelectedTermList);
           }
+        });
+
+        let foodObj: any = {};
+        let restaurantsObj: any = {};
+        let barsObj: any = {};
+        let breakfastBrunchObj: any = {};
+        if (!_.isEmpty(foodList)) {
+          const options: any[] = [];
+          foodList.forEach((item, i) => {
+            const optionsObj = {
+              value: item.alias,
+              label: item.title,
+            };
+            options.push(optionsObj);
+          });
+
+          foodObj = {
+            label: 'Food',
+            options: options,
+          };
         }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setOpenErrorAlert(true);
-          setMessage('Get categories error!');
+        if (!_.isEmpty(restaurantsList)) {
+          const options: any[] = [];
+          restaurantsList.forEach((item, i) => {
+            const optionsObj = {
+              value: item.alias,
+              label: item.title,
+            };
+            options.push(optionsObj);
+          });
+
+          restaurantsObj = {
+            label: 'Restaurants',
+            options: options,
+          };
         }
-      });
+        if (!_.isEmpty(barsList)) {
+          const options: any[] = [];
+          barsList.forEach((item, i) => {
+            const optionsObj = {
+              value: item.alias,
+              label: item.title,
+            };
+            options.push(optionsObj);
+          });
+
+          barsObj = {
+            label: 'Bars',
+            options: options,
+          };
+        }
+        if (!_.isEmpty(breakfastBrunchList)) {
+          const options: any[] = [];
+          breakfastBrunchList.forEach((item, i) => {
+            const optionsObj = {
+              value: item.alias,
+              label: item.title,
+            };
+            options.push(optionsObj);
+          });
+
+          breakfastBrunchObj = {
+            label: 'Breakfast and Brunch',
+            options: options,
+          };
+        }
+        const formattedSelectedTermList: any[] = [];
+        formattedSelectedTermList.push(foodObj);
+        formattedSelectedTermList.push(restaurantsObj);
+        formattedSelectedTermList.push(barsObj);
+        formattedSelectedTermList.push(breakfastBrunchObj);
+        setSelectedTermList(formattedSelectedTermList);
+      }
+    } else {
+      setOpenErrorAlert(true);
+      setMessage('Get categories error!');
+    }
   };
 
   const getUserCurrentLatLong = () => {
@@ -216,95 +213,82 @@ function MainPage(): JSX.Element {
     });
   };
 
-  const findLocationTextByLatLong = (latitude: number, longitude: number) => {
-    axios
-      .get(`${ROOT_URL}/restaurant/find-location-text-by-lat-long`, {
-        params: {
-          latitude: latitude,
-          longitude: longitude,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setLocation(response.data.location.display_name);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setOpenErrorAlert(true);
-          setMessage('Find location text by lat long error!');
-        }
-      });
+  const setIntitialResultList = () => {
+    const resultListFromLocalStorageStr = localStorage.getItem('resultList');
+    if (resultListFromLocalStorageStr) {
+      const resultListFromLocalStorageJSON = JSON.parse(resultListFromLocalStorageStr);
+      setResultList(resultListFromLocalStorageJSON);
+    }
   };
 
-  const findRestaurantsByLocation = (selectedTerm: string, location: any) => {
-    axios
-      .get(`${ROOT_URL}/restaurant/find-restaurants-by-location`, {
-        params: {
-          term: selectedTerm,
-          location: location,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setResultList(response.data.restaurants.businesses);
-          setOpenSuccessAlert(true);
-          setMessage('Retrieved data success! Please scroll down');
-          setSubmitButtonClicked(false);
-          setRandomButtonClicked(false);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setOpenErrorAlert(true);
-          setMessage('Location / Latitude Longitude is not valid!');
-          setSubmitButtonClicked(false);
-          setRandomButtonClicked(false);
-        }
-      });
+  const findLocationTextByLatLong = async (latitude: number, longitude: number) => {
+    const response = await axios.get(`${ROOT_URL}/restaurant/find-location-text-by-lat-long`, {
+      params: {
+        latitude: latitude,
+        longitude: longitude,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setLocation(response.data.location.display_name);
+    } else {
+      setOpenErrorAlert(true);
+      setMessage('Find location text by lat long error!');
+    }
   };
 
-  const findRestaurantsByLatLong = (selectedTerm: string, latitude: number, longitude: number) => {
-    axios
-      .get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
-        params: {
-          term: selectedTerm,
-          latitude: latitude,
-          longitude: longitude,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!_.isEmpty(response)) {
-          log('response = ', response);
-          setResultList(response.data.restaurants.businesses);
-          setOpenSuccessAlert(true);
-          setMessage('Retrieved data success! Please scroll down');
-          setSubmitButtonClicked(false);
-          setRandomButtonClicked(false);
-        }
-      })
-      .catch(error => {
-        if (!_.isEmpty(error)) {
-          log('error = ', error);
-          setOpenErrorAlert(true);
-          setMessage('Location / Latitude Longitude is not valid!');
-          setSubmitButtonClicked(false);
-          setRandomButtonClicked(false);
-        }
-      });
+  const findRestaurantsByLocation = async (selectedTerm: string, location: any) => {
+    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-location`, {
+      params: {
+        term: selectedTerm,
+        location: location,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setResultList(response.data.restaurants.businesses);
+      setOpenSuccessAlert(true);
+      setMessage('Retrieved data success! Please scroll down');
+      setSubmitButtonClicked(false);
+      setRandomButtonClicked(false);
+    } else {
+      setOpenErrorAlert(true);
+      setMessage('Location / Latitude Longitude is not valid!');
+      setSubmitButtonClicked(false);
+      setRandomButtonClicked(false);
+    }
+  };
+
+  const findRestaurantsByLatLong = async (selectedTerm: string, latitude: number, longitude: number) => {
+    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
+      params: {
+        term: selectedTerm,
+        latitude: latitude,
+        longitude: longitude,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!_.isEmpty(response)) {
+      log('response = ', response);
+      setResultList(response.data.restaurants.businesses);
+      setOpenSuccessAlert(true);
+      setMessage('Retrieved data success! Please scroll down');
+      setSubmitButtonClicked(false);
+      setRandomButtonClicked(false);
+    } else {
+      setOpenErrorAlert(true);
+      setMessage('Location / Latitude Longitude is not valid!');
+      setSubmitButtonClicked(false);
+      setRandomButtonClicked(false);
+    }
   };
 
   const handleChange = (selectedTerm: any) => {
@@ -652,6 +636,7 @@ function MainPage(): JSX.Element {
   const handleSubmit = () => {
     setRandomFoodTerm('');
     setResultList([]);
+    localStorage.setItem('resultList', '');
     setSubmitButtonClicked(true);
 
     if (_.isEqual(radioButtonValue, 'places')) {
@@ -685,53 +670,48 @@ function MainPage(): JSX.Element {
 
     setRandomFoodTerm('');
     setResultList([]);
+    localStorage.setItem('resultList', '');
   };
 
-  const handleRandom = () => {
+  const handleRandom = async () => {
     setResultList([]);
+    localStorage.setItem('resultList', '');
     setRandomButtonClicked(true);
 
     if (_.isEmpty(formattedRandomFoodList)) {
-      axios
-        .get(`${ROOT_URL}/category/get-categories`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          if (!_.isEmpty(response)) {
-            log('response = ', response);
-            if (!_.isEmpty(response.data.categories)) {
-              const randomFoodList: any[] = [];
-              response.data.categories.forEach((item: any, i: number) => {
-                if (!_.isEmpty(item.parent_aliases)) {
-                  const parentAliases = item.parent_aliases[0];
-                  if (
-                    _.isEqual(parentAliases, 'food') ||
-                    _.isEqual(parentAliases, 'restaurants') ||
-                    _.isEqual(parentAliases, 'bars') ||
-                    _.isEqual(parentAliases, 'breakfast_brunch')
-                  ) {
-                    randomFoodList.push(item);
-                  }
-                }
-              });
-              const formattedRandomFoodList = randomFoodList.map((item, i) => {
-                return item.title;
-              });
-              setFormattedRandomFoodList(formattedRandomFoodList);
-
-              getRandomResult(formattedRandomFoodList);
+      const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!_.isEmpty(response)) {
+        log('response = ', response);
+        if (!_.isEmpty(response.data.categories)) {
+          const randomFoodList: any[] = [];
+          response.data.categories.forEach((item: any, i: number) => {
+            if (!_.isEmpty(item.parent_aliases)) {
+              const parentAliases = item.parent_aliases[0];
+              if (
+                _.isEqual(parentAliases, 'food') ||
+                _.isEqual(parentAliases, 'restaurants') ||
+                _.isEqual(parentAliases, 'bars') ||
+                _.isEqual(parentAliases, 'breakfast_brunch')
+              ) {
+                randomFoodList.push(item);
+              }
             }
-          }
-        })
-        .catch(error => {
-          if (!_.isEmpty(error)) {
-            log('error = ', error);
-            setOpenErrorAlert(true);
-            setMessage('Get categories error!');
-          }
-        });
+          });
+          const formattedRandomFoodList = randomFoodList.map((item, i) => {
+            return item.title;
+          });
+          setFormattedRandomFoodList(formattedRandomFoodList);
+
+          getRandomResult(formattedRandomFoodList);
+        }
+      } else {
+        setOpenErrorAlert(true);
+        setMessage('Get categories error!');
+      }
     } else {
       getRandomResult(formattedRandomFoodList);
     }
