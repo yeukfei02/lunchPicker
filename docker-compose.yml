@@ -11,5 +11,6 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 80:80
+    restart: always
     environment:
       - NODE_ENV=production
