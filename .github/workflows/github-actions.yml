@@ -17,6 +17,7 @@ jobs:
         node-version: '12'
     - run: yarn
     - run: yarn run test
+    - run: yarn run build
     - uses: w9jds/firebase-action@master
       with:
         args: deploy --only hosting
