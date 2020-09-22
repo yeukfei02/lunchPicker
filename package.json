@@ -1,6 +1,6 @@
 {
   "name": "lunch-picker",
-  "version": "0.1.0",
+  "version": "1.7.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -63,6 +63,7 @@
     "react-stripe-elements": "^6.0.1",
     "react-table": "^7.0.0-rc.15",
     "serve": "^11.3.0",
+    "standard-version": "^9.0.0",
     "styled-components": "^4.4.1",
     "typescript": "^3.9.5"
   },
@@ -76,7 +77,8 @@
     "heroku-postbuild": "yarn run build",
     "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
     "deploy-firebase": "rm -rf build && yarn run build && firebase deploy",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "release": "standard-version"
   },
   "eslintConfig": {
     "extends": "react-app"
