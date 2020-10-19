@@ -42,7 +42,7 @@ export const getRootUrl = (): string => {
   if (window.location.href.includes('localhost')) {
     ROOT_URL = 'http://localhost:3000/api';
   } else {
-    ROOT_URL = 'https://lunch-picker-api.herokuapp.com/api';
+    ROOT_URL = 'https://www.lunch-picker-api.com/api';
   }
 
   return ROOT_URL;
