@@ -40,7 +40,7 @@ function Favourites(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {
@@ -49,7 +49,7 @@ function Favourites(): JSX.Element {
   }, [openSuccessAlert, message]);
 
   useEffect(() => {
-    if (deleteAllFavouritesStatus === true) {
+    if (deleteAllFavouritesStatus) {
       setTimeout(() => {
         getFavourites();
         setDeleteAllFavouritesStatus(false);
@@ -75,7 +75,7 @@ function Favourites(): JSX.Element {
   const renderDeleteAllFavouritesButton = () => {
     let deleteAllFavouritesButton: any = null;
 
-    if (deleteAllFavouritesButtonClicked === true) {
+    if (deleteAllFavouritesButtonClicked) {
       deleteAllFavouritesButton = (
         <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" disabled={true} onClick={handleDeleteAllFavourites}>

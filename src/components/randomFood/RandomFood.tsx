@@ -74,7 +74,7 @@ function RandomFood(): JSX.Element {
   }, [useRandomFoodCategory, randomFoodList, latitude, longitude]);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {
@@ -130,7 +130,7 @@ function RandomFood(): JSX.Element {
   ) => {
     const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
       params: {
-        term: useRandomFoodCategory === true ? selectedTerm : '',
+        term: useRandomFoodCategory ? selectedTerm : '',
         latitude: latitude,
         longitude: longitude,
       },
@@ -150,7 +150,7 @@ function RandomFood(): JSX.Element {
   const renderRefreshButton = () => {
     let refreshButton: any = null;
 
-    if (refreshButtonClicked === true) {
+    if (refreshButtonClicked) {
       refreshButton = (
         <div className="d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
@@ -253,7 +253,7 @@ function RandomFood(): JSX.Element {
     <div>
       <div className="mt-4 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
         <Typography component={'span'}>
-          {useRandomFoodCategory === true && !_.isEmpty(selectedTerm) ? (
+          {useRandomFoodCategory && !_.isEmpty(selectedTerm) ? (
             <div>
               <b>{t('currentFoodCategory')}</b> {selectedTerm}
             </div>

@@ -517,7 +517,7 @@ function MainPage(): JSX.Element {
 
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
-        if (submitButtonClicked === true) {
+        if (submitButtonClicked) {
           submitButton = (
             <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
               {t('loading...')}
@@ -534,7 +534,7 @@ function MainPage(): JSX.Element {
     }
 
     if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
-      if (submitButtonClicked === true) {
+      if (submitButtonClicked) {
         submitButton = (
           <Button className="w-100" variant="outlined" color="secondary" disabled={true} onClick={handleSubmit}>
             {t('loading...')}
@@ -565,7 +565,7 @@ function MainPage(): JSX.Element {
   const renderRandomButton = () => {
     let randomButton: any = null;
 
-    if (randomButtonClicked === true) {
+    if (randomButtonClicked) {
       randomButton = (
         <Bounce>
           <Tooltip title="Let's eat" placement="bottom">

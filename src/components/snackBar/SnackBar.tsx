@@ -76,13 +76,13 @@ function SnackBar(props: any): JSX.Element {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    if (props.openSuccessAlert === true) {
+    if (props.openSuccessAlert) {
       setOpenSuccessAlert(true);
     }
   }, [props.openSuccessAlert]);
 
   useEffect(() => {
-    if (props.openErrorAlert === true) {
+    if (props.openErrorAlert) {
       setOpenErrorAlert(true);
     }
   }, [props.openErrorAlert]);
@@ -105,7 +105,7 @@ function SnackBar(props: any): JSX.Element {
   const renderSnackBar = () => {
     let snackBar: any = null;
 
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       snackBar = (
         <Snackbar
           anchorOrigin={{
@@ -120,7 +120,7 @@ function SnackBar(props: any): JSX.Element {
         </Snackbar>
       );
     }
-    if (openErrorAlert === true) {
+    if (openErrorAlert) {
       snackBar = (
         <Snackbar
           anchorOrigin={{

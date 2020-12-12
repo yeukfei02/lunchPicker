@@ -35,7 +35,7 @@ function FloatingActionButton(): JSX.Element {
   const renderFab = () => {
     let fab: any = null;
 
-    if (showFab === true) {
+    if (showFab) {
       fab = (
         <Fab className={classes.fab} style={{ zIndex: 999 }} color="primary" aria-label="up" onClick={scrollToTop}>
           <UpIcon />
