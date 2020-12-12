@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.7](https://github.com/yeukfei02/lunchPicker/compare/v1.7.6...v1.7.7) (2020-12-12)
+
+
+### Bug Fixes
+
+* 🐛 fix existing if checking ([30ceb67](https://github.com/yeukfei02/lunchPicker/commit/30ceb671b939034bd7e5165d5e1f98288de9b0f4))
+
 ### [1.7.6](https://github.com/yeukfei02/lunchPicker/compare/v1.7.5...v1.7.6) (2020-12-09)
 
 ### [1.7.5](https://github.com/yeukfei02/lunchPicker/compare/v1.7.4...v1.7.5) (2020-10-22)
