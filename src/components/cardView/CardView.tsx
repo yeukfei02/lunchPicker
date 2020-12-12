@@ -65,7 +65,7 @@ function CardView(props: any): JSX.Element {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {
@@ -110,7 +110,7 @@ function CardView(props: any): JSX.Element {
   const handleExpandClick = () => {
     setExpanded(!expanded);
 
-    if (expanded === false) getRestaurantsDetailsReviewById(id);
+    if (!expanded) getRestaurantsDetailsReviewById(id);
   };
 
   const getRestaurantsDetailsReviewById = async (id: string) => {

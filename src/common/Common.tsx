@@ -28,7 +28,7 @@ export const getFirebaseConfig = (): FirebaseConfig => {
 export const getStripeApiKey = (): string | undefined => {
   let result: string | undefined = '';
 
-  if (window.location.href.includes('localhost')) {
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     result = process.env['REACT_APP_STRIPE_TEST_API_KEY'];
   } else {
     result = process.env['REACT_APP_STRIPE_API_KEY'];
@@ -39,7 +39,7 @@ export const getStripeApiKey = (): string | undefined => {
 
 export const getRootUrl = (): string => {
   let ROOT_URL = '';
-  if (window.location.href.includes('localhost')) {
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     ROOT_URL = 'http://localhost:3000/api';
   } else {
     ROOT_URL = 'https://www.lunch-picker-api.com/api';

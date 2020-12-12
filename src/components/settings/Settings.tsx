@@ -65,13 +65,13 @@ function Settings(): JSX.Element {
 
   useEffect(() => {
     if (!_.isEmpty(currentToken)) {
-      if (subscribeStatus === true) subscribeTopic(currentToken);
+      if (subscribeStatus) subscribeTopic(currentToken);
       else unsubscribeTopic(currentToken);
     }
   }, [subscribeStatus, currentToken]);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {
@@ -98,7 +98,7 @@ function Settings(): JSX.Element {
     setSubscribeStatus(e.target.checked);
 
     setOpenSuccessAlert(true);
-    if (e.target.checked === true) {
+    if (e.target.checked) {
       setMessage('Subscribe message success!');
     } else {
       setMessage('Unsubscribe message success!');

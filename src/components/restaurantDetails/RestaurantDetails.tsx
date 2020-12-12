@@ -45,7 +45,7 @@ function RestaurantDetails(props: any) {
   }, [props.match.params.id]);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {

@@ -50,10 +50,10 @@ function CheckoutForm(props: any) {
   }, [amount, currency, token, card]);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
-    if (openErrorAlert === true) {
+    if (openErrorAlert) {
       setOpenErrorAlert(false);
     }
     if (!_.isEmpty(message)) {

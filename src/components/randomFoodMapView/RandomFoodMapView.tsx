@@ -41,7 +41,7 @@ function RandomFoodMapView(): JSX.Element {
   }, [randomFoodList, latitude, longitude]);
 
   useEffect(() => {
-    if (openSuccessAlert === true) {
+    if (openSuccessAlert) {
       setOpenSuccessAlert(false);
     }
     if (!_.isEmpty(message)) {
@@ -148,7 +148,7 @@ function RandomFoodMapView(): JSX.Element {
   const renderRefreshButton = () => {
     let refreshButton: any = null;
 
-    if (refreshButtonClicked === true) {
+    if (refreshButtonClicked) {
       refreshButton = (
         <div className="mt-3 d-flex justify-content-end" style={{ marginRight: '2.5em' }}>
           <Button variant="contained" color="primary" disabled={true} onClick={handleRefresh}>
