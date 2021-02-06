@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.8](https://github.com/yeukfei02/lunchPicker/compare/v1.7.7...v1.7.8) (2021-02-06)
+
+
+### Bug Fixes
+
+* 🐛 remove heroku deploy ([bb61d50](https://github.com/yeukfei02/lunchPicker/commit/bb61d50c3ec7de790c9720b683b9a0d65af800b9))
+* 🐛 update command in package.json ([0a1df0c](https://github.com/yeukfei02/lunchPicker/commit/0a1df0c357b32cafd40fed55c0212746162d35e2))
+
 ### [1.7.7](https://github.com/yeukfei02/lunchPicker/compare/v1.7.6...v1.7.7) (2020-12-12)
 
 
