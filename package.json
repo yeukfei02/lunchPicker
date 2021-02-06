@@ -78,7 +78,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
     "deploy-firebase": "rm -rf build && yarn run build && firebase deploy",
-    "commit": "npx git-cz",
+    "commit": "git-cz",
     "release": "standard-version"
   },
   "eslintConfig": {
