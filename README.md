@@ -23,8 +23,6 @@ https://lunch-picker.vercel.app/
 
 https://lunchpicker.netlify.app/
 
-https://lunch-picker-web.herokuapp.com/
-
 ## Requirement:
 
 - install yarn
