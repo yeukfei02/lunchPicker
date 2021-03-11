@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/yeukfei02/lunchPicker/compare/v1.7.9...v1.8.0) (2021-03-11)
+
+
+### Features
+
+* 🎸 add rimraf lib ([ec54540](https://github.com/yeukfei02/lunchPicker/commit/ec545407aefedc2412bcb27feffd0962d7da4f06))
+
 ### [1.7.9](https://github.com/yeukfei02/lunchPicker/compare/v1.7.8...v1.7.9) (2021-03-11)
 
 ### [1.7.8](https://github.com/yeukfei02/lunchPicker/compare/v1.7.7...v1.7.8) (2021-02-06)
