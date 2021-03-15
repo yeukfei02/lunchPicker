@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import CardSection from './CardSection';
 import Snackbar from '../snackBar/SnackBar';
 
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -104,7 +104,7 @@ function CheckoutForm(props: any) {
   const handlePayNow = async () => {
     const response = await props.stripe.createToken();
     if (response) {
-      log('response = ', response);
+      console.log('response = ', response);
       if (!_.isEmpty(response.token)) {
         setToken(response.token.id);
         setCard(response.token.card);
@@ -133,7 +133,7 @@ function CheckoutForm(props: any) {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setOpenSuccessAlert(true);
       setMessage('Payment success!');
       setTimeout(() => {

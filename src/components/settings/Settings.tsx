@@ -11,7 +11,7 @@ import axios from 'axios';
 
 import Snackbar from '../snackBar/SnackBar';
 
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -119,7 +119,7 @@ function Settings(): JSX.Element {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
     }
   };
 
@@ -137,7 +137,7 @@ function Settings(): JSX.Element {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
     }
   };
 

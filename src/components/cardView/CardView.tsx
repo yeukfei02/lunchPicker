@@ -24,7 +24,7 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -120,7 +120,7 @@ function CardView(props: any): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       const reviewsList = response.data.restaurantDetailsReview.reviews;
       setReviewsList(reviewsList);
     }
@@ -229,7 +229,7 @@ function CardView(props: any): JSX.Element {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setOpenSuccessAlert(true);
       setMessage('Add to favourites success!');
     }
@@ -264,7 +264,7 @@ function CardView(props: any): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setOpenSuccessAlert(true);
       setMessage('Delete favourites by id success!');
       setTimeout(() => {

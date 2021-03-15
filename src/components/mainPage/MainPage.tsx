@@ -20,7 +20,7 @@ import axios from 'axios';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -101,7 +101,7 @@ function MainPage(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       if (!_.isEmpty(response.data.categories)) {
         const foodList: any[] = [];
         const restaurantsList: any[] = [];
@@ -206,8 +206,8 @@ function MainPage(): JSX.Element {
     navigator.geolocation.getCurrentPosition((location: any) => {
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
-      log('latitude = ', latitude);
-      log('longitude = ', longitude);
+      console.log('latitude = ', latitude);
+      console.log('longitude = ', longitude);
       setLatitude(latitude);
       setLongitude(longitude);
     });
@@ -232,7 +232,7 @@ function MainPage(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setLocation(response.data.location.display_name);
     } else {
       setOpenErrorAlert(true);
@@ -251,7 +251,7 @@ function MainPage(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setResultList(response.data.restaurants.businesses);
       setOpenSuccessAlert(true);
       setMessage('Retrieved data success! Please scroll down');
@@ -277,7 +277,7 @@ function MainPage(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setResultList(response.data.restaurants.businesses);
       setOpenSuccessAlert(true);
       setMessage('Retrieved data success! Please scroll down');
@@ -685,7 +685,7 @@ function MainPage(): JSX.Element {
         },
       });
       if (!_.isEmpty(response)) {
-        log('response = ', response);
+        console.log('response = ', response);
         if (!_.isEmpty(response.data.categories)) {
           const randomFoodList: any[] = [];
           response.data.categories.forEach((item: any, i: number) => {
