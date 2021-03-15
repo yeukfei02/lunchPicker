@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/yeukfei02/lunchPicker/compare/v1.8.0...v1.8.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* 🐛 remove timber lib ([dbbc09a](https://github.com/yeukfei02/lunchPicker/commit/dbbc09a4a4b15b04c74d887d6568316bcd6cc8ba))
+
 ## [1.8.0](https://github.com/yeukfei02/lunchPicker/compare/v1.7.9...v1.8.0) (2021-03-11)
 
 
