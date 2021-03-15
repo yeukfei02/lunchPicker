@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import CustomMapList from '../customMap/CustomMapList';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -56,7 +56,7 @@ function RandomFoodMapView(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       if (!_.isEmpty(response.data.categories)) {
         const randomFoodList: any[] = [];
         response.data.categories.forEach((item: any, i: number) => {
@@ -101,7 +101,7 @@ function RandomFoodMapView(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
 
       const nameList = response.data.restaurants.businesses.map((item: any, i: number) => {
         const obj = {

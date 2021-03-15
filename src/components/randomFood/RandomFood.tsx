@@ -18,7 +18,7 @@ import axios from 'axios';
 import CardView from '../cardView/CardView';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -89,7 +89,7 @@ function RandomFood(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       if (!_.isEmpty(response.data.categories)) {
         const randomFoodList: any[] = [];
         response.data.categories.forEach((item: any, i: number) => {
@@ -139,7 +139,7 @@ function RandomFood(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setResultList(response.data.restaurants.businesses);
       setRefreshButtonClicked(false);
     } else {

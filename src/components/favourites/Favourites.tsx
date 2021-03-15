@@ -12,7 +12,7 @@ import axios from 'axios';
 import CardView from '../cardView/CardView';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl, log } from '../../common/Common';
+import { getRootUrl } from '../../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -64,7 +64,7 @@ function Favourites(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       const favourites = response.data.favourites;
       setFavourites(favourites);
       setOpenSuccessAlert(true);
@@ -155,7 +155,7 @@ function Favourites(): JSX.Element {
       },
     });
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
       setOpenSuccessAlert(true);
       setMessage('Delete all favorites success!');
       setDeleteAllFavouritesButtonClicked(false);

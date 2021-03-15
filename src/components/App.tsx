@@ -22,7 +22,7 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import { getFirebaseConfig, getRootUrl, log } from '../common/Common';
+import { getFirebaseConfig, getRootUrl } from '../common/Common';
 
 const ROOT_URL = getRootUrl();
 
@@ -80,12 +80,12 @@ function App(): JSX.Element {
     if (!_.isEmpty(messaging)) {
       Notification.requestPermission().then((permission: any) => {
         if (_.isEqual(permission, 'granted')) {
-          log('Notification permission granted.', '');
+          console.log('Notification permission granted.');
 
           getToken(messaging);
           onTokenRefresh(messaging);
         } else {
-          log('Unable to get permission to notify.', '');
+          console.log('Unable to get permission to notify.');
         }
       });
     }
@@ -107,15 +107,15 @@ function App(): JSX.Element {
       .getToken()
       .then((currentToken: string) => {
         if (currentToken) {
-          log('currentToken = ', currentToken);
+          console.log('currentToken = ', currentToken);
           localStorage.setItem('firebaseCurrentToken', currentToken);
           setCurrentToken(currentToken);
         } else {
-          log('No Instance ID token available. Request permission to generate one.', '');
+          console.log('No Instance ID token available. Request permission to generate one.');
         }
       })
       .catch((err: any) => {
-        log('An error occurred while retrieving token.', err);
+        console.log('An error occurred while retrieving token.', err);
       });
   };
 
@@ -124,12 +124,12 @@ function App(): JSX.Element {
       messaging
         .getToken()
         .then((refreshedToken: string) => {
-          log('refreshedToken = ', refreshedToken);
+          console.log('refreshedToken = ', refreshedToken);
           localStorage.setItem('firebaseRefreshedToken', refreshedToken);
           setRefreshedToken(refreshedToken);
         })
         .catch((err: any) => {
-          log('Unable to retrieve refreshed token ', err);
+          console.log('Unable to retrieve refreshed token ', err);
         });
     });
 
@@ -147,7 +147,7 @@ function App(): JSX.Element {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
     }
   };
 
@@ -165,7 +165,7 @@ function App(): JSX.Element {
       },
     );
     if (!_.isEmpty(response)) {
-      log('response = ', response);
+      console.log('response = ', response);
     }
   };
 
