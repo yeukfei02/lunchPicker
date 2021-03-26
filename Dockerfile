@@ -1,5 +1,5 @@
 # stage 1
-FROM node:12.18.3 AS builder
+FROM node:12.21.0-slim AS builder
 
 RUN mkdir -p /usr/src/app
 
