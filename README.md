@@ -15,23 +15,23 @@ Lunch picker is the tool you’ll turn to to answer this question.
 
 The web hosted in below places:
 
-https://lunchpicker.me/
+<https://lunchpicker.me/>
 
-https://lunchpicker-2232b.firebaseapp.com/
+<https://lunchpicker-2232b.firebaseapp.com/>
 
-https://lunch-picker.vercel.app/
+<https://lunch-picker.vercel.app/>
 
-https://lunchpicker.netlify.app/
+<https://lunchpicker.netlify.app/>
 
-## Requirement:
+## Requirement
 
 - install yarn
 - install node (v12+)
 - install firebase cli
 
-## Testing and run:
+## Testing and run
 
-```
+```zsh
 $ yarn
 
 // development
@@ -52,9 +52,9 @@ $ yarn run deploy-firebase
 
 open localhost:5000
 
-## Docker:
+## Docker
 
-```
+```zsh
 // build images and start container in one line
 docker-compose up -d --build
 
