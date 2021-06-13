@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.4](https://github.com/yeukfei02/lunchPicker/compare/v1.8.3...v1.8.4) (2021-06-13)
+
+
+### Bug Fixes
+
+* 🐛 add @types/leaflet lib and fix react-leaflet js ([43684f7](https://github.com/yeukfei02/lunchPicker/commit/43684f7628c31d5a330f480af69e07be077f66c4))
+
 ### [1.8.3](https://github.com/yeukfei02/lunchPicker/compare/v1.8.2...v1.8.3) (2021-04-20)
 
 ### [1.8.2](https://github.com/yeukfei02/lunchPicker/compare/v1.8.1...v1.8.2) (2021-03-26)
