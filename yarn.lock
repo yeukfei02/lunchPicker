@@ -2297,6 +2297,11 @@
     "@types/react-dom" "*"
     "@types/react-transition-group" "*"
 
+"@types/react-speech-recognition@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@types/react-speech-recognition/-/react-speech-recognition-3.6.0.tgz#3c52e2d3e2306d8fb0f54a769586221cdba4e35b"
+  integrity sha512-nFXlBxhz5Wnz/P7AQenmaG7r9MGBmvZhTW/MLPEPd1CYLgB+6jg0GygIYYM5LR+K1WyZ3+jXGhGszxoLQQkHXQ==
+
 "@types/react-stripe-elements@^6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@types/react-stripe-elements/-/react-stripe-elements-6.0.4.tgz#0931064941b4f74e25edb8955703eee90774a057"
@@ -11207,6 +11212,11 @@ react-select@^3.0.8:
     prop-types "^15.6.0"
     react-input-autosize "^2.2.2"
     react-transition-group "^4.3.0"
+
+react-speech-recognition@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/react-speech-recognition/-/react-speech-recognition-3.8.2.tgz#c82e187db92e32e506f0593d80a2347f2079e0fd"
+  integrity sha512-ZbA8wNNdWPAiN7tHsMc/cgfRkssAQwL3F8yMDEbuxLCT0II7YrNurNb3hAq5X58+zMn7YQO+S3OZt0mp5QA38w==
 
 react-stripe-elements@^6.0.1:
   version "6.1.2"

@@ -6,14 +6,19 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import MicIcon from '@material-ui/icons/Mic';
+import MicOffIcon from '@material-ui/icons/MicOff';
 import Tooltip from '@material-ui/core/Tooltip';
 import Bounce from 'react-reveal/Bounce';
 import { red, grey } from '@material-ui/core/colors';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from 'react-i18next';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -57,8 +62,14 @@ function MainPage(): JSX.Element {
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  // console.log('listening = ', listening);
+  // console.log('transcript = ', transcript);
+
   const [selectedTermList, setSelectedTermList] = useState<any[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<any>(null);
+  const [selectedMicLanguageList, setSelectedMicLanguageList] = useState<any[]>([]);
+  const [selectedMicLanguage, setSelectedMicLanguage] = useState<any>(null);
   const [radioButtonValue, setRadioButtonValue] = useState<string>('');
 
   const [formattedRandomFoodList, setFormattedRandomFoodList] = useState<any[]>([]);
@@ -79,6 +90,7 @@ function MainPage(): JSX.Element {
 
   useEffect(() => {
     getSelectedTermList();
+    getSelectedMicLanguageList();
     getUserCurrentLatLong();
     setIntitialResultList();
   }, []);
@@ -93,6 +105,10 @@ function MainPage(): JSX.Element {
       setRandomButtonClicked(false);
     }
   }, [resultList]);
+
+  useEffect(() => {
+    setLocation(transcript);
+  }, [transcript]);
 
   const getSelectedTermList = async () => {
     const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
@@ -202,6 +218,20 @@ function MainPage(): JSX.Element {
     }
   };
 
+  const getSelectedMicLanguageList = () => {
+    const selectedMicLanguageList = [
+      {
+        value: 'en-GB',
+        label: 'English (UK)',
+      },
+      {
+        value: 'en-US',
+        label: 'English (US)',
+      },
+    ];
+    setSelectedMicLanguageList(selectedMicLanguageList);
+  };
+
   const getUserCurrentLatLong = () => {
     navigator.geolocation.getCurrentPosition((location: any) => {
       const latitude = location.coords.latitude;
@@ -293,6 +323,10 @@ function MainPage(): JSX.Element {
 
   const handleChange = (selectedTerm: any) => {
     setSelectedTerm(selectedTerm);
+  };
+
+  const handleMicLanguageSelectDropdownChange = (selectedMicLanguage: any) => {
+    setSelectedMicLanguage(selectedMicLanguage);
   };
 
   const handleRadioButtonChange = (e: any) => {
@@ -415,12 +449,79 @@ function MainPage(): JSX.Element {
             value={location}
             onChange={e => handleLocationChange(e)}
           />
+          {renderSpeechToTextDiv()}
           <div className="my-3"></div>
         </div>
       );
     }
 
     return locationInput;
+  };
+
+  const renderSpeechToTextDiv = () => {
+    const micLanguage = selectedMicLanguage && selectedMicLanguage.value ? selectedMicLanguage.value : 'en-GB';
+
+    const speechToTextDiv = (
+      <div>
+        {renderMicIcon(listening, micLanguage)}
+        {renderMicLanguageSelectDropdown()}
+        <Button variant="outlined" color="primary" onClick={resetTranscript}>
+          {t('reset')}
+        </Button>
+      </div>
+    );
+
+    return speechToTextDiv;
+  };
+
+  const renderMicIcon = (listening: boolean, language: string) => {
+    const startListening = () => SpeechRecognition.startListening({ continuous: true, language: language });
+
+    let micIconDiv = (
+      <IconButton
+        aria-label="micOffIcon"
+        onMouseOver={startListening}
+        onMouseLeave={SpeechRecognition.stopListening}
+        onMouseDown={startListening}
+        onMouseUp={SpeechRecognition.stopListening}
+      >
+        <MicOffIcon fontSize="large" style={{ color: red[500], cursor: 'pointer' }} />
+      </IconButton>
+    );
+
+    if (listening) {
+      micIconDiv = (
+        <IconButton
+          aria-label="micIcon"
+          onMouseOver={startListening}
+          onMouseLeave={SpeechRecognition.stopListening}
+          onMouseDown={startListening}
+          onMouseUp={SpeechRecognition.stopListening}
+        >
+          <MicIcon fontSize="large" style={{ color: red[500], cursor: 'pointer' }} />
+        </IconButton>
+      );
+    }
+
+    return micIconDiv;
+  };
+
+  const renderMicLanguageSelectDropdown = () => {
+    const selectDropdown = (
+      <div>
+        <Select
+          styles={selectStyles}
+          placeholder={t('selectMicLanguage')}
+          value={selectedMicLanguage}
+          onChange={handleMicLanguageSelectDropdownChange}
+          options={selectedMicLanguageList}
+          isClearable={true}
+        />
+        <div className="my-3"></div>
+      </div>
+    );
+
+    return selectDropdown;
   };
 
   // const renderLatitudeAndLongitudeInput = () => {
