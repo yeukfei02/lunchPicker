@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/yeukfei02/lunchPicker/compare/v1.8.4...v1.9.0) (2021-06-20)
+
+
+### Features
+
+* 🎸 add speech to text in search func ([62aad85](https://github.com/yeukfei02/lunchPicker/commit/62aad85b9d067fb39968b680f13ac89166e3045a))
+
 ### [1.8.4](https://github.com/yeukfei02/lunchPicker/compare/v1.8.3...v1.8.4) (2021-06-13)
 
 
