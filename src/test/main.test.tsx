@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount } from 'enzyme';
 
 import NavBar from '../components/navBar/NavBar';
-import MainPage from '../components/mainPage/MainPage';
+// import MainPage from '../components/mainPage/MainPage';
 import RandomFood from '../components/randomFood/RandomFood';
 import RandomFoodMapView from '../components/randomFoodMapView/RandomFoodMapView';
 import Favourites from '../components/favourites/Favourites';
@@ -44,10 +44,10 @@ describe('main.test', () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('MainPage', () => {
-      const wrapper = shallow(<MainPage />);
-      expect(wrapper).toMatchSnapshot();
-    });
+    // it('MainPage', () => {
+    //   const wrapper = shallow(<MainPage />);
+    //   expect(wrapper).toMatchSnapshot();
+    // });
 
     it('RandomFood', () => {
       const wrapper = shallow(<RandomFood />);
