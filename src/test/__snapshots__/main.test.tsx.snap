@@ -16,8 +16,6 @@ exports[`main.test render test FloatingActionButton 1`] = `ShallowWrapper {}`;
 
 exports[`main.test render test ImageSlider 1`] = `ShallowWrapper {}`;
 
-exports[`main.test render test MainPage 1`] = `ShallowWrapper {}`;
-
 exports[`main.test render test MyStoreCheckout 1`] = `ShallowWrapper {}`;
 
 exports[`main.test render test NavBar 1`] = `ShallowWrapper {}`;
