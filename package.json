@@ -11,9 +11,6 @@
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "@sentry/browser": "^5.10.2",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^8.0.3",
     "axios": "^0.21.1",
     "firebase": "^7.6.1",
     "i18next": "^19.0.3",
@@ -42,6 +39,9 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^8.0.3",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.3",
@@ -65,11 +65,11 @@
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
-    "git-cz": "^4.7.0",
+    "git-cz": "^4.8.0",
     "husky": "^4.2.5",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
-    "standard-version": "^9.0.0",
+    "standard-version": "^9.3.2",
     "typescript": "^4.1.2"
   },
   "scripts": {
