@@ -10,9 +10,9 @@ import { useTranslation } from 'react-i18next';
 import CardSection from './CardSection';
 import Snackbar from '../snackBar/SnackBar';
 
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const selectStyles = {
   container: (base: any, state: any) => ({
@@ -119,7 +119,7 @@ function CheckoutForm(props: any) {
 
   const creditCardPayment = async (amount: number, currency: any, token: string, card: any) => {
     const response = await axios.post(
-      `${ROOT_URL}/stripe/credit-card-payment`,
+      `${rootUrl}/stripe/credit-card-payment`,
       {
         amount: Math.round(amount * 100),
         currency: currency.value,

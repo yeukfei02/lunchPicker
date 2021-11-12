@@ -14,7 +14,7 @@ import MyStoreCheckout from '../myStoreCheckout/MyStoreCheckout';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 
-import { getStripeApiKey } from '../../common/Common';
+import { getStripeApiKey } from '../../helpers/helpers';
 
 const useStyles = makeStyles(theme => ({
   root: {

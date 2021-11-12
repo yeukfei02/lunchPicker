@@ -15,9 +15,9 @@ import ImageSlider from '../imageSlider/ImageSlider';
 import CustomMap from '../customMap/CustomMap';
 import Snackbar from '../snackBar/SnackBar';
 
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,7 +54,7 @@ function RestaurantDetails(props: any) {
   }, [openSuccessAlert, message]);
 
   const getRestaurantsDetailsById = async (id: string) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/get-restaurant-details/${id}`, {
+    const response = await axios.get(`${rootUrl}/restaurant/get-restaurant-details/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },

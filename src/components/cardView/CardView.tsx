@@ -24,9 +24,9 @@ import _ from 'lodash';
 import axios from 'axios';
 
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -114,7 +114,7 @@ function CardView(props: any): JSX.Element {
   };
 
   const getRestaurantsDetailsReviewById = async (id: string) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/get-restaurant-details-review/${id}`, {
+    const response = await axios.get(`${rootUrl}/restaurant/get-restaurant-details-review/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -218,7 +218,7 @@ function CardView(props: any): JSX.Element {
     setAddToFavoritesClicked(true);
 
     const response = await axios.post(
-      `${ROOT_URL}/favourites/add-to-favourites`,
+      `${rootUrl}/favourites/add-to-favourites`,
       {
         item: item,
       },
@@ -258,7 +258,7 @@ function CardView(props: any): JSX.Element {
   };
 
   const handleDeleteFavouritesById = async (_id: string) => {
-    const response = await axios.delete(`${ROOT_URL}/favourites/delete-favourites/${_id}`, {
+    const response = await axios.delete(`${rootUrl}/favourites/delete-favourites/${_id}`, {
       headers: {
         'Content-Type': 'application/json',
       },

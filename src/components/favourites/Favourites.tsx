@@ -12,9 +12,9 @@ import axios from 'axios';
 import CardView from '../cardView/CardView';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,7 +58,7 @@ function Favourites(): JSX.Element {
   }, [deleteAllFavouritesStatus]);
 
   const getFavourites = async () => {
-    const response = await axios.get(`${ROOT_URL}/favourites/get-favourites`, {
+    const response = await axios.get(`${rootUrl}/favourites/get-favourites`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -149,7 +149,7 @@ function Favourites(): JSX.Element {
   const handleDeleteAllFavourites = async () => {
     setDeleteAllFavouritesButtonClicked(true);
 
-    const response = await axios.delete(`${ROOT_URL}/favourites/delete-all-favourites`, {
+    const response = await axios.delete(`${rootUrl}/favourites/delete-all-favourites`, {
       headers: {
         'Content-Type': 'application/json',
       },

@@ -22,9 +22,9 @@ import Settings from './settings/Settings';
 import Contact from './contact/Contact';
 import RestaurantDetails from './restaurantDetails/RestaurantDetails';
 
-import { getFirebaseConfig, getRootUrl } from '../common/Common';
+import { getFirebaseConfig, getRootUrl } from '../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 // use default theme
 // const theme = createMuiTheme();
@@ -135,7 +135,7 @@ function App(): JSX.Element {
 
   const addTokenToServer = async (currentToken: string, refreshedToken: string) => {
     const response = await axios.post(
-      `${ROOT_URL}/firebase/add-token-to-server`,
+      `${rootUrl}/firebase/add-token-to-server`,
       {
         currentToken: currentToken,
         refreshedToken: refreshedToken,
@@ -153,7 +153,7 @@ function App(): JSX.Element {
 
   const subscribeTopic = async (currentToken: string) => {
     const response = await axios.post(
-      `${ROOT_URL}/firebase/subscribe-topic`,
+      `${rootUrl}/firebase/subscribe-topic`,
       {
         currentTokenList: [currentToken],
         topic: 'all',
