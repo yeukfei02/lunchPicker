@@ -18,9 +18,9 @@ import axios from 'axios';
 import CardView from '../cardView/CardView';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -83,7 +83,7 @@ function RandomFood(): JSX.Element {
   }, [openSuccessAlert, message]);
 
   const getRandomFoodList = async () => {
-    const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+    const response = await axios.get(`${rootUrl}/category/get-categories`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -128,7 +128,7 @@ function RandomFood(): JSX.Element {
     latitude: number,
     longitude: number,
   ) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
+    const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-lat-long`, {
       params: {
         term: useRandomFoodCategory ? selectedTerm : '',
         latitude: latitude,

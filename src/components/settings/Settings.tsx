@@ -11,9 +11,9 @@ import axios from 'axios';
 
 import Snackbar from '../snackBar/SnackBar';
 
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -107,7 +107,7 @@ function Settings(): JSX.Element {
 
   const subscribeTopic = async (currentToken: string | null) => {
     const response = await axios.post(
-      `${ROOT_URL}/firebase/subscribe-topic`,
+      `${rootUrl}/firebase/subscribe-topic`,
       {
         currentTokenList: [currentToken],
         topic: 'all',
@@ -125,7 +125,7 @@ function Settings(): JSX.Element {
 
   const unsubscribeTopic = async (currentToken: string | null) => {
     const response = await axios.post(
-      `${ROOT_URL}/firebase/unsubscribe-topic`,
+      `${rootUrl}/firebase/unsubscribe-topic`,
       {
         currentTokenList: [currentToken],
         topic: 'all',

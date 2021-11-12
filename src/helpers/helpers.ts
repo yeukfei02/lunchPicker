@@ -36,12 +36,13 @@ export const getStripeApiKey = (): string | undefined => {
 };
 
 export const getRootUrl = (): string => {
-  let ROOT_URL = '';
+  let rootUrl = '';
+
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    ROOT_URL = 'http://localhost:3000/api';
+    rootUrl = 'http://localhost:3000/api';
   } else {
-    ROOT_URL = 'https://www.lunch-picker-api.com/api';
+    rootUrl = 'https://www.lunch-picker-api.com/api';
   }
 
-  return ROOT_URL;
+  return rootUrl;
 };

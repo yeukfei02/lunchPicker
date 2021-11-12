@@ -7,9 +7,9 @@ import axios from 'axios';
 
 import CustomMapList from '../customMap/CustomMapList';
 import Snackbar from '../snackBar/SnackBar';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 function RandomFoodMapView(): JSX.Element {
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ function RandomFoodMapView(): JSX.Element {
   }, [openSuccessAlert, message]);
 
   const getRandomFoodList = async () => {
-    const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+    const response = await axios.get(`${rootUrl}/category/get-categories`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -90,7 +90,7 @@ function RandomFoodMapView(): JSX.Element {
   };
 
   const findRestaurantsByLatLong = async (selectedTerm: string, latitude: number, longitude: number) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
+    const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-lat-long`, {
       params: {
         term: selectedTerm,
         latitude: latitude,

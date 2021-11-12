@@ -25,9 +25,9 @@ import axios from 'axios';
 import FloatingActionButton from '../floatingActionButton/FloatingActionButton';
 import Snackbar from '../snackBar/SnackBar';
 import DisplayResult from '../displayResult/DisplayResult';
-import { getRootUrl } from '../../common/Common';
+import { getRootUrl } from '../../helpers/helpers';
 
-const ROOT_URL = getRootUrl();
+const rootUrl = getRootUrl();
 
 const groupStyles = {
   display: 'flex',
@@ -111,7 +111,7 @@ function MainPage(): JSX.Element {
   }, [transcript]);
 
   const getSelectedTermList = async () => {
-    const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+    const response = await axios.get(`${rootUrl}/category/get-categories`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -252,7 +252,7 @@ function MainPage(): JSX.Element {
   };
 
   const findLocationTextByLatLong = async (latitude: number, longitude: number) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/find-location-text-by-lat-long`, {
+    const response = await axios.get(`${rootUrl}/restaurant/find-location-text-by-lat-long`, {
       params: {
         latitude: latitude,
         longitude: longitude,
@@ -271,7 +271,7 @@ function MainPage(): JSX.Element {
   };
 
   const findRestaurantsByLocation = async (selectedTerm: string, location: any) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-location`, {
+    const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-location`, {
       params: {
         term: selectedTerm,
         location: location,
@@ -296,7 +296,7 @@ function MainPage(): JSX.Element {
   };
 
   const findRestaurantsByLatLong = async (selectedTerm: string, latitude: number, longitude: number) => {
-    const response = await axios.get(`${ROOT_URL}/restaurant/find-restaurants-by-lat-long`, {
+    const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-lat-long`, {
       params: {
         term: selectedTerm,
         latitude: latitude,
@@ -780,7 +780,7 @@ function MainPage(): JSX.Element {
     setRandomButtonClicked(true);
 
     if (_.isEmpty(formattedRandomFoodList)) {
-      const response = await axios.get(`${ROOT_URL}/category/get-categories`, {
+      const response = await axios.get(`${rootUrl}/category/get-categories`, {
         headers: {
           'Content-Type': 'application/json',
         },
