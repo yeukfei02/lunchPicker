@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.4](https://github.com/yeukfei02/lunchPicker/compare/v1.9.3...v1.9.4) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 rename to helpers and rootUrl var ([3ea6f53](https://github.com/yeukfei02/lunchPicker/commit/3ea6f5375c4ed0523e2935f27bbfacac7497e12a))
+
 ### [1.9.3](https://github.com/yeukfei02/lunchPicker/compare/v1.9.2...v1.9.3) (2021-11-12)
 
 
