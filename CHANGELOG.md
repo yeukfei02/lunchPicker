@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.3](https://github.com/yeukfei02/lunchPicker/compare/v1.9.2...v1.9.3) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 fix ci file node version ([bb5f358](https://github.com/yeukfei02/lunchPicker/commit/bb5f35862c0943018b42e50574440b64b5a19ed0))
+* 🐛 fix dockerfile node version ([dbcfd43](https://github.com/yeukfei02/lunchPicker/commit/dbcfd438b8d34804043d8e7eb56a9704cb620658))
+
 ### [1.9.2](https://github.com/yeukfei02/lunchPicker/compare/v1.9.1...v1.9.2) (2021-11-07)
 
 
