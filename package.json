@@ -1,6 +1,6 @@
 {
   "name": "lunch-picker",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
