@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/yeukfei02/lunchPicker/compare/v1.9.5...v1.10.0) (2022-05-09)
+
+
+### Features
+
+* 🎸 add .env.sample ([39a1e83](https://github.com/yeukfei02/lunchPicker/commit/39a1e835e10e8879152e91071b8c9bd118e502b2))
+* 🎸 add semgrep.yml ([8c439c0](https://github.com/yeukfei02/lunchPicker/commit/8c439c0c0e345b9b0fb1735af35093458cc2b0b2))
+
+
+### Bug Fixes
+
+* 🐛 fix process.env.REACT_APP_SENTRY_DSN ([4a9de53](https://github.com/yeukfei02/lunchPicker/commit/4a9de53dc3fcecb26e18df7e1c190ca372ce361f))
+* 🐛 remove not used travis ([db47827](https://github.com/yeukfei02/lunchPicker/commit/db4782751cd848eb094b1ef8b25adea8995cb4b6))
+
 ### [1.9.5](https://github.com/yeukfei02/lunchPicker/compare/v1.9.4...v1.9.5) (2021-11-16)
 
 
