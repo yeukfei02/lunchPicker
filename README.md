@@ -4,7 +4,6 @@
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.com/yeukfei02/lunchPicker"><img src="https://travis-ci.com/yeukfei02/lunchPicker.svg?branch=master" alt=""></a>
   <a href="https://codecov.io/gh/yeukfei02/lunchPicker"><img src="https://codecov.io/gh/yeukfei02/lunchPicker/branch/master/graph/badge.svg" alt=""></a>
   <a href="https://discord.gg/HdXSpNg"><img src="https://img.shields.io/discord/709269779793444944" alt=""></a>
 </p>
