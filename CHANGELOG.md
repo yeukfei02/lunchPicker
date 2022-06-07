@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/yeukfei02/lunchPicker/compare/v1.10.0...v1.11.0) (2022-06-07)
+
+
+### Features
+
+* 🎸 add format command and update husky ([c5e4564](https://github.com/yeukfei02/lunchPicker/commit/c5e4564c787870fcc8fe6aef3f0fbb16f752fb89))
+
 ## [1.10.0](https://github.com/yeukfei02/lunchPicker/compare/v1.9.5...v1.10.0) (2022-05-09)
 
 
