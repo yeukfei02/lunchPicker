@@ -67,7 +67,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
     "git-cz": "^4.8.0",
-    "husky": "^4.2.5",
+    "husky": "^8.0.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "standard-version": "^9.3.2",
@@ -81,9 +81,11 @@
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
+    "format": "prettier --write '*/**/*.{ts,tsx}'",
     "deploy-firebase": "rimraf build && yarn run build && firebase deploy",
     "commit": "git-cz",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -99,11 +101,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint",
-      "pre-push": "yarn lint"
-    }
   }
 }

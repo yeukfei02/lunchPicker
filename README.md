@@ -42,8 +42,11 @@ $ yarn run production
 // run test case
 $ yarn run test
 
-// use eslint and prettier to format code
+// lint code
 $ yarn run lint
+
+// format code
+$ yarn run format
 
 // deploy to firebase
 $ yarn run deploy-firebase
