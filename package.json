@@ -2,6 +2,11 @@
   "name": "lunch-picker",
   "version": "1.11.0",
   "private": true,
+  "engines": {
+    "node": ">=14.18.0",
+    "npm": ">=6.14.15",
+    "yarn": ">=1.22.18"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
