@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/yeukfei02/lunchPicker/compare/v1.11.0...v1.11.1) (2022-06-20)
+
+
+### Bug Fixes
+
+* 🐛 add engine ([05de351](https://github.com/yeukfei02/lunchPicker/commit/05de35163c45b63660bfbdb8bdf0e6a7816deb92))
+* 🐛 fix deploy error ([7a4f99d](https://github.com/yeukfei02/lunchPicker/commit/7a4f99dbe35621ddb37c71359e2d032282f49c8b))
+* 🐛 move serve to devDependencies ([88d09b1](https://github.com/yeukfei02/lunchPicker/commit/88d09b128db5f2aaed0466ff977bb793e3214ec4))
+
 ## [1.11.0](https://github.com/yeukfei02/lunchPicker/compare/v1.10.0...v1.11.0) (2022-06-07)
 
 
