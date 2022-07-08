@@ -2,6 +2,65 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/yeukfei02/lunchPicker/compare/v1.11.1...v1.12.0) (2022-07-08)
+
+
+### Features
+
+* 🎸 add ios, android in contact us ([986b2aa](https://github.com/yeukfei02/lunchPicker/commit/986b2aa5e2c76e8875039241015b4663b7a68377))
+
+### [1.11.1](https://github.com/yeukfei02/lunchPicker/compare/v1.11.0...v1.11.1) (2022-06-20)
+
+
+### Bug Fixes
+
+* 🐛 add engine ([05de351](https://github.com/yeukfei02/lunchPicker/commit/05de35163c45b63660bfbdb8bdf0e6a7816deb92))
+* 🐛 fix deploy error ([7a4f99d](https://github.com/yeukfei02/lunchPicker/commit/7a4f99dbe35621ddb37c71359e2d032282f49c8b))
+* 🐛 move serve to devDependencies ([88d09b1](https://github.com/yeukfei02/lunchPicker/commit/88d09b128db5f2aaed0466ff977bb793e3214ec4))
+
+## [1.11.0](https://github.com/yeukfei02/lunchPicker/compare/v1.10.0...v1.11.0) (2022-06-07)
+
+
+### Features
+
+* 🎸 add format command and update husky ([c5e4564](https://github.com/yeukfei02/lunchPicker/commit/c5e4564c787870fcc8fe6aef3f0fbb16f752fb89))
+
+## [1.10.0](https://github.com/yeukfei02/lunchPicker/compare/v1.9.5...v1.10.0) (2022-05-09)
+
+
+### Features
+
+* 🎸 add .env.sample ([39a1e83](https://github.com/yeukfei02/lunchPicker/commit/39a1e835e10e8879152e91071b8c9bd118e502b2))
+* 🎸 add semgrep.yml ([8c439c0](https://github.com/yeukfei02/lunchPicker/commit/8c439c0c0e345b9b0fb1735af35093458cc2b0b2))
+
+
+### Bug Fixes
+
+* 🐛 fix process.env.REACT_APP_SENTRY_DSN ([4a9de53](https://github.com/yeukfei02/lunchPicker/commit/4a9de53dc3fcecb26e18df7e1c190ca372ce361f))
+* 🐛 remove not used travis ([db47827](https://github.com/yeukfei02/lunchPicker/commit/db4782751cd848eb094b1ef8b25adea8995cb4b6))
+
+### [1.9.5](https://github.com/yeukfei02/lunchPicker/compare/v1.9.4...v1.9.5) (2021-11-16)
+
+
+### Bug Fixes
+
+* 🐛 update to latest sentry ([bbe99c6](https://github.com/yeukfei02/lunchPicker/commit/bbe99c6752d48550b778caea6d205948dbc4ae5e))
+
+### [1.9.4](https://github.com/yeukfei02/lunchPicker/compare/v1.9.3...v1.9.4) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 rename to helpers and rootUrl var ([3ea6f53](https://github.com/yeukfei02/lunchPicker/commit/3ea6f5375c4ed0523e2935f27bbfacac7497e12a))
+
+### [1.9.3](https://github.com/yeukfei02/lunchPicker/compare/v1.9.2...v1.9.3) (2021-11-12)
+
+
+### Bug Fixes
+
+* 🐛 fix ci file node version ([bb5f358](https://github.com/yeukfei02/lunchPicker/commit/bb5f35862c0943018b42e50574440b64b5a19ed0))
+* 🐛 fix dockerfile node version ([dbcfd43](https://github.com/yeukfei02/lunchPicker/commit/dbcfd438b8d34804043d8e7eb56a9704cb620658))
+
 ### [1.9.2](https://github.com/yeukfei02/lunchPicker/compare/v1.9.1...v1.9.2) (2021-11-07)
 
 

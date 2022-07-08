@@ -1,6 +1,6 @@
 {
   "name": "lunch-picker",
-  "version": "1.9.2",
+  "version": "1.12.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -12,7 +12,7 @@
     "@material-ui/icons": "^4.5.1",
     "@sentry/react": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "firebase": "^7.6.1",
     "i18next": "^19.0.3",
     "is_js": "^0.9.0",
