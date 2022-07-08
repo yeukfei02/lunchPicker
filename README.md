@@ -52,7 +52,7 @@ $ yarn run format
 $ yarn run deploy-firebase
 ```
 
-open localhost:5000
+open localhost:5100
 
 ## Docker
 
