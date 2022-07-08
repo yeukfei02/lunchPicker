@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import EmailIcon from '@material-ui/icons/Email';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import AppleIcon from '@material-ui/icons/Apple';
+import AndroidIcon from '@material-ui/icons/Android';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
@@ -37,6 +39,14 @@ function Contact(): JSX.Element {
 
   const handleGithubIconClick = () => {
     window.open('https://github.com/yeukfei02');
+  };
+
+  const handleAppleIconClick = () => {
+    window.open('https://apps.apple.com/us/app/lunchpickerlite/id1509385881');
+  };
+
+  const handleAndroidIconClick = () => {
+    window.open('https://play.google.com/store/apps/details?id=com.donaldwu.lunchpickerlite');
   };
 
   const handleDonate = () => {
@@ -94,6 +104,17 @@ function Contact(): JSX.Element {
           </Tooltip>
           <Tooltip title="yeukfei02" placement="bottom">
             <GitHubIcon style={{ cursor: 'pointer' }} fontSize="large" onClick={handleGithubIconClick} />
+          </Tooltip>
+        </Paper>
+      </div>
+      <div className="mt-5 d-flex justify-content-center">
+        <Paper className={`${classes.root} mx-4 w-75 text-center`}>
+          <h5>{t('lunchPickerApp')}</h5>
+          <Tooltip title="ios" placement="bottom">
+            <AppleIcon style={{ cursor: 'pointer' }} className="mr-3" fontSize="large" onClick={handleAppleIconClick} />
+          </Tooltip>
+          <Tooltip title="android" placement="bottom">
+            <AndroidIcon style={{ cursor: 'pointer' }} fontSize="large" onClick={handleAndroidIconClick} />
           </Tooltip>
         </Paper>
       </div>
