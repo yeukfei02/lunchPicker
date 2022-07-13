@@ -220,14 +220,14 @@ function RandomFood(): JSX.Element {
     return renderDiv;
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setResultList([]);
     setRefreshButtonClicked(true);
 
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
     if (latitude !== 0 && longitude !== 0) {
-      findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
+      await findRestaurantsByLatLong(useRandomFoodCategory, selectedTerm, latitude, longitude);
       setOpenSuccessAlert(true);
       setMessage('Refresh success!');
     }

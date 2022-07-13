@@ -130,7 +130,7 @@ function RandomFoodMapView(): JSX.Element {
     }
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setNameList([]);
     setLocationStrList([]);
     setCoordinatesList([]);
@@ -139,7 +139,7 @@ function RandomFoodMapView(): JSX.Element {
     const selectedTerm = _.sample(randomFoodList);
     setSelectedTerm(selectedTerm);
     if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
-      findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+      await findRestaurantsByLatLong(selectedTerm, latitude, longitude);
       setOpenSuccessAlert(true);
       setMessage('Refresh success!');
     }

@@ -68,6 +68,7 @@ function MainPage(): JSX.Element {
 
   const [selectedTermList, setSelectedTermList] = useState<any[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<any>(null);
+  const [inputValue, setInputValue] = useState<string>('');
   const [selectedMicLanguageList, setSelectedMicLanguageList] = useState<any[]>([]);
   const [selectedMicLanguage, setSelectedMicLanguage] = useState<any>(null);
   const [radioButtonValue, setRadioButtonValue] = useState<string>('');
@@ -270,10 +271,10 @@ function MainPage(): JSX.Element {
     }
   };
 
-  const findRestaurantsByLocation = async (selectedTerm: string, location: any) => {
+  const findRestaurantsByLocation = async (searchText: string, location: any) => {
     const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-location`, {
       params: {
-        term: selectedTerm,
+        term: searchText,
         location: location,
       },
       headers: {
@@ -295,10 +296,10 @@ function MainPage(): JSX.Element {
     }
   };
 
-  const findRestaurantsByLatLong = async (selectedTerm: string, latitude: number, longitude: number) => {
+  const findRestaurantsByLatLong = async (searchText: string, latitude: number, longitude: number) => {
     const response = await axios.get(`${rootUrl}/restaurant/find-restaurants-by-lat-long`, {
       params: {
-        term: selectedTerm,
+        term: searchText,
         latitude: latitude,
         longitude: longitude,
       },
@@ -323,6 +324,7 @@ function MainPage(): JSX.Element {
 
   const handleChange = (selectedTerm: any) => {
     setSelectedTerm(selectedTerm);
+    setInputValue('');
   };
 
   const handleMicLanguageSelectDropdownChange = (selectedMicLanguage: any) => {
@@ -331,6 +333,11 @@ function MainPage(): JSX.Element {
 
   const handleRadioButtonChange = (e: any) => {
     setRadioButtonValue(e.target.value);
+  };
+
+  const handleInputChange = (e: any) => {
+    setSelectedTerm(null);
+    setInputValue(e.target.value);
   };
 
   const handleLocationChange = (e: any) => {
@@ -368,26 +375,44 @@ function MainPage(): JSX.Element {
   );
 
   const renderSelectDropdown = () => {
-    let selectDropdown: any = null;
-
-    if (_.isEqual(window.location.pathname, '/')) {
-      selectDropdown = (
-        <div>
-          <Select
-            styles={selectStyles}
-            placeholder={t('selectTheFoodYouWant')}
-            value={selectedTerm}
-            onChange={handleChange}
-            options={selectedTermList}
-            isClearable={true}
-            formatGroupLabel={formatGroupLabel}
-          />
-          <div className="my-3"></div>
-        </div>
-      );
-    }
-
+    const selectDropdown = (
+      <div>
+        <Select
+          styles={selectStyles}
+          placeholder={t('selectTheFoodYouWant')}
+          value={selectedTerm}
+          onChange={handleChange}
+          options={selectedTermList}
+          isClearable={true}
+          formatGroupLabel={formatGroupLabel}
+        />
+        <div className="my-3"></div>
+      </div>
+    );
     return selectDropdown;
+  };
+
+  const renderInput = () => {
+    const input = (
+      <div>
+        <TextField
+          id="outlined-full-width"
+          label="Food"
+          placeholder="Enter food here..."
+          helperText="Food name"
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={inputValue}
+          onChange={e => handleInputChange(e)}
+        />
+        <div className="my-3"></div>
+      </div>
+    );
+    return input;
   };
 
   const renderRadioButton = () => {
@@ -734,7 +759,7 @@ function MainPage(): JSX.Element {
     return randomFoodCategory;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setRandomFoodTerm('');
     setResultList([]);
     localStorage.setItem('resultList', '');
@@ -742,8 +767,15 @@ function MainPage(): JSX.Element {
 
     if (_.isEqual(radioButtonValue, 'places')) {
       if (!_.isEmpty(location)) {
-        const term = !_.isEmpty(selectedTerm) ? selectedTerm.label : '';
-        findRestaurantsByLocation(term, location);
+        let searchText = '';
+        if (!_.isEmpty(selectedTerm)) {
+          searchText = selectedTerm.label;
+        }
+        if (!_.isEmpty(inputValue)) {
+          searchText = inputValue;
+        }
+
+        await findRestaurantsByLocation(searchText, location);
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
         setMessage('');
@@ -752,8 +784,15 @@ function MainPage(): JSX.Element {
 
     if (_.isEqual(radioButtonValue, 'useCurrentLocation')) {
       if (latitude !== 0 && longitude !== 0) {
-        const term = !_.isEmpty(selectedTerm) ? selectedTerm.label : '';
-        findRestaurantsByLatLong(term, latitude, longitude);
+        let searchText = '';
+        if (!_.isEmpty(selectedTerm)) {
+          searchText = selectedTerm.label;
+        }
+        if (!_.isEmpty(inputValue)) {
+          searchText = inputValue;
+        }
+
+        await findRestaurantsByLatLong(searchText, latitude, longitude);
         setOpenSuccessAlert(false);
         setOpenErrorAlert(false);
         setMessage('');
@@ -807,14 +846,14 @@ function MainPage(): JSX.Element {
           });
           setFormattedRandomFoodList(formattedRandomFoodList);
 
-          getRandomResult(formattedRandomFoodList);
+          await getRandomResult(formattedRandomFoodList);
         }
       } else {
         setOpenErrorAlert(true);
         setMessage('Get categories error!');
       }
     } else {
-      getRandomResult(formattedRandomFoodList);
+      await getRandomResult(formattedRandomFoodList);
     }
   };
 
@@ -828,11 +867,11 @@ function MainPage(): JSX.Element {
     setResultList(sortedByDistanceResultList);
   };
 
-  const getRandomResult = (formattedRandomFoodList: any[]) => {
-    const selectedTerm = _.sample(formattedRandomFoodList);
-    setRandomFoodTerm(selectedTerm);
-    if (!_.isEmpty(selectedTerm) && latitude !== 0 && longitude !== 0) {
-      findRestaurantsByLatLong(selectedTerm, latitude, longitude);
+  const getRandomResult = async (formattedRandomFoodList: any[]) => {
+    const searchText = _.sample(formattedRandomFoodList);
+    setRandomFoodTerm(searchText);
+    if (!_.isEmpty(searchText) && latitude !== 0 && longitude !== 0) {
+      await findRestaurantsByLatLong(searchText, latitude, longitude);
       setOpenSuccessAlert(false);
       setMessage('');
     }
@@ -861,6 +900,7 @@ function MainPage(): JSX.Element {
             <img src={require('../../images/logo2.png')} className="img-fluid" alt="logo" width="100%" />
           </div>
           {renderSelectDropdown()}
+          {renderInput()}
           {renderRadioButton()}
           {renderLocationInput()}
           {/*renderLatitudeAndLongitudeInput()*/}

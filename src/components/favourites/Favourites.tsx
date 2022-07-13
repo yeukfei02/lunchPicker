@@ -122,8 +122,8 @@ function Favourites(): JSX.Element {
     return renderDiv;
   };
 
-  const reloadFavourites = () => {
-    getFavourites();
+  const reloadFavourites = async () => {
+    await getFavourites();
   };
 
   const renderFavourites = () => {
