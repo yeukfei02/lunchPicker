@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/yeukfei02/lunchPicker/compare/v1.12.0...v1.13.0) (2022-07-13)
+
+
+### Features
+
+* 🎸 add input field for searchText ([00c3068](https://github.com/yeukfei02/lunchPicker/commit/00c30689596e62cc16fc797b2f2be4a97c0f86f7))
+
 ## [1.12.0](https://github.com/yeukfei02/lunchPicker/compare/v1.11.1...v1.12.0) (2022-07-08)
 
 
