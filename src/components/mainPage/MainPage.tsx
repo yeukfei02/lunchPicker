@@ -463,7 +463,7 @@ function MainPage(): JSX.Element {
           <TextField
             id="outlined-full-width"
             label="Location"
-            placeholder="Enter location..."
+            placeholder={t('enterLocation')}
             helperText="address, city, place, street name, zip code, country, state, building name, etc..."
             fullWidth
             margin="normal"
