@@ -107,10 +107,12 @@ function CardView(props: any): JSX.Element {
     });
   }
 
-  const handleExpandClick = () => {
+  const handleExpandClick = async () => {
     setExpanded(!expanded);
 
-    if (!expanded) getRestaurantsDetailsReviewById(id);
+    if (!expanded) {
+      await getRestaurantsDetailsReviewById(id);
+    }
   };
 
   const getRestaurantsDetailsReviewById = async (id: string) => {
