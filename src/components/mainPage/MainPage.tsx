@@ -398,7 +398,7 @@ function MainPage(): JSX.Element {
         <TextField
           id="outlined-full-width"
           label="Food"
-          placeholder="Enter food here..."
+          placeholder={t('enterFoodHere')}
           helperText="Food name"
           fullWidth
           margin="normal"
