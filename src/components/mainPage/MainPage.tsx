@@ -93,7 +93,7 @@ function MainPage(): JSX.Element {
     getSelectedTermList();
     getSelectedMicLanguageList();
     getUserCurrentLatLong();
-    setIntitialResultList();
+    setInitialResultList();
   }, []);
 
   useEffect(() => {
@@ -244,7 +244,7 @@ function MainPage(): JSX.Element {
     });
   };
 
-  const setIntitialResultList = () => {
+  const setInitialResultList = () => {
     const resultListFromLocalStorageStr = localStorage.getItem('resultList');
     if (resultListFromLocalStorageStr) {
       const resultListFromLocalStorageJSON = JSON.parse(resultListFromLocalStorageStr);
