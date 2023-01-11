@@ -39,6 +39,8 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.1",
+    "@commitlint/config-conventional": "^17.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^8.0.3",
@@ -66,7 +68,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
     "git-cz": "^4.8.0",
-    "husky": "4.2.5",
+    "husky": "^8.0.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "serve": "^13.0.2",
@@ -84,7 +86,8 @@
     "format": "prettier --write '*/**/*.{ts,tsx}'",
     "deploy-firebase": "rimraf build && yarn run build && firebase deploy",
     "commit": "git-cz",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -100,10 +103,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint && yarn run format"
-    }
   }
 }
