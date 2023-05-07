@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/yeukfei02/lunchPicker/compare/v1.13.0...v1.14.0) (2023-05-07)
+
+
+### Features
+
+* 🎸 add commitlint lib and update husky lib ([f017e9f](https://github.com/yeukfei02/lunchPicker/commit/f017e9f56d68c710ddd49818c9354fd971ba0824))
+
+
+### Bug Fixes
+
+* 🐛 add missing translation ([2604f07](https://github.com/yeukfei02/lunchPicker/commit/2604f07fc649f467f48d6d227287a3f2d01a8fae))
+* 🐛 add missing translation ([8e10a6d](https://github.com/yeukfei02/lunchPicker/commit/8e10a6d49c0c3917351be1e5f1edfcef9184de88))
+* 🐛 fix func name ([f5a3ce1](https://github.com/yeukfei02/lunchPicker/commit/f5a3ce1df81a5566e262335fa20555d1489b1c5b))
+* 🐛 fix google analytic script tag ([328d114](https://github.com/yeukfei02/lunchPicker/commit/328d1149d160b36e1f7983f47c42adf70ff8d435))
+
 ## [1.13.0](https://github.com/yeukfei02/lunchPicker/compare/v1.12.0...v1.13.0) (2022-07-13)
 
 
