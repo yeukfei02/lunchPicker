@@ -22,9 +22,11 @@ import { yellow } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
-
 import Snackbar from '../snackBar/SnackBar';
 import { getRootUrl } from '../../helpers/helpers';
+
+import yelpFavicon from '../../images/yelp-favicon.png';
+import yelpLogo from '../../images/yelp-logo.png';
 
 const rootUrl = getRootUrl();
 
@@ -79,21 +81,21 @@ function CardView(props: any): JSX.Element {
 
   let id = '';
   let name = '';
-  let avatarStr = '';
   let categories: any[] = [];
   let imageUrl = '';
   let url = '';
   let rating = 0;
+  let reviewCount = 0;
   let location = '';
   let displayPhone = '';
   if (!_.isEmpty(item)) {
     id = item.id;
     name = item.name;
-    avatarStr = item.name[0].toUpperCase();
     categories = item.categories;
     imageUrl = item.image_url;
     url = item.url;
     rating = item.rating;
+    reviewCount = item.review_count;
     location = item.location.display_address.join(', ');
     displayPhone = item.display_phone;
   }
@@ -282,12 +284,9 @@ function CardView(props: any): JSX.Element {
           avatar={
             <Avatar
               style={{ cursor: 'pointer' }}
-              aria-label="recipe"
-              className={classes.avatar}
+              src={yelpFavicon}
               onClick={() => handleOpenRestaurantDetailsById(id)}
-            >
-              {avatarStr}
-            </Avatar>
+            />
           }
           action={renderDeleteButton()}
           title={
@@ -324,7 +323,25 @@ function CardView(props: any): JSX.Element {
             {!_.isEmpty(displayPhone) ? `${t('phone')} ${displayPhone}` : ''}
           </Typography>
           <div className="my-2"></div>
-          {renderStarIcon()}
+          <div className="d-flex flex-row align-items-center">
+            <div>{renderStarIcon()}</div>
+            <div className="mx-2 my-1">
+              <span>
+                <b>{rating}</b>
+              </span>{' '}
+              <span>{`(${reviewCount} reviews)`}</span>
+            </div>
+          </div>
+          <div className="mt-3">
+            <img
+              className="img-fluid"
+              style={{ cursor: 'pointer' }}
+              src={yelpLogo}
+              width={100}
+              height={30}
+              onClick={() => handleOpenUrl()}
+            />
+          </div>
         </CardContent>
         <CardActions disableSpacing>
           {renderFavouriteIcon()}
