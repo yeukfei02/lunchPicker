@@ -25,7 +25,7 @@ The web hosted in below places:
 ## Requirement
 
 - install yarn
-- install node (v14+)
+- install node (v16)
 - install firebase cli
 
 ## Testing and run

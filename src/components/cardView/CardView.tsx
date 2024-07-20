@@ -146,47 +146,47 @@ function CardView(props: any): JSX.Element {
     let starIcon;
 
     if (rating === 0) {
-      starIcon = <img className="img-fluid" src={star0} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star0} alt="star0" width="50%" height="50%" />;
     }
 
     if (rating > 0 && rating <= 0.5) {
-      starIcon = <img className="img-fluid" src={starHalf} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={starHalf} alt="starHalf" width="50%" height="50%" />;
     }
 
     if (rating > 0.5 && rating < 1) {
-      starIcon = <img className="img-fluid" src={star1Half} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star1Half} alt="star1Half" width="50%" height="50%" />;
     }
 
     if (rating >= 1.5 && rating < 2) {
-      starIcon = <img className="img-fluid" src={star1Half} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star1Half} alt="star1Half" width="50%" height="50%" />;
     }
 
     if (rating >= 2 && rating < 2.5) {
-      starIcon = <img className="img-fluid" src={star2} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star2} alt="star2" width="50%" height="50%" />;
     }
 
     if (rating >= 2.5 && rating < 3) {
-      starIcon = <img className="img-fluid" src={star2Half} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star2Half} alt="star2Half" width="50%" height="50%" />;
     }
 
     if (rating >= 3 && rating < 3.5) {
-      starIcon = <img className="img-fluid" src={star3} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star3} alt="star3" width="50%" height="50%" />;
     }
 
     if (rating >= 3.5 && rating < 4) {
-      starIcon = <img className="img-fluid" src={star3Half} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star3Half} alt="star3Half" width="50%" height="50%" />;
     }
 
     if (rating >= 4 && rating < 4.5) {
-      starIcon = <img className="img-fluid" src={star4} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star4} alt="star4" width="50%" height="50%" />;
     }
 
     if (rating >= 4.5 && rating < 5) {
-      starIcon = <img className="img-fluid" src={star4Half} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star4Half} alt="star4Half" width="50%" height="50%" />;
     }
 
     if (rating === 5) {
-      starIcon = <img className="img-fluid" src={star5} width="50%" height="50%" />;
+      starIcon = <img className="img-fluid" src={star5} alt="star5" width="50%" height="50%" />;
     }
 
     return starIcon;
@@ -383,6 +383,7 @@ function CardView(props: any): JSX.Element {
               className="img-fluid"
               style={{ cursor: 'pointer' }}
               src={yelpLogo}
+              alt="yelpLogo"
               width={100}
               height={30}
               onClick={() => handleOpenUrl()}
