@@ -11,20 +11,30 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import StarIcon from '@material-ui/icons/Star';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LinkIcon from '@material-ui/icons/Link';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { red } from '@material-ui/core/colors';
-import { yellow } from '@material-ui/core/colors';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import axios from 'axios';
-
 import Snackbar from '../snackBar/SnackBar';
 import { getRootUrl } from '../../helpers/helpers';
+
+import yelpFavicon from '../../images/yelp-favicon.png';
+import yelpLogo from '../../images/yelp-logo.png';
+import star0 from '../../images/star/star-0.png';
+import starHalf from '../../images/star/star-half.png';
+import star1Half from '../../images/star/star-1-half.png';
+import star2 from '../../images/star/star-2.png';
+import star2Half from '../../images/star/star-2-half.png';
+import star3 from '../../images/star/star-3.png';
+import star3Half from '../../images/star/star-3-half.png';
+import star4 from '../../images/star/star-4.png';
+import star4Half from '../../images/star/star-4-half.png';
+import star5 from '../../images/star/star-5.png';
 
 const rootUrl = getRootUrl();
 
@@ -79,21 +89,21 @@ function CardView(props: any): JSX.Element {
 
   let id = '';
   let name = '';
-  let avatarStr = '';
   let categories: any[] = [];
   let imageUrl = '';
   let url = '';
   let rating = 0;
+  let reviewCount = 0;
   let location = '';
   let displayPhone = '';
   if (!_.isEmpty(item)) {
     id = item.id;
     name = item.name;
-    avatarStr = item.name[0].toUpperCase();
     categories = item.categories;
     imageUrl = item.image_url;
     url = item.url;
     rating = item.rating;
+    reviewCount = item.review_count;
     location = item.location.display_address.join(', ');
     displayPhone = item.display_phone;
   }
@@ -132,14 +142,54 @@ function CardView(props: any): JSX.Element {
     window.open(url);
   };
 
-  const renderStarIcon = () => {
-    const starIconList: any[] = [];
+  const renderStarIcon = (rating: number) => {
+    let starIcon;
 
-    for (let i = 0; i < rating; i++) {
-      starIconList.push(<StarIcon key={i} style={{ color: yellow[600] }} fontSize="small" />);
+    if (rating === 0) {
+      starIcon = <img className="img-fluid" src={star0} alt="star0" width="50%" height="50%" />;
     }
 
-    return starIconList;
+    if (rating > 0 && rating <= 0.5) {
+      starIcon = <img className="img-fluid" src={starHalf} alt="starHalf" width="50%" height="50%" />;
+    }
+
+    if (rating > 0.5 && rating < 1) {
+      starIcon = <img className="img-fluid" src={star1Half} alt="star1Half" width="50%" height="50%" />;
+    }
+
+    if (rating >= 1.5 && rating < 2) {
+      starIcon = <img className="img-fluid" src={star1Half} alt="star1Half" width="50%" height="50%" />;
+    }
+
+    if (rating >= 2 && rating < 2.5) {
+      starIcon = <img className="img-fluid" src={star2} alt="star2" width="50%" height="50%" />;
+    }
+
+    if (rating >= 2.5 && rating < 3) {
+      starIcon = <img className="img-fluid" src={star2Half} alt="star2Half" width="50%" height="50%" />;
+    }
+
+    if (rating >= 3 && rating < 3.5) {
+      starIcon = <img className="img-fluid" src={star3} alt="star3" width="50%" height="50%" />;
+    }
+
+    if (rating >= 3.5 && rating < 4) {
+      starIcon = <img className="img-fluid" src={star3Half} alt="star3Half" width="50%" height="50%" />;
+    }
+
+    if (rating >= 4 && rating < 4.5) {
+      starIcon = <img className="img-fluid" src={star4} alt="star4" width="50%" height="50%" />;
+    }
+
+    if (rating >= 4.5 && rating < 5) {
+      starIcon = <img className="img-fluid" src={star4Half} alt="star4Half" width="50%" height="50%" />;
+    }
+
+    if (rating === 5) {
+      starIcon = <img className="img-fluid" src={star5} alt="star5" width="50%" height="50%" />;
+    }
+
+    return starIcon;
   };
 
   const renderFavouriteIcon = () => {
@@ -282,12 +332,9 @@ function CardView(props: any): JSX.Element {
           avatar={
             <Avatar
               style={{ cursor: 'pointer' }}
-              aria-label="recipe"
-              className={classes.avatar}
+              src={yelpFavicon}
               onClick={() => handleOpenRestaurantDetailsById(id)}
-            >
-              {avatarStr}
-            </Avatar>
+            />
           }
           action={renderDeleteButton()}
           title={
@@ -319,12 +366,29 @@ function CardView(props: any): JSX.Element {
               {location}
             </span>
           </Typography>
-          <div className="my-2"></div>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {!_.isEmpty(displayPhone) ? `${t('phone')} ${displayPhone}` : ''}
-          </Typography>
-          <div className="my-2"></div>
-          {renderStarIcon()}
+          <div className="my-2">
+            <Typography variant="body2" color="textSecondary" component="p">
+              {!_.isEmpty(displayPhone) ? `${t('phone')} ${displayPhone}` : ''}
+            </Typography>
+          </div>
+          <div className="d-inline-flex my-2">{renderStarIcon(rating)}</div>
+          <div className="my-2">
+            <span>
+              <b>{rating}</b>
+            </span>{' '}
+            <span>{`(${reviewCount} reviews)`}</span>
+          </div>
+          <div className="mt-3">
+            <img
+              className="img-fluid"
+              style={{ cursor: 'pointer' }}
+              src={yelpLogo}
+              alt="yelpLogo"
+              width={100}
+              height={30}
+              onClick={() => handleOpenUrl()}
+            />
+          </div>
         </CardContent>
         <CardActions disableSpacing>
           {renderFavouriteIcon()}
